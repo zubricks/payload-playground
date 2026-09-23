@@ -71,6 +71,13 @@ export const Posts: CollectionConfig = {
     {
       name: 'title',
       type: 'text',
+      admin: {
+        components: {
+          Field: '@/components/HeadlineWorkbench',
+        },
+        description: 'Write a clear headline that will work in navigation, search, and social.',
+      },
+      maxLength: 90,
       required: true,
     },
     {

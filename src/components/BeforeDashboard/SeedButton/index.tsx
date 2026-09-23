@@ -1,7 +1,8 @@
 'use client'
 
-import React, { Fragment, useCallback, useState } from 'react'
-import { toast } from '@payloadcms/ui'
+import { Button, toast } from '@payloadcms/ui'
+import { useRouter } from 'next/navigation'
+import React, { useCallback, useState } from 'react'
 
 import './index.css'
 
@@ -14,14 +15,29 @@ const SuccessMessage: React.FC = () => (
   </div>
 )
 
-export const SeedButton: React.FC = () => {
+type SeedButtonProps = {
+  buttonStyle?: 'dashed' | 'ghost' | 'primary' | 'secondary'
+  inline?: boolean
+  label?: string
+  size?: 'large' | 'medium'
+  tooltip?: string
+}
+
+export const SeedButton: React.FC<SeedButtonProps> = ({
+  buttonStyle = 'primary',
+  inline = false,
+  label = 'Seed your database',
+  size = 'medium',
+  tooltip,
+}) => {
+  const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [seeded, setSeeded] = useState(false)
   const [error, setError] = useState<null | string>(null)
 
   const handleClick = useCallback(
-    async (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault()
+    async (event: React.MouseEvent) => {
+      event.preventDefault()
 
       if (seeded) {
         toast.info('Database already seeded.')
@@ -31,58 +47,53 @@ export const SeedButton: React.FC = () => {
         toast.info('Seeding already in progress.')
         return
       }
-      if (error) {
-        toast.error(`An error occurred, please refresh and try again.`)
-        return
-      }
-
       setLoading(true)
+      setError(null)
+
+      const seedRequest = fetch('/next/seed', { method: 'POST', credentials: 'include' }).then(
+        async (response) => {
+          if (!response.ok) {
+            const message = await response.text()
+            throw new Error(message || 'An error occurred while seeding.')
+          }
+
+          return response.json()
+        },
+      )
+
+      toast.promise(seedRequest, {
+        loading: 'Seeding demo content…',
+        success: <SuccessMessage />,
+        error: 'An error occurred while seeding.',
+      })
 
       try {
-        toast.promise(
-          new Promise((resolve, reject) => {
-            try {
-              fetch('/next/seed', { method: 'POST', credentials: 'include' })
-                .then((res) => {
-                  if (res.ok) {
-                    resolve(true)
-                    setSeeded(true)
-                  } else {
-                    reject('An error occurred while seeding.')
-                  }
-                })
-                .catch((error) => {
-                  reject(error)
-                })
-            } catch (error) {
-              reject(error)
-            }
-          }),
-          {
-            loading: 'Seeding with data....',
-            success: <SuccessMessage />,
-            error: 'An error occurred while seeding.',
-          },
-        )
+        await seedRequest
+        setSeeded(true)
+        router.refresh()
       } catch (err) {
-        const error = err instanceof Error ? err.message : String(err)
-        setError(error)
+        setError(err instanceof Error ? err.message : String(err))
+      } finally {
+        setLoading(false)
       }
     },
-    [loading, seeded, error],
+    [loading, router, seeded],
   )
 
-  let message = ''
-  if (loading) message = ' (seeding...)'
-  if (seeded) message = ' (done!)'
-  if (error) message = ` (error: ${error})`
-
   return (
-    <Fragment>
-      <button className="seedButton" onClick={handleClick}>
-        Seed your database
-      </button>
-      {message}
-    </Fragment>
+    <span className={inline ? 'seed-button seed-button--inline' : 'seed-button'}>
+      <Button
+        buttonStyle={buttonStyle}
+        disabled={seeded}
+        loading={loading}
+        margin={false}
+        onClick={handleClick}
+        size={size}
+        tooltip={tooltip}
+      >
+        {seeded ? 'Demo content ready' : label}
+      </Button>
+      {error ? <span className="seed-button__error">Could not seed. Try again.</span> : null}
+    </span>
   )
 }

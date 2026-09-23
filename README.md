@@ -1,303 +1,186 @@
-# Payload Website Template
+# Payload v4 Admin Starter
 
-This is the official [Payload Website Template](https://github.com/payloadcms/payload/blob/main/templates/website). Use it to power websites, blogs, or portfolios from small to enterprise. This repo includes a fully-working backend, enterprise-grade admin panel, and a beautifully designed, production-ready website.
+An opinionated Payload starter for building polished, client-facing Admin experiences. It combines
+the official website template with a modular dashboard, custom views, reusable `@payloadcms/ui`
+components, semantic theming, realistic seed data, and practical Payload v3 → v4 migration examples.
 
-This template is right for you if you are working on:
+> [!IMPORTANT]
+> This project currently uses Payload `4.0.0-canary.34`. Canary releases are useful for exploring
+> v4, but pin and test the version carefully before using this starter in production.
 
-- A personal or enterprise-grade website, blog, or portfolio
-- A content publishing platform with a fully featured publication workflow
-- Exploring the capabilities of Payload
+## Who this is for
 
-Core features:
+### Starting a new Payload project
 
-- [Pre-configured Payload Config](#how-it-works)
-- [Authentication](#users-authentication)
-- [Access Control](#access-control)
-- [Layout Builder](#layout-builder)
-- [Draft Preview](#draft-preview)
-- [Live Preview](#live-preview)
-- [On-demand Revalidation](#on-demand-revalidation)
-- [SEO](#seo)
-- [Search](#search)
-- [Redirects](#redirects)
-- [Jobs and Scheduled Publishing](#jobs-and-scheduled-publish)
-- [Website](#website)
+Use the included patterns to learn how to:
 
-## Quick Start
+- Register modular dashboard widgets that users can add, remove, resize, and reorder.
+- Query Payload safely from server-rendered widgets.
+- Add client-side interaction only where it is needed.
+- Build custom views and fields with components from `@payloadcms/ui`.
+- Brand the Admin UI with semantic design tokens instead of internal selectors.
+- Seed realistic pages, posts, media, forms, and submissions.
 
-To spin up this example locally, follow these steps:
+Start with [Admin patterns](docs/ADMIN-PATTERNS.md).
 
-### Clone
+### Upgrading from Payload v3
 
-If you have not done so already, you need to have standalone copy of this repo on your machine. If you've already cloned this repo, skip to [Development](#development).
+Use the project as a working migration reference for:
 
-Use the `create-payload-app` CLI to clone this template directly to your machine:
+- Replacing elevation-based variables with semantic color roles.
+- Replacing implementation-specific CSS selectors with supported component props and shared tokens.
+- Moving custom inputs onto v4's shared form primitives.
+- Rebuilding a bespoke dashboard as configurable widgets.
+- Comparing representative v3 and v4 styling directly inside the Admin UI.
 
-```bash
-pnpx create-payload-app my-project -t website
-```
+Start with the [official Payload 3.0 → 4.0 migration guide](docs/v4.mdx), copied verbatim from the
+Payload documentation repository until the published guide is available to link directly.
 
-### Development
+## What the starter demonstrates
 
-1. First [clone the repo](#clone) if you have not done so already
-1. `cd my-project && cp .env.example .env` to copy the example environment variables
-1. `pnpm install && pnpm dev` to install dependencies and start the dev server
-1. open `http://localhost:3000` to open the app in your browser
+| Area              | What to explore                                                        | Source                                                                             |
+| ----------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| Modular dashboard | Default layout, widget registration, width constraints                 | [`src/payload.config.ts`](src/payload.config.ts)                                   |
+| Dashboard widgets | Permission-aware server queries and reusable Payload components        | [`src/components/ContentStudioDashboard`](src/components/ContentStudioDashboard)   |
+| v3/v4 comparison  | Native tooltip, dialog, tabs, buttons, pills, and code comparison      | [`StyleComparison.tsx`](src/components/ContentStudioDashboard/StyleComparison.tsx) |
+| UI Lab            | Custom Admin view using fields, cards, drawers, banners, and buttons   | [`src/components/UILab`](src/components/UILab)                                     |
+| Custom text field | A large `TextInput` with validation state and a search preview         | [`src/components/HeadlineWorkbench`](src/components/HeadlineWorkbench)             |
+| Admin theme       | Brand, surface, typography, spacing, radius, and control tokens        | [`src/app/(payload)/custom.css`](<src/app/(payload)/custom.css>)                   |
+| v3 reference      | Dormant show-and-tell CSS illustrating the old selector-heavy approach | [`custom.v3-reference.css`](<src/app/(payload)/custom.v3-reference.css>)           |
+| Demo content      | Posts, pages, media, forms, submissions, and useful widget states      | [`src/endpoints/seed`](src/endpoints/seed)                                         |
 
-That's it! Changes made in `./src` will be reflected in your app. Follow the on-screen instructions to login and create your first admin user. Then check out [Production](#production) once you're ready to build and serve your app, and [Deployment](#deployment) when you're ready to go live.
+## Quick start
 
-## How it works
+### Requirements
 
-The Payload config is tailored specifically to the needs of most websites. It is pre-configured in the following ways:
+- Node.js `24.15.0` or newer
+- pnpm 9, 10, or 11
+- MongoDB available locally or through a hosted connection string
 
-### Collections
+### Run locally
 
-See the [Collections](https://payloadcms.com/docs/configuration/collections) docs for details on how to extend this functionality.
+1. Copy the environment file:
 
-- #### Users (Authentication)
+   ```bash
+   cp .env.example .env
+   ```
 
-  Users are auth-enabled collections that have access to the admin panel and unpublished content. See [Access Control](#access-control) for more details.
+2. Set at least `DATABASE_URL` and `PAYLOAD_SECRET` in `.env`.
 
-  For additional help, see the official [Auth Example](https://github.com/payloadcms/payload/tree/main/examples/auth) or the [Authentication](https://payloadcms.com/docs/authentication/overview#authentication-overview) docs.
+3. Install dependencies and start the development server:
 
-- #### Posts
+   ```bash
+   pnpm install
+   pnpm dev
+   ```
 
-  Posts are used to generate blog posts, news articles, or any other type of content that is published over time. All posts are layout builder enabled so you can generate unique layouts for each post using layout-building blocks, see [Layout Builder](#layout-builder) for more details. Posts are also draft-enabled so you can preview them before publishing them to your website, see [Draft Preview](#draft-preview) for more details.
+4. Open [http://localhost:3000/admin](http://localhost:3000/admin) and create the first user.
 
-- #### Pages
+5. Seed the demo content if you are working with an empty or disposable database:
 
-  All pages are layout builder enabled so you can generate unique layouts for each page using layout-building blocks, see [Layout Builder](#layout-builder) for more details. Pages are also draft-enabled so you can preview them before publishing them to your website, see [Draft Preview](#draft-preview) for more details.
+   ```bash
+   pnpm seed
+   ```
 
-- #### Media
+6. Return to the Admin dashboard to explore the populated widgets.
 
-  This is the uploads enabled collection used by pages, posts, and projects to contain media like images, videos, downloads, and other assets. It features pre-configured sizes, focal point and manual resizing to help you manage your pictures.
+## Seeding
 
-- #### Categories
+`pnpm seed` creates the content needed to demonstrate every dashboard state, including published and
+draft posts, pages with incomplete SEO, recent media, and form submissions.
 
-  A taxonomy used to group posts together. Categories can be nested inside of one another, for example "News > Technology". See the official [Payload Nested Docs Plugin](https://payloadcms.com/docs/plugins/nested-docs) for more details.
+> [!CAUTION]
+> Seeding is destructive. It clears the template's content collections and globals before recreating
+> them. Never run it against a database containing content you need to keep.
 
-### Globals
+The seeded demonstration user is:
 
-See the [Globals](https://payloadcms.com/docs/configuration/globals) docs for details on how to extend this functionality.
+- Email: `demo-author@example.com`
+- Password: `password`
 
-- `Header`
-
-  The data required by the header on your front-end like nav links.
-
-- `Footer`
-
-  Same as above but for the footer of your site.
-
-## Access control
-
-Basic access control is setup to limit access to various content based based on publishing status.
-
-- `users`: Users can access the admin panel and create or edit content.
-- `posts`: Everyone can access published posts, but only users can create, update, or delete them.
-- `pages`: Everyone can access published pages, but only users can create, update, or delete them.
-
-For more details on how to extend this functionality, see the [Payload Access Control](https://payloadcms.com/docs/access-control/overview#access-control) docs.
-
-## Layout Builder
-
-Create unique page layouts for any type of content using a powerful layout builder. This template comes pre-configured with the following layout building blocks:
-
-- Hero
-- Content
-- Media
-- Call To Action
-- Archive
-
-Each block is fully designed and built into the front-end website that comes with this template. See [Website](#website) for more details.
-
-## Lexical editor
-
-A deep editorial experience that allows complete freedom to focus just on writing content without breaking out of the flow with support for Payload blocks, media, links and other features provided out of the box. See [Lexical](https://payloadcms.com/docs/rich-text/overview) docs.
-
-## Draft Preview
-
-All posts and pages are draft-enabled so you can preview them before publishing them to your website. To do this, these collections use [Versions](https://payloadcms.com/docs/configuration/collections#versions) with `drafts` set to `true`. This means that when you create a new post, project, or page, it will be saved as a draft and will not be visible on your website until you publish it. This also means that you can preview your draft before publishing it to your website. To do this, we automatically format a custom URL which redirects to your front-end to securely fetch the draft version of your content.
-
-Since the front-end of this template is statically generated, this also means that pages, posts, and projects will need to be regenerated as changes are made to published documents. To do this, we use an `afterChange` hook to regenerate the front-end when a document has changed and its `_status` is `published`.
-
-For more details on how to extend this functionality, see the official [Draft Preview Example](https://github.com/payloadcms/payload/tree/main/examples/draft-preview).
-
-## Live preview
-
-In addition to draft previews you can also enable live preview to view your end resulting page as you're editing content with full support for SSR rendering. See [Live preview docs](https://payloadcms.com/docs/live-preview/overview) for more details.
-
-## On-demand Revalidation
-
-We've added hooks to collections and globals so that all of your pages, posts, footer, or header changes will automatically be updated in the frontend via on-demand revalidation supported by Nextjs.
-
-> Note: if an image has been changed, for example it's been cropped, you will need to republish the page it's used on in order to be able to revalidate the Nextjs image cache.
-
-## SEO
-
-This template comes pre-configured with the official [Payload SEO Plugin](https://payloadcms.com/docs/plugins/seo) for complete SEO control from the admin panel. All SEO data is fully integrated into the front-end website that comes with this template. See [Website](#website) for more details.
-
-## Search
-
-This template also pre-configured with the official [Payload Search Plugin](https://payloadcms.com/docs/plugins/search) to showcase how SSR search features can easily be implemented into Next.js with Payload. See [Website](#website) for more details.
-
-## Redirects
-
-If you are migrating an existing site or moving content to a new URL, you can use the `redirects` collection to create a proper redirect from old URLs to new ones. This will ensure that proper request status codes are returned to search engines and that your users are not left with a broken link. This template comes pre-configured with the official [Payload Redirects Plugin](https://payloadcms.com/docs/plugins/redirects) for complete redirect control from the admin panel. All redirects are fully integrated into the front-end website that comes with this template. See [Website](#website) for more details.
-
-## Jobs and Scheduled Publish
-
-We have configured [Scheduled Publish](https://payloadcms.com/docs/versions/drafts#scheduled-publish) which uses the [jobs queue](https://payloadcms.com/docs/jobs-queue/jobs) in order to publish or unpublish your content on a scheduled time. The tasks are run on a cron schedule and can also be run as a separate instance if needed.
-
-> Note: When deployed on Vercel, depending on the plan tier, you may be limited to daily cron only.
-
-## Website
-
-This template includes a beautifully designed, production-ready front-end built with the [Next.js App Router](https://nextjs.org), served right alongside your Payload app in a instance. This makes it so that you can deploy both your backend and website where you need it.
-
-Core features:
-
-- [Next.js App Router](https://nextjs.org)
-- [TypeScript](https://www.typescriptlang.org)
-- [React Hook Form](https://react-hook-form.com)
-- [Payload Admin Bar](https://github.com/payloadcms/payload/tree/main/packages/admin-bar)
-- [TailwindCSS styling](https://tailwindcss.com/)
-- [shadcn/ui components](https://ui.shadcn.com/)
-- User Accounts and Authentication
-- Fully featured blog
-- Publication workflow
-- Dark mode
-- Pre-made layout building blocks
-- SEO
-- Search
-- Redirects
-- Live preview
-
-### Cache
-
-Although Next.js includes a robust set of caching strategies out of the box, Payload Cloud proxies and caches all files through Cloudflare using the [Official Cloud Plugin](https://www.npmjs.com/package/@payloadcms/payload-cloud). This means that Next.js caching is not needed and is disabled by default. If you are hosting your app outside of Payload Cloud, you can easily reenable the Next.js caching mechanisms by removing the `no-store` directive from all fetch requests in `./src/app/_api` and then removing all instances of `export const dynamic = 'force-dynamic'` from pages files, such as `./src/app/(pages)/[slug]/page.tsx`. For more details, see the official [Next.js Caching Docs](https://nextjs.org/docs/app/building-your-application/caching).
-
-## Development
-
-To spin up this example locally, follow the [Quick Start](#quick-start). Then [Seed](#seed) the database with a few pages, posts, and projects.
-
-### Working with Postgres
-
-Postgres and other SQL-based databases follow a strict schema for managing your data. In comparison to our MongoDB adapter, this means that there's a few extra steps to working with Postgres.
-
-Note that often times when making big schema changes you can run the risk of losing data if you're not manually migrating it.
-
-#### Local development
-
-Ideally we recommend running a local copy of your database so that schema updates are as fast as possible. By default the Postgres adapter has `push: true` for development environments. This will let you add, modify and remove fields and collections without needing to run any data migrations.
-
-If your database is pointed to production you will want to set `push: false` otherwise you will risk losing data or having your migrations out of sync.
-
-#### Migrations
-
-[Migrations](https://payloadcms.com/docs/database/migrations) are essentially SQL code versions that keeps track of your schema. When deploy with Postgres you will need to make sure you create and then run your migrations.
-
-Locally create a migration
-
-```bash
-pnpm payload migrate:create
-```
-
-This creates the migration files you will need to push alongside with your new configuration.
-
-On the server after building and before running `pnpm start` you will want to run your migrations
-
-```bash
-pnpm payload migrate
-```
-
-This command will check for any migrations that have not yet been run and try to run them and it will keep a record of migrations that have been run in the database.
-
-### Docker
-
-Alternatively, you can use [Docker](https://www.docker.com) to spin up this template locally. To do so, follow these steps:
-
-1. Follow [steps 1 and 2 from above](#development), the docker-compose file will automatically use the `.env` file in your project root
-1. Next run `docker-compose up`
-1. Follow [steps 4 and 5 from above](#development) to login and create your first admin user
-
-That's it! The Docker instance will help you get up and running quickly while also standardizing the development environment across your teams.
-
-### Seed
-
-To seed the database with a few pages, posts, and projects you can click the 'seed database' link from the admin panel.
-
-The seed script will also create a demo user for demonstration purposes only:
-
-- Demo Author
-  - Email: `demo-author@payloadcms.com`
-  - Password: `password`
-
-> NOTICE: seeding the database is destructive because it drops your current database to populate a fresh one from the seed template. Only run this command if you are starting a new project or can afford to lose your current data.
-
-## Production
-
-To run Payload in production, you need to build and start the Admin panel. To do so, follow these steps:
-
-1. Invoke the `next build` script by running `pnpm build` or `npm run build` in your project root. This creates a `.next` directory with a production-ready admin bundle.
-1. Finally run `pnpm start` or `npm run start` to run Node in production and serve Payload from the `.build` directory.
-1. When you're ready to go live, see Deployment below for more details.
-
-### Deploying to Vercel
-
-This template can also be deployed to Vercel for free. You can get started by choosing the Vercel DB adapter during the setup of the template or by manually installing and configuring it:
-
-```bash
-pnpm add @payloadcms/db-vercel-postgres
-```
-
-```ts
-// payload.config.ts
-import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
-
-export default buildConfig({
-  // ...
-  db: vercelPostgresAdapter({
-    pool: {
-      connectionString: process.env.POSTGRES_URL || '',
-    },
-  }),
-  // ...
-```
-
-We also support Vercel's blob storage:
-
-```bash
-pnpm add @payloadcms/storage-vercel-blob
-```
-
-```ts
-// payload.config.ts
-import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
-
-export default buildConfig({
-  // ...
-  plugins: [
-    vercelBlobStorage({
-      collections: {
-        [Media.slug]: true,
-      },
-      token: process.env.BLOB_READ_WRITE_TOKEN || '',
-    }),
-  ],
-  // ...
-```
-
-There is also a simplified [one click deploy](https://github.com/payloadcms/payload/tree/main/templates/with-vercel-postgres) to Vercel should you need it.
-
-### Self-hosting
-
-Before deploying your app, you need to:
-
-1. Ensure your app builds and serves in production. See [Production](#production) for more details.
-2. You can then deploy Payload as you would any other Node.js or Next.js application either directly on a VPS, DigitalOcean's Apps Platform, via Coolify or more. More guides coming soon.
-
-You can also deploy your app manually, check out the [deployment documentation](https://payloadcms.com/docs/production/deployment) for full details.
-
-## Questions
-
-If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).
+The seed implementation lives in [`src/endpoints/seed/index.ts`](src/endpoints/seed/index.ts), and the
+dashboard-specific fixtures live in
+[`src/endpoints/seed/dashboard-demo.ts`](src/endpoints/seed/dashboard-demo.ts).
+
+## Suggested learning path
+
+1. Open the dashboard and resize or reorder its widgets.
+2. Open **Compare v3 → v4** in the welcome widget.
+3. Open **UI Lab** to see Payload components used in a fully custom view.
+4. Edit a Page or Post title to use the custom Headline Workbench field.
+5. Change the brand and surface values in `custom.css` and watch the Admin components update together.
+6. Read the widget registration and server/client composition examples in
+   [Admin patterns](docs/ADMIN-PATTERNS.md).
+
+## Foundation versus demo material
+
+The project intentionally separates reusable architecture from explanatory material.
+
+### Good foundations to keep
+
+- Permission-aware Local API queries in dashboard widgets
+- Server components with small client-component islands
+- Semantic theme tokens and Payload spacing/type primitives
+- Widget registration and width constraints
+- Custom fields composed from `@payloadcms/ui`
+- The standard website features: drafts, live preview, SEO, search, forms, and redirects
+
+### Customize for each project
+
+- Widget names, queries, and default layout
+- Brand colors, typography, radii, and density
+- Collections, access rules, and seeded content
+- Dashboard copy and quick actions
+- The UI Lab examples that are relevant to your team
+
+### Optional demo material to remove before delivery
+
+- `StyleComparison.tsx` and the **Compare v3 → v4** launcher
+- `custom.v3-reference.css`
+- UI Lab, if the client does not need an internal component reference
+- Dashboard-specific seed fixtures
+- Demo credentials and instructional copy
+
+## Common scripts
+
+| Command                   | Purpose                                                      |
+| ------------------------- | ------------------------------------------------------------ |
+| `pnpm dev`                | Start Payload and Next.js in development mode                |
+| `pnpm seed`               | Destructively replace content with the complete demo dataset |
+| `pnpm build`              | Generate Payload artifacts and create a production build     |
+| `pnpm start`              | Run the production build                                     |
+| `pnpm lint`               | Run ESLint                                                   |
+| `pnpm test:int`           | Run integration tests                                        |
+| `pnpm test:e2e`           | Run Playwright tests                                         |
+| `pnpm generate:types`     | Regenerate Payload TypeScript types manually                 |
+| `pnpm generate:importmap` | Regenerate the Admin import map manually                     |
+
+Payload normally regenerates types and the import map during development and builds, so the manual
+commands are escape hatches rather than routine steps.
+
+## Website features retained from the official template
+
+This starter still includes the production-oriented website foundation:
+
+- Pages and posts with drafts, autosave, scheduled publishing, preview, and live preview
+- Layout-building blocks and Lexical rich text
+- Media, nested categories, forms, redirects, search, and SEO
+- Header and footer globals
+- Authenticated authoring and published-content access rules
+- Next.js frontend routes, on-demand revalidation, sitemap generation, and deployment support
+
+## Production checklist
+
+- Replace all demo credentials and secrets.
+- Choose and pin a Payload version appropriate for production.
+- Review every access rule and Local API call.
+- Remove migration/demo UI that clients should not see.
+- Replace the destructive demo seed workflow with project-specific fixtures or migrations.
+- Verify light and dark themes, keyboard navigation, and responsive widget widths.
+- Run `pnpm lint`, `pnpm test`, and `pnpm build` under the required Node.js version.
+
+## Further reading
+
+- [Admin patterns](docs/ADMIN-PATTERNS.md)
+- [Official Payload 3.0 → 4.0 migration guide](docs/v4.mdx)
+- [Payload documentation](https://payloadcms.com/docs)

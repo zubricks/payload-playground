@@ -1,0 +1,448 @@
+/*
+ * PAYLOAD v3 SHOW-AND-TELL REFERENCE
+ * =================================================
+ *
+ * This intentionally dormant file demonstrates how the visual treatment in
+ * custom.css would have been approached against Payload v3.89's Admin UI.
+ * It uses real v3 class names and legacy theme variables taken from the v3.89
+ * @payloadcms/ui package.
+/* -------------------------------------------------------------------------- */
+/* 1. A private token layer, because v3's public theme was elevation-oriented. */
+/* -------------------------------------------------------------------------- */
+
+:root {
+  --demo-brand-100: #f6fbf3;
+  --demo-brand-200: #eef7ea;
+  --demo-brand-300: #d5eacf;
+  --demo-brand-400: #add6a5;
+  --demo-brand-500: #83bf78;
+  --demo-brand-600: #68a75f;
+  --demo-brand-700: #4d8848;
+  --demo-brand-800: #376b35;
+  --demo-brand-900: #264c27;
+  --demo-brand-1000: #16311a;
+
+  --demo-canvas: #faf7ed;
+  --demo-surface-subtle: #f5f0e3;
+  --demo-surface-hover: #f3eedf;
+  --demo-surface-pressed: #ebe4d2;
+  --demo-border: #e6ddc9;
+
+  --demo-control-height: 44px;
+  --demo-button-height: 40px;
+  --demo-control-radius: 10px;
+  --demo-panel-radius: 16px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 2. Global canvas and typography.                                           */
+/*                                                                            */
+/* v3's --theme-elevation-* scale represented brightness, not semantic roles. */
+/* Replacing elevation-0 globally would also affect pills, disabled controls,  */
+/* borders, popups, cards, and dark mode, so surfaces needed to be chased.     */
+/* -------------------------------------------------------------------------- */
+
+html[data-theme='light'] {
+  --theme-bg: var(--demo-canvas);
+  --theme-input-bg: var(--demo-canvas);
+  --theme-border-color: var(--demo-border);
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+html[data-theme='light'],
+html[data-theme='light'] body,
+html[data-theme='light'] #app,
+html[data-theme='light'] .template-default,
+html[data-theme='light'] .template-minimal,
+html[data-theme='light'] .payload__modal-item {
+  background-color: var(--demo-canvas);
+}
+
+html[data-theme='light'] body {
+  background:
+    radial-gradient(circle at 78% 4%, rgb(131 191 120 / 12%), transparent 384px), var(--demo-canvas);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+/* v3 heading sizes were compiled from Sass base() calls, so a CSS variable
+ * could not resize the complete type system after build time. */
+html[data-theme='light'] h1,
+html[data-theme='light'] .render-title {
+  font-size: 32px;
+  line-height: 40px;
+}
+
+html[data-theme='light'] h2 {
+  font-size: 18px;
+  line-height: 26px;
+}
+
+html[data-theme='light'] h3,
+html[data-theme='light'] h4,
+html[data-theme='light'] h5,
+html[data-theme='light'] h6 {
+  line-height: 24px;
+}
+
+html[data-theme='light'] label.field-label:not(.unstyled),
+html[data-theme='light'] .field-description,
+html[data-theme='light'] .doc-controls__label,
+html[data-theme='light'] .doc-controls__value {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 3. Cream surfaces. Each component consumed a different elevation token or  */
+/* implementation class, so --theme-bg alone did not cover the Admin UI.      */
+/* -------------------------------------------------------------------------- */
+
+html[data-theme='light'] .app-header__bg,
+html[data-theme='light'] .doc-controls,
+html[data-theme='light'] .doc-controls__controls-wrapper,
+html[data-theme='light'] .drawer__content,
+html[data-theme='light'] .sticky-toolbar,
+html[data-theme='light'] .live-preview-toolbar,
+html[data-theme='light'] .bulk-upload--actions-bar,
+html[data-theme='light'] .upload__wrap,
+html[data-theme='light'] .list-view .table {
+  background-color: var(--demo-canvas);
+}
+
+html[data-theme='light'] .card,
+html[data-theme='light'] .list-controls,
+html[data-theme='light'] .upload-field-card,
+html[data-theme='light'] .thumbnail-card,
+html[data-theme='light'] .collection-card {
+  border-color: var(--demo-border);
+  background: var(--demo-surface-subtle);
+}
+
+html[data-theme='light'] .card--has-onclick:hover,
+html[data-theme='light'] .collection-card:hover,
+html[data-theme='light'] .thumbnail-card:hover {
+  border-color: var(--demo-brand-400);
+  background: var(--demo-surface-hover);
+}
+
+/* Popups used --theme-input-bg, React Select used its own rs__menu class, and
+ * the calendar used a third-party react-datepicker class tree. */
+html[data-theme='light'] .popup__content,
+html[data-theme='light'] .react-select .rs__menu,
+html[data-theme='light'] .date-time-picker .react-datepicker,
+html[data-theme='light'] .date-time-picker .react-datepicker__header {
+  border-color: var(--demo-border);
+  background: var(--demo-canvas);
+}
+
+html[data-theme='light'] .popup__caret.popup--v-bottom,
+html[data-theme='light'] .popup--v-bottom .popup__caret {
+  border-bottom-color: var(--demo-canvas);
+}
+
+html[data-theme='light'] .popup__caret.popup--v-top,
+html[data-theme='light'] .popup--v-top .popup__caret {
+  border-top-color: var(--demo-canvas);
+}
+
+/* -------------------------------------------------------------------------- */
+/* 4. Text-like controls. There was no shared .form-input primitive to target. */
+/* The old Sass @include formInput was compiled independently into each field. */
+/* -------------------------------------------------------------------------- */
+
+html[data-theme='light'] .field-type.text:not(.has-many) input,
+html[data-theme='light'] .field-type.email input,
+html[data-theme='light'] .field-type.number input,
+html[data-theme='light'] .field-type.password input,
+html[data-theme='light'] .field-type.textarea textarea,
+html[data-theme='light'] .date-time-picker .react-datepicker__input-container input,
+html[data-theme='light'] .react-select .rs__control {
+  min-height: var(--demo-control-height);
+  height: var(--demo-control-height);
+  padding: 10px 14px;
+  border: 1px solid var(--demo-border);
+  border-radius: var(--demo-control-radius);
+  background: var(--demo-canvas);
+  color: var(--theme-elevation-800);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 24px;
+  box-shadow: none;
+}
+
+/* Textarea height had to be repaired after the shared height override. */
+html[data-theme='light'] .field-type.textarea textarea {
+  height: auto;
+  min-height: 132px;
+  resize: vertical;
+}
+
+/* React Select supplied padding on an internal control and more padding on the
+ * value container, so matching a native input required another DOM override. */
+html[data-theme='light'] .react-select .rs__control {
+  padding: 0 8px 0 14px;
+}
+
+html[data-theme='light'] .react-select .rs__value-container,
+html[data-theme='light'] .react-select .rs__input-container {
+  padding: 0;
+  margin: 0;
+  font-size: 16px;
+}
+
+html[data-theme='light'] .react-select .rs__option {
+  padding: 10px 14px;
+  font-size: 14px;
+}
+
+html[data-theme='light'] .react-select .rs__option--is-focused {
+  background: var(--demo-brand-200);
+}
+
+html[data-theme='light'] .react-select .rs__option--is-selected {
+  background: var(--demo-brand-500);
+  color: #fff;
+}
+
+/* Focus/hover/error/disabled behavior also lived on each concrete selector. */
+html[data-theme='light'] .field-type.text:not(.has-many) input:hover,
+html[data-theme='light'] .field-type.email input:hover,
+html[data-theme='light'] .field-type.number input:hover,
+html[data-theme='light'] .field-type.password input:hover,
+html[data-theme='light'] .field-type.textarea textarea:hover,
+html[data-theme='light'] .date-time-picker .react-datepicker__input-container input:hover,
+html[data-theme='light'] .react-select .rs__control:hover {
+  border-color: var(--demo-brand-400);
+}
+
+html[data-theme='light'] .field-type.text:not(.has-many) input:focus,
+html[data-theme='light'] .field-type.email input:focus,
+html[data-theme='light'] .field-type.number input:focus,
+html[data-theme='light'] .field-type.password input:focus,
+html[data-theme='light'] .field-type.textarea textarea:focus,
+html[data-theme='light'] .date-time-picker .react-datepicker__input-container input:focus,
+html[data-theme='light'] .react-select .rs__control--is-focused {
+  border-color: var(--demo-brand-600);
+  box-shadow: 0 0 0 2px rgb(131 191 120 / 25%);
+  outline: 0;
+}
+
+html[data-theme='light'] .field-type.text.error input,
+html[data-theme='light'] .field-type.email.error input,
+html[data-theme='light'] .field-type.number.error input,
+html[data-theme='light'] .field-type.password.error input,
+html[data-theme='light'] .field-type.textarea.error textarea,
+html[data-theme='light'] .date-time-picker--has-error .react-datepicker__input-container input,
+html[data-theme='light'] .react-select--error .rs__control {
+  border-color: var(--theme-error-500);
+  background: var(--theme-error-50);
+}
+
+html[data-theme='light'] .field-type.text input:disabled,
+html[data-theme='light'] .field-type.email input:disabled,
+html[data-theme='light'] .field-type.number input:disabled,
+html[data-theme='light'] .field-type.password input:disabled,
+html[data-theme='light'] .field-type.textarea textarea:disabled,
+html[data-theme='light'] .react-select.rs--is-disabled .rs__control {
+  border-color: var(--demo-border);
+  background: var(--demo-surface-subtle);
+  color: var(--theme-elevation-400);
+  box-shadow: none;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 5. Buttons. Green could not be expressed as a brand role; v3 primary buttons */
+/* were wired to --theme-elevation-800, a grayscale token used elsewhere.      */
+/* -------------------------------------------------------------------------- */
+
+html[data-theme='light'] .btn,
+html[data-theme='light'] .btn--withPopup .btn,
+html[data-theme='light'] .btn--withPopup .popup-button {
+  min-height: var(--demo-button-height);
+  border-radius: var(--demo-control-radius);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+html[data-theme='light'] .btn--size-medium,
+html[data-theme='light'] .btn--size-large {
+  --btn-padding-block-start: 9px;
+  --btn-padding-inline-end: 16px;
+  --btn-padding-block-end: 9px;
+  --btn-padding-inline-start: 16px;
+}
+
+html[data-theme='light'] .btn--style-primary {
+  --bg-color: var(--demo-brand-500);
+  --color: #fff;
+  --hover-bg: var(--demo-brand-600);
+  --hover-color: #fff;
+  --btn-border: 1px solid var(--demo-brand-500);
+  --hover-btn-border: 1px solid var(--demo-brand-600);
+}
+
+html[data-theme='light'] .btn--style-secondary {
+  --bg-color: var(--demo-canvas);
+  --color: var(--demo-brand-800);
+  --btn-border: 1px solid var(--demo-brand-500);
+  --hover-bg: var(--demo-brand-200);
+  --hover-color: var(--demo-brand-900);
+  --hover-btn-border: 1px solid var(--demo-brand-600);
+}
+
+html[data-theme='light'] .btn--style-dashed {
+  --bg-color: transparent;
+  --color: var(--demo-brand-800);
+  --btn-border: 1px dashed var(--demo-brand-500);
+  --hover-bg: var(--demo-brand-200);
+  --hover-color: var(--demo-brand-900);
+  --hover-btn-border: 1px dashed var(--demo-brand-600);
+}
+
+/* v3 had subtle/icon-label/tab styles rather than v4's semantic ghost style. */
+html[data-theme='light'] .btn--style-subtle,
+html[data-theme='light'] .btn--style-icon-label,
+html[data-theme='light'] .btn--style-tab {
+  --bg-color: transparent;
+  --color: var(--demo-brand-800);
+  --hover-bg: var(--demo-brand-200);
+  --hover-color: var(--demo-brand-900);
+}
+
+/* Split buttons required styling the sibling popup button as well. */
+html[data-theme='light'] .btn--withPopup .btn--style-primary + .popup-button,
+html[data-theme='light'] .btn--withPopup.btn--style-primary .popup-button {
+  border-left-color: rgb(255 255 255 / 35%);
+  background: var(--demo-brand-500);
+  color: #fff;
+}
+
+html[data-theme='light'] .btn--style-primary.btn--disabled {
+  --bg-color: var(--demo-brand-300);
+  --color: rgb(255 255 255 / 80%);
+  --hover-bg: var(--demo-brand-300);
+  --hover-color: rgb(255 255 255 / 80%);
+}
+
+/* -------------------------------------------------------------------------- */
+/* 6. Pills, cards, drawers, and datepicker internals used by the UI Lab.      */
+/* -------------------------------------------------------------------------- */
+
+html[data-theme='light'] .pill {
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+html[data-theme='light'] .pill--style-light,
+html[data-theme='light'] .pill--style-light-gray,
+html[data-theme='light'] .pill--style-white,
+html[data-theme='light'] .pill--style-always-white {
+  border: 1px solid var(--demo-border);
+  background: var(--demo-surface-subtle);
+  color: var(--theme-elevation-800);
+}
+
+html[data-theme='light'] .card {
+  min-height: 160px;
+  padding: 24px;
+  border-radius: var(--demo-panel-radius);
+}
+
+html[data-theme='light'] .card__title {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+html[data-theme='light'] .drawer__content {
+  border-left: 1px solid var(--demo-border);
+}
+
+html[data-theme='light'] .drawer__close {
+  background: var(--demo-brand-1000);
+}
+
+html[data-theme='light'] .date-time-picker .react-datepicker {
+  overflow: hidden;
+  border-radius: var(--demo-panel-radius);
+}
+
+html[data-theme='light'] .date-time-picker .react-datepicker__day-names {
+  background: var(--demo-surface-subtle);
+}
+
+html[data-theme='light'] .date-time-picker .react-datepicker__day:hover,
+html[data-theme='light'] .date-time-picker .react-datepicker__month-text:hover {
+  background: var(--demo-brand-200);
+}
+
+html[data-theme='light'] .date-time-picker .react-datepicker__day--selected,
+html[data-theme='light'] .date-time-picker .react-datepicker__day--keyboard-selected {
+  background: var(--demo-brand-500);
+  color: #fff;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 7. The custom title workbench still needed custom CSS in both versions.     */
+/* In v3, however, its input depended on the .field-type.text override above. */
+/* -------------------------------------------------------------------------- */
+
+.headline-workbench-v3 {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.headline-workbench-v3__meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--theme-elevation-500);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.headline-workbench-v3__meta .is-ideal {
+  color: var(--demo-brand-800);
+  font-weight: 600;
+}
+
+.headline-workbench-v3__preview {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px;
+  border: 1px solid var(--demo-border);
+  border-radius: var(--demo-panel-radius);
+  background: var(--demo-surface-subtle);
+}
+
+.headline-workbench-v3__preview strong {
+  overflow: hidden;
+  color: var(--demo-brand-800);
+  font-size: 18px;
+  line-height: 26px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 8. Dark mode repair. The light-theme overrides above must stay scoped or    */
+/* they destroy v3's inverted elevation scale. Shared custom components still  */
+/* need explicit dark values because their private demo tokens do not invert. */
+/* -------------------------------------------------------------------------- */
+
+html[data-theme='dark'] .headline-workbench-v3__preview {
+  border-color: var(--theme-elevation-150);
+  background: var(--theme-elevation-50);
+}
+
+html[data-theme='dark'] .headline-workbench-v3__preview strong,
+html[data-theme='dark'] .headline-workbench-v3__meta .is-ideal {
+  color: var(--demo-brand-400);
+}
+
+/* -------------------------------------------------------------------------- */
+/* End result: dozens of selectors know about v3's DOM and third-party markup. */
+/* The active v4 file changes the shared UI mostly by assigning semantic roles. */
+/* -------------------------------------------------------------------------- */

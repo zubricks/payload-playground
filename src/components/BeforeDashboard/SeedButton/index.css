@@ -1,12 +1,24 @@
-.seedButton {
-  appearance: none;
-  background: none;
-  border: none;
+.seed-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacer-2);
+}
+
+.seed-button--inline .btn {
+  height: auto;
   padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
   text-decoration: underline;
 
   &:hover {
-    cursor: pointer;
+    background: transparent;
     opacity: 0.85;
   }
+}
+
+.seed-button__error {
+  color: var(--color-text-danger);
+  font-size: var(--text-body-small-font-size);
 }

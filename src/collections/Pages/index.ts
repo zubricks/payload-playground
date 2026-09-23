@@ -60,6 +60,13 @@ export const Pages: CollectionConfig = {
     {
       name: 'title',
       type: 'text',
+      admin: {
+        components: {
+          Field: '@/components/HeadlineWorkbench',
+        },
+        description: 'Write a concise page title that is easy to scan and find.',
+      },
+      maxLength: 90,
       required: true,
     },
     {

@@ -166,6 +166,14 @@ export interface Config {
   };
   locale: null;
   widgets: {
+    'studio-welcome': StudioWelcomeWidget;
+    'content-overview': ContentOverviewWidget;
+    'recent-content': RecentContentWidget;
+    'recent-media': RecentMediaWidget;
+    'editorial-focus': EditorialFocusWidget;
+    'forms-inbox': FormsInboxWidget;
+    'seo-health': SeoHealthWidget;
+    'collection-shortcuts': CollectionShortcutsWidget;
     collections: CollectionsWidget;
     'collection-query': CollectionQueryWidget;
     activity: ActivityWidget;
@@ -219,6 +227,9 @@ export interface Folder {
  */
 export interface Page {
   id: string;
+  /**
+   * Write a concise page title that is easy to scan and find.
+   */
   title: string;
   hero: {
     type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
@@ -270,6 +281,9 @@ export interface Page {
  */
 export interface Post {
   id: string;
+  /**
+   * Write a clear headline that will work in navigation, search, and social.
+   */
   title: string;
   heroImage?: (string | null) | Media;
   content: LexicalRichText<LexicalNodes_658A03C4>;
@@ -409,6 +423,7 @@ export interface User {
   resetPasswordExpiration?: string | null;
   salt?: string | null;
   hash?: string | null;
+  resetPasswordRequestedAt?: string | null;
   loginAttempts?: number | null;
   lockUntil?: string | null;
   sessions?:
@@ -1281,6 +1296,7 @@ export interface UsersSelect<T extends boolean = true> {
   resetPasswordExpiration?: T;
   salt?: T;
   hash?: T;
+  resetPasswordRequestedAt?: T;
   loginAttempts?: T;
   lockUntil?: T;
   sessions?:
@@ -1697,6 +1713,86 @@ export interface PayloadJobsStatsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "studio-welcome_widget".
+ */
+export interface StudioWelcomeWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'full';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "content-overview_widget".
+ */
+export interface ContentOverviewWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'large' | 'x-large' | 'full';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "recent-content_widget".
+ */
+export interface RecentContentWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'medium' | 'large' | 'x-large' | 'full';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "recent-media_widget".
+ */
+export interface RecentMediaWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'medium' | 'large' | 'x-large' | 'full';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "editorial-focus_widget".
+ */
+export interface EditorialFocusWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'small' | 'medium' | 'large';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "forms-inbox_widget".
+ */
+export interface FormsInboxWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'small' | 'medium' | 'large';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "seo-health_widget".
+ */
+export interface SeoHealthWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'small' | 'medium' | 'large';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "collection-shortcuts_widget".
+ */
+export interface CollectionShortcutsWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'small' | 'medium' | 'large' | 'x-large' | 'full';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "collections_widget".
  */
 export interface CollectionsWidget {
@@ -1779,7 +1875,10 @@ export interface TaskSchedulePublish {
           value: string | Post;
         } | null);
     global?: string | null;
-    user?: (string | null) | User;
+    user?: {
+      relationTo: 'users';
+      value: string | User;
+    } | null;
   };
   output?: unknown;
 }

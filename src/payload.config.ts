@@ -20,13 +20,116 @@ const dirname = path.dirname(filename)
 
 export default buildConfig({
   admin: {
+    dashboard: {
+      defaultLayout: [
+        {
+          widgetSlug: 'studio-welcome',
+          width: 'full',
+        },
+        {
+          widgetSlug: 'recent-content',
+          width: 'full',
+        },
+        {
+          widgetSlug: 'editorial-focus',
+          width: 'medium',
+        },
+        {
+          widgetSlug: 'forms-inbox',
+          width: 'medium',
+        },
+        {
+          widgetSlug: 'seo-health',
+          width: 'medium',
+        },
+        {
+          widgetSlug: 'recent-media',
+          width: 'medium',
+        },
+        {
+          widgetSlug: 'collection-shortcuts',
+          width: 'medium',
+        },
+      ],
+      widgets: [
+        {
+          slug: 'studio-welcome',
+          Component: '@/components/ContentStudioDashboard#StudioWelcomeWidget',
+          label: 'Studio welcome',
+          minWidth: 'full',
+          maxWidth: 'full',
+        },
+        {
+          slug: 'content-overview',
+          Component: '@/components/ContentStudioDashboard#ContentOverviewWidget',
+          label: 'Content overview',
+          minWidth: 'large',
+          maxWidth: 'full',
+        },
+        {
+          slug: 'recent-content',
+          Component: '@/components/ContentStudioDashboard#RecentContentWidget',
+          label: 'Recent content',
+          minWidth: 'medium',
+          maxWidth: 'full',
+        },
+        {
+          slug: 'recent-media',
+          Component: '@/components/ContentStudioDashboard#RecentMediaWidget',
+          label: 'Recent media',
+          minWidth: 'medium',
+          maxWidth: 'full',
+        },
+        {
+          slug: 'editorial-focus',
+          Component: '@/components/ContentStudioDashboard#EditorialFocusWidget',
+          label: 'Editorial focus',
+          minWidth: 'small',
+          maxWidth: 'large',
+        },
+        {
+          slug: 'forms-inbox',
+          Component: '@/components/ContentStudioDashboard#FormsInboxWidget',
+          label: 'Forms inbox',
+          minWidth: 'small',
+          maxWidth: 'large',
+        },
+        {
+          slug: 'seo-health',
+          Component: '@/components/ContentStudioDashboard#SEOHealthWidget',
+          label: 'SEO health',
+          minWidth: 'small',
+          maxWidth: 'large',
+        },
+        {
+          slug: 'collection-shortcuts',
+          Component: '@/components/ContentStudioDashboard#CollectionShortcutsWidget',
+          label: 'Collection shortcuts',
+          minWidth: 'small',
+          maxWidth: 'full',
+        },
+      ],
+    },
     components: {
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below.
       beforeLogin: ['@/components/BeforeLogin'],
-      // The `BeforeDashboard` component renders the 'welcome' block that you see after logging into your admin panel.
-      // Feel free to delete this at any time. Simply remove the line below.
-      beforeDashboard: ['@/components/BeforeDashboard'],
+      userMenuSettingsItems: [
+        {
+          group: 'Density',
+          items: ['@/components/AdminDensityControl#DensityMenuSetting'],
+        },
+      ],
+      views: {
+        uiLab: {
+          Component: '@/components/UILab',
+          meta: {
+            description: 'Explore the Payload v4 UI components and semantic design tokens.',
+            title: 'UI Lab',
+          },
+          path: '/ui-lab',
+        },
+      },
     },
     importMap: {
       baseDir: path.resolve(dirname),

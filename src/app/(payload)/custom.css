@@ -1,0 +1,188 @@
+:root {
+  /* A client-friendly, comfortable density built on Payload v4's public tokens. */
+  --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --text-body-small-font-size: 0.75rem;
+  --text-body-small-line-height: 1rem;
+  --text-body-small-strong-font-size: 0.75rem;
+  --text-body-small-strong-line-height: 1rem;
+
+  --text-body-medium-font-size: 0.875rem;
+  --text-body-medium-line-height: 1.25rem;
+  --text-body-medium-strong-font-size: 0.875rem;
+  --text-body-medium-strong-line-height: 1.25rem;
+
+  --text-body-large-font-size: 1rem;
+  --text-body-large-line-height: 1.5rem;
+  --text-body-large-strong-font-size: 1rem;
+  --text-body-large-strong-line-height: 1.5rem;
+
+  --text-heading-small-font-size: 1rem;
+  --text-heading-small-line-height: 1.5rem;
+  --text-heading-medium-font-size: 1.125rem;
+  --text-heading-medium-line-height: 1.625rem;
+  --text-heading-large-font-size: 2rem;
+  --text-heading-large-line-height: 2.5rem;
+
+  --field-min-height-medium: 2.5rem;
+  --field-min-height-large: 2.75rem;
+  --field-padding-inline: 0.875rem;
+  --field-border-radius: 0.625rem;
+  --button-height: 2.5rem;
+  --button-radius: 0.625rem;
+  --control-height: 2.5rem;
+  --popup-radius: 0.875rem;
+  --popup-item-radius: 0.5rem;
+
+  /* Brand ramp: #83bf78 is the anchor, with deeper shades for accessible text and contrast. */
+  --ramp-blue-200: #eef7ea;
+  --ramp-blue-300: #d5eacf;
+  --ramp-blue-400: #add6a5;
+  --ramp-blue-500: #83bf78;
+  --ramp-blue-600: #68a75f;
+  --ramp-blue-700: #4d8848;
+  --ramp-blue-800: #376b35;
+  --ramp-blue-900: #264c27;
+  --ramp-blue-1000: #16311a;
+
+  /* Payload's component accent is purple by default; align it with this demo's brand. */
+  --ramp-purple-100: #f6fbf3;
+  --ramp-purple-200: var(--ramp-blue-200);
+  --ramp-purple-300: var(--ramp-blue-300);
+  --ramp-purple-400: var(--ramp-blue-400);
+  --ramp-purple-500: var(--ramp-blue-500);
+  --ramp-purple-600: var(--ramp-blue-600);
+  --ramp-purple-700: var(--ramp-blue-700);
+  --ramp-purple-800: var(--ramp-blue-800);
+  --ramp-purple-900: var(--ramp-blue-900);
+  --ramp-purple-1000: var(--ramp-blue-1000);
+
+  /* Light theme: warm canvas and surfaces replace the default pure-white Admin UI. */
+  --color-bg: #faf7ed;
+  --color-bg-elevated: #faf7ed;
+  --color-bg-hover: #f3eedf;
+  --color-bg-pressed: #ebe4d2;
+  --color-bg-secondary: #f5f0e3;
+  --color-bg-secondary-hover: #eee7d6;
+  --color-bg-secondary-pressed: #e6ddc9;
+  --color-bg-tertiary: #eee7d6;
+  --color-bg-brand-tertiary: var(--ramp-blue-200);
+  --color-bg-brand-tertiary-hover: var(--ramp-blue-300);
+  --color-bg-component-tertiary: var(--ramp-blue-200);
+  --color-bg-component-tertiary-hover: var(--ramp-blue-300);
+  --color-bg-selected: var(--ramp-blue-200);
+  --color-bg-selected-hover: var(--ramp-blue-300);
+  --color-bg-selected-pressed: var(--ramp-blue-400);
+  --special-bg-transparent: rgb(250 247 237 / 75%);
+
+  /* Keep green links dark on cream, while filled green controls use crisp white ink. */
+  --color-text-brand: var(--ramp-blue-800);
+  --color-text-brand-secondary: var(--ramp-blue-800);
+  --color-text-onbrand: var(--ramp-white-1000);
+  --color-text-onbrand-secondary: var(--ramp-white-1000);
+  --color-text-component: var(--ramp-blue-800);
+  --color-text-component-pressed: var(--ramp-blue-900);
+  --color-text-oncomponent: var(--ramp-white-1000);
+  --color-text-selected: var(--ramp-blue-800);
+  --color-text-onselected-strong: var(--ramp-white-1000);
+  --color-icon-brand: var(--ramp-blue-800);
+  --color-icon-onbrand: var(--ramp-white-1000);
+  --color-icon-onbrand-secondary: var(--ramp-white-1000);
+  --color-icon-component: var(--ramp-blue-800);
+  --color-icon-component-pressed: var(--ramp-blue-900);
+  --color-icon-oncomponent: var(--ramp-white-1000);
+  --color-icon-selected: var(--ramp-blue-800);
+  --color-icon-onselected-strong: var(--ramp-white-1000);
+  --color-border-onbrand-strong: var(--ramp-white-1000);
+}
+
+/*
+ * Dark mode needs its own surface and foreground roles. Keeping these semantic means Payload
+ * primitives and every custom widget switch together without component-specific dark selectors.
+ */
+html[data-theme='dark'],
+[data-theme='dark'] {
+  --color-bg: #171a16;
+  --color-bg-elevated: #1d211c;
+  --color-bg-hover: #252b23;
+  --color-bg-pressed: #2d352b;
+  --color-bg-secondary: #20251f;
+  --color-bg-secondary-hover: #293027;
+  --color-bg-secondary-pressed: #323b30;
+  --color-bg-tertiary: #293027;
+  --color-bg-brand-tertiary: #253623;
+  --color-bg-brand-tertiary-hover: #30452d;
+  --color-bg-component-tertiary: #253623;
+  --color-bg-component-tertiary-hover: #30452d;
+  --color-bg-selected: #293d27;
+  --color-bg-selected-hover: #345031;
+  --color-bg-selected-pressed: #3c5b38;
+  --special-bg-transparent: rgb(23 26 22 / 78%);
+
+  --color-text-brand: var(--ramp-blue-400);
+  --color-text-brand-secondary: var(--ramp-blue-400);
+  --color-text-onbrand: var(--ramp-white-1000);
+  --color-text-onbrand-secondary: var(--ramp-white-1000);
+  --color-text-component: var(--ramp-blue-400);
+  --color-text-component-pressed: var(--ramp-blue-300);
+  --color-text-oncomponent: var(--ramp-white-1000);
+  --color-text-selected: var(--ramp-blue-400);
+  --color-text-onselected-strong: var(--ramp-white-1000);
+  --color-icon-brand: var(--ramp-blue-400);
+  --color-icon-onbrand: var(--ramp-white-1000);
+  --color-icon-onbrand-secondary: var(--ramp-white-1000);
+  --color-icon-component: var(--ramp-blue-400);
+  --color-icon-component-pressed: var(--ramp-blue-300);
+  --color-icon-oncomponent: var(--ramp-white-1000);
+  --color-icon-selected: var(--ramp-blue-400);
+  --color-icon-onselected-strong: var(--ramp-white-1000);
+  --color-border-selected: var(--ramp-blue-500);
+  --color-border-selected-strong: var(--ramp-blue-400);
+  --color-border-onbrand-strong: var(--ramp-white-1000);
+}
+
+/* The UI Lab can switch back to v4's compact baseline to make the difference tangible. */
+html[data-density='compact'] {
+  --text-body-small-font-size: 0.5625rem;
+  --text-body-small-line-height: 0.875rem;
+  --text-body-small-strong-font-size: 0.5625rem;
+  --text-body-small-strong-line-height: 0.875rem;
+  --text-body-medium-font-size: 0.6875rem;
+  --text-body-medium-line-height: 1rem;
+  --text-body-medium-strong-font-size: 0.6875rem;
+  --text-body-medium-strong-line-height: 1rem;
+  --text-body-large-font-size: 0.8125rem;
+  --text-body-large-line-height: 1.375rem;
+  --text-body-large-strong-font-size: 0.8125rem;
+  --text-body-large-strong-line-height: 1.375rem;
+  --text-heading-small-font-size: 0.8125rem;
+  --text-heading-small-line-height: 1.375rem;
+  --text-heading-medium-font-size: 0.9375rem;
+  --text-heading-medium-line-height: 1.5625rem;
+  --text-heading-large-font-size: 1.5rem;
+  --text-heading-large-line-height: 2rem;
+  --field-min-height-medium: 1.5rem;
+  --field-min-height-large: 2rem;
+  --field-padding-inline: 0.5rem;
+  --field-border-radius: var(--radius-medium);
+  --button-height: 1.5rem;
+  --button-radius: var(--radius-medium);
+  --control-height: 1.5rem;
+  --popup-radius: var(--radius-large);
+  --popup-item-radius: var(--button-radius);
+}
+
+html[data-theme='light'] body {
+  background:
+    radial-gradient(circle at 78% 4%, rgb(131 191 120 / 12%), transparent 24rem), var(--color-bg);
+}
+
+html[data-theme='dark'] body {
+  background:
+    radial-gradient(circle at 78% 4%, rgb(131 191 120 / 8%), transparent 24rem), var(--color-bg);
+}
+
+::selection {
+  background: var(--color-bg-brand-tertiary);
+  color: var(--color-text);
+}

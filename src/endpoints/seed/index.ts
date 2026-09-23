@@ -2,6 +2,7 @@ import type { CollectionSlug, GlobalSlug, Payload, PayloadRequest, File } from '
 
 import { contactForm as contactFormData } from './contact-form'
 import { contact as contactPageData } from './contact-page'
+import { dashboardFormSubmissions, dashboardPages, dashboardPosts } from './dashboard-demo'
 import { home } from './home'
 import { image1 } from './image-1'
 import { image2 } from './image-2'
@@ -169,6 +170,19 @@ export const seed = async ({
     data: post3({ heroImage: image3Doc, blockImage: image1Doc, author: demoAuthor }),
   })
 
+  for (const post of dashboardPosts({
+    author: demoAuthor,
+    images: [image1Doc, image2Doc, image3Doc],
+  })) {
+    await payload.create({
+      collection: 'posts',
+      context: { disableRevalidate: true },
+      data: post,
+      depth: 0,
+      draft: post._status === 'draft',
+    })
+  }
+
   // update each post with related posts
   await payload.update({
     id: post1Doc.id,
@@ -214,6 +228,34 @@ export const seed = async ({
       data: contactPageData({ contactForm: contactForm }),
     }),
   ])
+
+  for (const page of dashboardPages({ images: [image1Doc, image2Doc, image3Doc] })) {
+    await payload.create({
+      collection: 'pages',
+      context: { disableRevalidate: true },
+      data: page,
+      depth: 0,
+      draft: page._status === 'draft',
+    })
+  }
+
+  payload.logger.info(`— Seeding form submissions...`)
+
+  for (const submission of dashboardFormSubmissions) {
+    await payload.create({
+      collection: 'form-submissions',
+      data: {
+        createdAt: submission.createdAt,
+        form: contactForm.id,
+        submissionData: [
+          { field: 'full-name', value: submission.name },
+          { field: 'email', value: submission.email },
+          { field: 'message', value: submission.message },
+        ],
+      },
+      depth: 0,
+    })
+  }
 
   payload.logger.info(`— Seeding globals...`)
 
