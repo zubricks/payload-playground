@@ -143,7 +143,7 @@ export const dashboardPages = ({
     updatedAt: daysAgo(5),
   },
   {
-    _status: 'draft',
+    _status: 'published',
     createdAt: daysAgo(12),
     hero: { media: images[2]?.id, type: 'lowImpact' },
     layout: [
@@ -155,12 +155,13 @@ export const dashboardPages = ({
       },
     ],
     meta: { title: 'About Northstar Studio' },
+    publishedAt: daysAgo(6),
     slug: 'about-our-studio',
     title: 'About our studio',
     updatedAt: daysAgo(6),
   },
   {
-    _status: 'draft',
+    _status: 'published',
     createdAt: daysAgo(28),
     hero: { type: 'none' },
     layout: [
@@ -176,6 +177,7 @@ export const dashboardPages = ({
     ],
     slug: 'resource-library',
     title: 'Resource library',
+    publishedAt: daysAgo(17),
     updatedAt: daysAgo(17),
   },
 ]

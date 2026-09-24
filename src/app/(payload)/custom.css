@@ -1,4 +1,5 @@
-:root {
+html:not([data-brand-theme]),
+html[data-brand-theme='northstar'] {
   /* A client-friendly, comfortable density built on Payload v4's public tokens. */
   --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
@@ -100,8 +101,9 @@
  * Dark mode needs its own surface and foreground roles. Keeping these semantic means Payload
  * primitives and every custom widget switch together without component-specific dark selectors.
  */
-html[data-theme='dark'],
-[data-theme='dark'] {
+html:not([data-brand-theme])[data-theme='dark'],
+html[data-brand-theme='northstar'][data-theme='dark'],
+html[data-brand-theme='northstar'] [data-theme='dark'] {
   --color-bg: #171a16;
   --color-bg-elevated: #1d211c;
   --color-bg-hover: #252b23;
@@ -142,7 +144,8 @@ html[data-theme='dark'],
 }
 
 /* The UI Lab can switch back to v4's compact baseline to make the difference tangible. */
-html[data-density='compact'] {
+html:not([data-brand-theme])[data-density='compact'],
+html[data-brand-theme='northstar'][data-density='compact'] {
   --text-body-small-font-size: 0.5625rem;
   --text-body-small-line-height: 0.875rem;
   --text-body-small-strong-font-size: 0.5625rem;
@@ -172,12 +175,14 @@ html[data-density='compact'] {
   --popup-item-radius: var(--button-radius);
 }
 
-html[data-theme='light'] body {
+html:not([data-brand-theme])[data-theme='light'] body,
+html[data-brand-theme='northstar'][data-theme='light'] body {
   background:
     radial-gradient(circle at 78% 4%, rgb(131 191 120 / 12%), transparent 24rem), var(--color-bg);
 }
 
-html[data-theme='dark'] body {
+html:not([data-brand-theme])[data-theme='dark'] body,
+html[data-brand-theme='northstar'][data-theme='dark'] body {
   background:
     radial-gradient(circle at 78% 4%, rgb(131 191 120 / 8%), transparent 24rem), var(--color-bg);
 }

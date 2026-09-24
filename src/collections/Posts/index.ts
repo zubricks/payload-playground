@@ -43,6 +43,7 @@ export const Posts: CollectionConfig = {
   defaultPopulate: {
     title: true,
     slug: true,
+    featured: true,
     categories: true,
     meta: {
       image: true,
@@ -50,7 +51,7 @@ export const Posts: CollectionConfig = {
     },
   },
   admin: {
-    defaultColumns: ['title', 'slug', 'updatedAt'],
+    defaultColumns: ['title', 'featured', 'slug', 'updatedAt'],
     livePreview: {
       url: ({ data, req }) =>
         generatePreviewPath({
@@ -169,6 +170,18 @@ export const Posts: CollectionConfig = {
           ],
         },
       ],
+    },
+    {
+      name: 'featured',
+      type: 'checkbox',
+      admin: {
+        description:
+          'The newest published post with this enabled becomes the featured story on the posts page.',
+        position: 'sidebar',
+      },
+      defaultValue: false,
+      index: true,
+      label: 'Mark as featured',
     },
     {
       name: 'publishedAt',

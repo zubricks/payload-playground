@@ -12,6 +12,9 @@ import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { brandThemes, defaultBrandTheme, isBrandTheme } from '@/brandThemes'
+import { getCachedGlobal } from '@/utilities/getGlobals'
+import type { ThemeHeroImage } from '@/BrandTheme/types'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -65,6 +68,17 @@ export default async function Page({ params: paramsPromise }: Args) {
   }
 
   const { hero, layout } = page
+  let themeHero: ThemeHeroImage | undefined
+  const brandTheme = await getCachedGlobal('brand-theme', 0)()
+  const preset = isBrandTheme(brandTheme?.preset) ? brandTheme.preset : defaultBrandTheme
+
+  if (decodedSlug === 'home') {
+    const themeImage = brandThemes.find((theme) => theme.value === preset)?.heroImage
+
+    if (preset !== 'payload' && themeImage) {
+      themeHero = themeImage
+    }
+  }
 
   return (
     <article className="pt-16 pb-24">
@@ -74,7 +88,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
       {draft && <LivePreviewListener />}
 
-      <RenderHero {...hero} />
+      <RenderHero {...hero} brandTheme={preset} themeHero={themeHero} />
       <RenderBlocks blocks={layout} />
     </article>
   )

@@ -23,8 +23,10 @@ import { LinkToDoc as LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloa
 import { ReindexButton as ReindexButton_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
 import { RowLabel as RowLabel_ec255a65fa6fa8d1faeb09cf35284224 } from '@/Header/RowLabel'
 import { RowLabel as RowLabel_1f6ff6ff633e3695d348f4f3c58f1466 } from '@/Footer/RowLabel'
+import { default as default_ca534626416bc2ebd4013e87286d6e31 } from '@/components/BrandThemeSelector'
 import { DensityMenuSetting as DensityMenuSetting_5285c7992c3e17a4bea2b8bd8c41e62b } from '@/components/AdminDensityControl'
 import { default as default_8a7ab0eb7ab5c511aba12e68480bfe5e } from '@/components/BeforeLogin'
+import { AdminBrandThemeProvider as AdminBrandThemeProvider_0f531d04195945b9b1402900ee3bd25b } from '@/components/BrandThemeProvider'
 import { FolderIcon as FolderIcon_3817bf644402e67bfe6577f60ef982de } from '@payloadcms/ui'
 import { HierarchySidebarTabServer as HierarchySidebarTabServer_ab83ff7e88da8d3530831f296ec4756a } from '@payloadcms/ui/rsc'
 import { default as default_7465a78e4f04b3ea09da03f06a806b98 } from '@/components/UILab'
@@ -70,8 +72,10 @@ export const importMap = {
   "@payloadcms/plugin-search/client#ReindexButton": ReindexButton_aead06e4cbf6b2620c5c51c9ab283634,
   "@/Header/RowLabel#RowLabel": RowLabel_ec255a65fa6fa8d1faeb09cf35284224,
   "@/Footer/RowLabel#RowLabel": RowLabel_1f6ff6ff633e3695d348f4f3c58f1466,
+  "@/components/BrandThemeSelector#default": default_ca534626416bc2ebd4013e87286d6e31,
   "@/components/AdminDensityControl#DensityMenuSetting": DensityMenuSetting_5285c7992c3e17a4bea2b8bd8c41e62b,
   "@/components/BeforeLogin#default": default_8a7ab0eb7ab5c511aba12e68480bfe5e,
+  "@/components/BrandThemeProvider#AdminBrandThemeProvider": AdminBrandThemeProvider_0f531d04195945b9b1402900ee3bd25b,
   "@payloadcms/ui#FolderIcon": FolderIcon_3817bf644402e67bfe6577f60ef982de,
   "@payloadcms/ui/rsc#HierarchySidebarTabServer": HierarchySidebarTabServer_ab83ff7e88da8d3530831f296ec4756a,
   "@/components/UILab#default": default_7465a78e4f04b3ea09da03f06a806b98,

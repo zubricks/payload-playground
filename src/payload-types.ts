@@ -157,11 +157,13 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
+    'brand-theme': BrandTheme;
     'payload-jobs-stats': PayloadJobsStat;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    'brand-theme': BrandThemeSelect<false> | BrandThemeSelect<true>;
     'payload-jobs-stats': PayloadJobsStatsSelect<false> | PayloadJobsStatsSelect<true>;
   };
   locale: null;
@@ -297,6 +299,10 @@ export interface Post {
     image?: (string | null) | Media;
     description?: string | null;
   };
+  /**
+   * The newest published post with this enabled becomes the featured story on the posts page.
+   */
+  featured?: boolean | null;
   publishedAt?: string | null;
   authors?: (string | User)[] | null;
   populatedAuthors?:
@@ -416,6 +422,10 @@ export interface Category {
 export interface User {
   id: string;
   name?: string | null;
+  /**
+   * Site Admins can manage the shared brand theme and other project settings.
+   */
+  role: 'site-admin' | 'content-editor';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -1157,6 +1167,7 @@ export interface PostsSelect<T extends boolean = true> {
         image?: T;
         description?: T;
       };
+  featured?: T;
   publishedAt?: T;
   authors?: T;
   populatedAuthors?:
@@ -1289,6 +1300,7 @@ export interface CategoriesSelect<T extends boolean = true> {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
+  role?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -1587,7 +1599,8 @@ export interface Header {
   id: string;
   navItems?:
     | {
-        link: {
+        kind?: ('link' | 'dropdown') | null;
+        link?: {
           type?: ('reference' | 'custom') | null;
           newTab?: boolean | null;
           reference?:
@@ -1602,6 +1615,27 @@ export interface Header {
           url?: string | null;
           label: string;
         };
+        dropdownLabel?: string | null;
+        dropdownItems?:
+          | {
+              link: {
+                type?: ('reference' | 'custom') | null;
+                newTab?: boolean | null;
+                reference?:
+                  | ({
+                      relationTo: 'pages';
+                      value: string | Page;
+                    } | null)
+                  | ({
+                      relationTo: 'posts';
+                      value: string | Post;
+                    } | null);
+                url?: string | null;
+                label: string;
+              };
+              id?: string | null;
+            }[]
+          | null;
         id?: string | null;
       }[]
     | null;
@@ -1639,6 +1673,19 @@ export interface Footer {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "brand-theme".
+ */
+export interface BrandTheme {
+  id: string;
+  /**
+   * Choose the project-wide brand theme. It is applied to both the website and the Payload Admin UI.
+   */
+  preset: 'payload' | 'northstar';
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-jobs-stats".
  */
 export interface PayloadJobsStat {
@@ -1663,6 +1710,7 @@ export interface HeaderSelect<T extends boolean = true> {
   navItems?:
     | T
     | {
+        kind?: T;
         link?:
           | T
           | {
@@ -1671,6 +1719,21 @@ export interface HeaderSelect<T extends boolean = true> {
               reference?: T;
               url?: T;
               label?: T;
+            };
+        dropdownLabel?: T;
+        dropdownItems?:
+          | T
+          | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+              id?: T;
             };
         id?: T;
       };
@@ -1697,6 +1760,16 @@ export interface FooterSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "brand-theme_select".
+ */
+export interface BrandThemeSelect<T extends boolean = true> {
+  preset?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

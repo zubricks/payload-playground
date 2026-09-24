@@ -163,6 +163,70 @@
   --error: oklch(45% 0.1 25deg);
 }
 
+/*
+ * Brand preset and color mode are intentionally separate. The Payload preset inherits the
+ * template defaults above. Northstar remaps the same semantic roles used by every component.
+ */
+html[data-brand-theme='northstar'] {
+  --background: #faf7ed;
+  --foreground: #20251f;
+  --card: #fffdf7;
+  --card-foreground: #20251f;
+  --popover: #fffdf7;
+  --popover-foreground: #20251f;
+  --primary: #4d8848;
+  --primary-foreground: #ffffff;
+  --secondary: #eef7ea;
+  --secondary-foreground: #264c27;
+  --muted: #f3eedf;
+  --muted-foreground: #686b64;
+  --accent: #d5eacf;
+  --accent-foreground: #264c27;
+  --border: #ded8ca;
+  --input: #d3ccbd;
+  --ring: #68a75f;
+  --radius: 0.875rem;
+  --sidebar: #f5f0e3;
+  --sidebar-foreground: #20251f;
+  --sidebar-primary: #4d8848;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #d5eacf;
+  --sidebar-accent-foreground: #264c27;
+  --sidebar-border: #ded8ca;
+  --sidebar-ring: #68a75f;
+  --success: #83bf78;
+}
+
+html[data-brand-theme='northstar'][data-theme='dark'],
+html[data-brand-theme='northstar'] [data-theme='dark'] {
+  --background: #171a16;
+  --foreground: #f7f5ed;
+  --card: #20251f;
+  --card-foreground: #f7f5ed;
+  --popover: #20251f;
+  --popover-foreground: #f7f5ed;
+  --primary: #83bf78;
+  --primary-foreground: #ffffff;
+  --secondary: #293027;
+  --secondary-foreground: #eef7ea;
+  --muted: #252b23;
+  --muted-foreground: #b1b8ad;
+  --accent: #30452d;
+  --accent-foreground: #eef7ea;
+  --border: #394137;
+  --input: #465043;
+  --ring: #83bf78;
+  --sidebar: #1d211c;
+  --sidebar-foreground: #f7f5ed;
+  --sidebar-primary: #83bf78;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #30452d;
+  --sidebar-accent-foreground: #eef7ea;
+  --sidebar-border: #394137;
+  --sidebar-ring: #83bf78;
+  --success: #83bf78;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -211,6 +275,864 @@
   }
   body {
     @apply bg-background text-foreground min-h-[100vh] flex flex-col;
+  }
+}
+
+html[data-brand-theme='northstar'] body {
+  background-image: radial-gradient(circle at 82% 2%, rgb(131 191 120 / 16%), transparent 30rem);
+}
+
+html[data-brand-theme='northstar'][data-theme='dark'] body {
+  background-image: radial-gradient(circle at 82% 2%, rgb(131 191 120 / 10%), transparent 30rem);
+}
+
+html[data-brand-theme='northstar'] .site-footer {
+  background: #376b35;
+  border-color: #4d8848;
+}
+
+html[data-brand-theme='northstar'][data-theme='dark'] .site-footer {
+  background: #20251f;
+  border-color: #394137;
+}
+
+/* Northstar frontend composition */
+.northstar-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: inherit;
+  font-size: 1.15rem;
+  font-weight: 620;
+  letter-spacing: -0.035em;
+}
+
+.northstar-wordmark svg {
+  width: 1.55rem;
+  height: 1.55rem;
+  flex: 0 0 auto;
+  fill: currentColor;
+}
+
+.northstar-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.northstar-kicker::before {
+  width: 1.7rem;
+  height: 1px;
+  background: currentColor;
+  content: '';
+  opacity: 0.65;
+}
+
+html[data-brand-theme='northstar'] .northstar-header {
+  position: sticky;
+  z-index: 30;
+  top: 0;
+  color: #20251f;
+}
+
+html[data-brand-theme='northstar'] .northstar-header__shell {
+  display: flex;
+  min-height: 4.25rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-block-start: 1rem;
+  padding: 0.55rem 0.65rem 0.55rem 1.15rem;
+  border: 1px solid rgb(32 37 31 / 16%);
+  border-radius: 999px;
+  background: rgb(250 247 237 / 82%);
+  box-shadow: 0 1rem 3rem rgb(14 22 15 / 12%);
+  backdrop-filter: blur(16px);
+}
+
+html[data-brand-theme='northstar'] .northstar-header[data-theme='dark'],
+html[data-brand-theme='northstar'] .northstar-header[data-over-hero='true'] {
+  color: #fff;
+}
+
+html[data-brand-theme='northstar'] .northstar-header[data-theme='dark'] .northstar-header__shell,
+html[data-brand-theme='northstar']
+  .northstar-header[data-over-hero='true']
+  .northstar-header__shell {
+  border-color: rgb(255 255 255 / 28%);
+  background: rgb(20 29 21 / 38%);
+}
+
+html[data-brand-theme='northstar'] .northstar-header__brand {
+  display: inline-flex;
+  color: inherit;
+}
+
+html[data-brand-theme='northstar'] .northstar-header__nav {
+  display: flex;
+  align-items: center;
+  gap: 1.7rem;
+  font-size: 0.9rem;
+  font-weight: 520;
+}
+
+html[data-brand-theme='northstar'] .northstar-header__nav > a:not(.northstar-header__cta) {
+  color: inherit;
+  opacity: 0.88;
+  transition: opacity 160ms ease;
+}
+
+html[data-brand-theme='northstar'] .northstar-header__nav > a:hover {
+  opacity: 1;
+}
+
+.header-dropdown {
+  position: relative;
+}
+
+.header-dropdown > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.header-dropdown > summary::-webkit-details-marker {
+  display: none;
+}
+
+.header-dropdown__icon {
+  width: 0.9rem;
+  height: 0.9rem;
+  transition: transform 160ms ease;
+}
+
+.header-dropdown[open] .header-dropdown__icon {
+  transform: rotate(180deg);
+}
+
+.header-dropdown__menu {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 0.8rem);
+  left: 50%;
+  display: grid;
+  width: max-content;
+  min-width: 13rem;
+  gap: 0.15rem;
+  padding: 0.55rem;
+  border: 1px solid rgb(32 37 31 / 12%);
+  border-radius: 1rem;
+  background: #faf7ed;
+  box-shadow: 0 1.25rem 3rem rgb(14 22 15 / 18%);
+  color: #20251f;
+  transform: translateX(-50%);
+}
+
+.header-dropdown__menu a {
+  display: block;
+  padding: 0.7rem 0.8rem;
+  border-radius: 0.65rem;
+  color: inherit;
+  white-space: nowrap;
+}
+
+.header-dropdown__menu a:hover {
+  background: rgb(131 191 120 / 16%);
+}
+
+html[data-brand-theme='northstar'] .northstar-header__nav .header-dropdown > summary {
+  color: inherit;
+  opacity: 0.88;
+  transition: opacity 160ms ease;
+}
+
+html[data-brand-theme='northstar'] .northstar-header__nav .header-dropdown > summary:hover {
+  opacity: 1;
+}
+
+html[data-brand-theme='northstar'] .northstar-header__cta {
+  display: inline-flex;
+  min-height: 2.9rem;
+  align-items: center;
+  justify-content: center;
+  padding-inline: 1.3rem;
+  border-radius: 999px;
+  background: #83bf78;
+  color: #fff;
+  line-height: 1;
+}
+
+html[data-brand-theme='northstar'] .northstar-header__search {
+  display: inline-grid;
+  width: 2.9rem;
+  height: 2.9rem;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, currentColor 35%, transparent);
+  border-radius: 50%;
+}
+
+html[data-brand-theme='northstar'] .northstar-header__search svg,
+html[data-brand-theme='northstar'] .northstar-header__menu-button svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+html[data-brand-theme='northstar'] .northstar-header__menu-button {
+  display: none;
+  width: 2.9rem;
+  height: 2.9rem;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, currentColor 35%, transparent);
+  border-radius: 50%;
+  color: inherit;
+}
+
+html[data-brand-theme='northstar'] .northstar-header__mobile-panel {
+  position: absolute;
+  top: calc(100% + 0.6rem);
+  right: 1rem;
+  left: 1rem;
+  display: grid;
+  gap: 3rem;
+  padding: 2rem;
+  border: 1px solid rgb(255 255 255 / 20%);
+  border-radius: 1.6rem;
+  background: #1d2e20;
+  color: #fff;
+  box-shadow: 0 2rem 5rem rgb(11 18 12 / 30%);
+}
+
+html[data-brand-theme='northstar'] .northstar-header__mobile-panel nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  font-family: 'Iowan Old Style', 'Baskerville', 'Times New Roman', serif;
+  font-size: clamp(2rem, 10vw, 3.5rem);
+  line-height: 1;
+}
+
+html[data-brand-theme='northstar'] .northstar-header__mobile-panel > span {
+  max-width: 18rem;
+  color: rgb(255 255 255 / 62%);
+}
+
+html[data-brand-theme='northstar'] .header-dropdown--mobile,
+html[data-brand-theme='northstar'] .header-dropdown--mobile > summary {
+  width: 100%;
+}
+
+html[data-brand-theme='northstar'] .header-dropdown--mobile > summary {
+  justify-content: space-between;
+}
+
+html[data-brand-theme='northstar'] .header-dropdown--mobile .header-dropdown__menu {
+  position: static;
+  width: 100%;
+  min-width: 0;
+  gap: 0.2rem;
+  margin-top: 0.65rem;
+  padding: 0 0 0 1rem;
+  border: 0;
+  border-left: 1px solid rgb(255 255 255 / 24%);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: 0.55em;
+  transform: none;
+}
+
+html[data-brand-theme='northstar'] .northstar-hero__content {
+  align-items: end;
+  justify-content: space-between;
+  margin-block-end: 0;
+  padding-block-end: clamp(3rem, 7vw, 6.5rem);
+  text-align: left;
+}
+
+html[data-brand-theme='northstar'] .northstar-hero__content > div {
+  text-align: left;
+}
+
+html[data-brand-theme='northstar'] .northstar-hero__content .payload-richtext {
+  color: #fff;
+}
+
+html[data-brand-theme='northstar'] .northstar-hero__content h1 {
+  max-width: 12ch;
+  margin-block: 1.2rem 1.5rem;
+  font-family: 'Iowan Old Style', 'Baskerville', 'Times New Roman', serif;
+  font-size: clamp(3.8rem, 7.6vw, 6.6rem);
+  font-weight: 400;
+  letter-spacing: -0.055em;
+  line-height: 0.9;
+}
+
+html[data-brand-theme='northstar'] body:has(.admin-bar:not(.hidden)) .northstar-hero {
+  min-height: calc(92vh - 2.75rem);
+}
+
+html[data-brand-theme='northstar'] .northstar-hero__content p {
+  max-width: 43rem;
+  color: rgb(255 255 255 / 82%);
+  font-size: clamp(1rem, 1.4vw, 1.2rem);
+  line-height: 1.55;
+}
+
+html[data-brand-theme='northstar'] .northstar-hero__content p a {
+  color: #fff;
+}
+
+html[data-brand-theme='northstar'] .northstar-hero__content ul {
+  margin-block-start: 2rem;
+}
+
+html[data-brand-theme='northstar'] .northstar-hero__content ul a {
+  min-height: 3.25rem;
+  padding-inline: 1.45rem;
+  border-radius: 999px;
+}
+
+html[data-brand-theme='northstar'] .northstar-hero__index {
+  padding-block-end: 0.8rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+}
+
+html[data-brand-theme='northstar'] .northstar-hero__overlay {
+  background: linear-gradient(
+    90deg,
+    rgb(24 35 25 / 74%) 0%,
+    rgb(33 48 35 / 48%) 54%,
+    rgb(31 44 32 / 22%) 100%
+  );
+  mix-blend-mode: multiply;
+}
+
+html[data-brand-theme='northstar'] .site-block {
+  margin-block: 0;
+}
+
+html[data-brand-theme='northstar'] .site-content-block {
+  margin-block: 0;
+  padding-block: clamp(5rem, 9vw, 9rem);
+}
+
+html[data-brand-theme='northstar'] .site-content-block__grid {
+  counter-reset: northstar-feature;
+  row-gap: clamp(3rem, 6vw, 5rem);
+}
+
+html[data-brand-theme='northstar'] .site-content-block__column[data-size='full'] {
+  padding-block-end: 2.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+html[data-brand-theme='northstar'] .site-content-block__column[data-size='full'] h2 {
+  max-width: 12ch;
+  margin: 0;
+  font-family: 'Iowan Old Style', 'Baskerville', 'Times New Roman', serif;
+  font-size: clamp(3.25rem, 6vw, 6.2rem);
+  font-weight: 400;
+  letter-spacing: -0.05em;
+  line-height: 0.95;
+}
+
+html[data-brand-theme='northstar'] .site-content-block__column:not([data-size='full']) {
+  position: relative;
+  padding-block-start: 1.35rem;
+  border-top: 1px solid var(--border);
+  counter-increment: northstar-feature;
+}
+
+html[data-brand-theme='northstar'] .site-content-block__column:not([data-size='full'])::before {
+  position: absolute;
+  top: 1.5rem;
+  right: 0;
+  color: #4d8848;
+  content: '0' counter(northstar-feature);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+}
+
+html[data-brand-theme='northstar'] .site-content-block__column h3 {
+  max-width: calc(100% - 3rem);
+  margin-block: 0 1rem;
+  font-family: 'Iowan Old Style', 'Baskerville', 'Times New Roman', serif;
+  font-size: clamp(1.8rem, 2.8vw, 2.45rem);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+
+html[data-brand-theme='northstar'] .site-content-block__column p {
+  color: var(--muted-foreground);
+  line-height: 1.7;
+}
+
+html[data-brand-theme='northstar'] .site-block--mediaBlock {
+  padding-block: 0 clamp(5rem, 9vw, 9rem);
+}
+
+html[data-brand-theme='northstar'] .site-media-block__picture {
+  display: block;
+  overflow: hidden;
+  border-radius: 2rem;
+}
+
+html[data-brand-theme='northstar'] .site-media-block__image {
+  width: 100%;
+  max-height: 72vh;
+  border: 0;
+  border-radius: 0;
+  object-fit: cover;
+  transition: transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+html[data-brand-theme='northstar'] .site-media-block:hover .site-media-block__image {
+  transform: scale(1.018);
+}
+
+html[data-brand-theme='northstar'] .site-block--archive {
+  padding-block: clamp(5rem, 9vw, 9rem);
+  background: #e9f0e4;
+}
+
+.featured-post__card {
+  position: relative;
+  min-height: clamp(31rem, 62vw, 44rem);
+  overflow: hidden;
+  border-radius: 1.5rem;
+  background: #203422;
+  color: #fff;
+}
+
+.featured-post__link,
+.featured-post__picture,
+.featured-post__overlay {
+  position: absolute;
+  inset: 0;
+}
+
+.featured-post__link {
+  display: flex;
+  align-items: flex-end;
+  color: inherit;
+}
+
+.featured-post__picture {
+  display: block;
+}
+
+.featured-post__image {
+  object-fit: cover;
+  transition: transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.featured-post__link:hover .featured-post__image {
+  transform: scale(1.025);
+}
+
+.featured-post__overlay {
+  background: linear-gradient(
+    90deg,
+    rgb(13 20 14 / 82%) 0%,
+    rgb(20 29 21 / 52%) 58%,
+    rgb(20 29 21 / 18%) 100%
+  );
+}
+
+.featured-post__content {
+  position: relative;
+  z-index: 1;
+  width: min(47rem, 100%);
+  padding: clamp(2rem, 5vw, 4.5rem);
+}
+
+.featured-post__eyebrow,
+.featured-post__categories {
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.featured-post__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-block-end: 1.5rem;
+}
+
+.featured-post__eyebrow::before {
+  width: 1.7rem;
+  height: 1px;
+  background: currentColor;
+  content: '';
+  opacity: 0.7;
+}
+
+.featured-post__categories {
+  margin-block-end: 0.9rem;
+  color: #bce3b4;
+}
+
+.featured-post__content h2 {
+  max-width: 12ch;
+  margin: 0;
+  color: inherit;
+  font-size: clamp(2.8rem, 6vw, 5.75rem);
+  font-weight: 550;
+  letter-spacing: -0.055em;
+  line-height: 0.95;
+}
+
+.featured-post__content p {
+  max-width: 39rem;
+  margin-block: 1.4rem 0;
+  color: rgb(255 255 255 / 76%);
+  font-size: clamp(1rem, 1.35vw, 1.15rem);
+  line-height: 1.6;
+}
+
+.featured-post__action {
+  display: inline-flex;
+  min-height: 3rem;
+  align-items: center;
+  gap: 0.7rem;
+  margin-block-start: 2rem;
+  padding-inline: 1.25rem;
+  border: 1px solid rgb(255 255 255 / 42%);
+  border-radius: 999px;
+  font-size: 0.88rem;
+}
+
+.featured-post__action svg {
+  width: 1rem;
+  height: 1rem;
+  transition: transform 160ms ease;
+}
+
+.featured-post__link:hover .featured-post__action svg {
+  transform: translate(0.15rem, -0.15rem);
+}
+
+html[data-brand-theme='northstar'] .featured-post__card {
+  border-radius: 2rem;
+}
+
+html[data-brand-theme='northstar'] .featured-post__content h2 {
+  font-family: 'Iowan Old Style', 'Baskerville', 'Times New Roman', serif;
+  font-weight: 400;
+}
+
+html[data-brand-theme='northstar'][data-theme='dark'] .site-block--archive {
+  background: #202920;
+}
+
+html[data-brand-theme='northstar'] .site-archive-block {
+  margin: 0;
+}
+
+html[data-brand-theme='northstar'] .site-archive-block__intro {
+  margin-block-end: clamp(3rem, 6vw, 5rem);
+}
+
+html[data-brand-theme='northstar'] .site-archive-block__intro .payload-richtext {
+  display: grid;
+  max-width: none;
+  grid-template-columns: minmax(0, 0.85fr) minmax(18rem, 1fr);
+  align-items: end;
+  gap: 3rem;
+}
+
+html[data-brand-theme='northstar'] .site-archive-block__intro h3 {
+  margin: 0;
+  font-family: 'Iowan Old Style', 'Baskerville', 'Times New Roman', serif;
+  font-size: clamp(3.2rem, 6vw, 6rem);
+  font-weight: 400;
+  letter-spacing: -0.05em;
+  line-height: 0.95;
+}
+
+html[data-brand-theme='northstar'] .site-archive-block__intro p {
+  margin: 0;
+  color: var(--muted-foreground);
+  line-height: 1.7;
+}
+
+html[data-brand-theme='northstar'] .collection-archive__grid {
+  gap: 2.5rem 1.5rem;
+}
+
+html[data-brand-theme='northstar'] .archive-card {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+html[data-brand-theme='northstar'] .archive-card .card__media {
+  aspect-ratio: 4 / 3;
+  border-radius: 1.2rem;
+  background: #dfe7d9;
+}
+
+html[data-brand-theme='northstar'] .archive-card .card__picture,
+html[data-brand-theme='northstar'] .archive-card .card__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+html[data-brand-theme='northstar'] .archive-card .card__picture {
+  position: absolute;
+  inset: 0;
+}
+
+html[data-brand-theme='northstar'] .archive-card .card__image {
+  object-fit: cover;
+  transition: transform 500ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+html[data-brand-theme='northstar'] .archive-card:hover .card__image {
+  transform: scale(1.035);
+}
+
+html[data-brand-theme='northstar'] .archive-card .card__content {
+  padding: 1.25rem 0 0;
+}
+
+html[data-brand-theme='northstar'] .archive-card .card__categories {
+  margin-block-end: 0.7rem;
+  color: #4d8848;
+  font-size: 0.68rem;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+}
+
+html[data-brand-theme='northstar'] .archive-card .card__title h3 {
+  margin: 0;
+  font-family: 'Iowan Old Style', 'Baskerville', 'Times New Roman', serif;
+  font-size: clamp(1.8rem, 2.6vw, 2.45rem);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+}
+
+html[data-brand-theme='northstar'] .archive-card .card__description {
+  max-width: 34rem;
+  color: var(--muted-foreground);
+  line-height: 1.6;
+}
+
+html[data-brand-theme='northstar'] .site-block--cta {
+  padding-block: clamp(5rem, 9vw, 9rem);
+}
+
+html[data-brand-theme='northstar'] .site-cta-block__inner {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(2.25rem, 6vw, 5rem);
+  border: 0;
+  border-radius: 2rem;
+  background: #203422;
+  color: #faf7ed;
+}
+
+html[data-brand-theme='northstar'] .site-cta-block__inner::after {
+  position: absolute;
+  top: -8rem;
+  right: -5rem;
+  width: 22rem;
+  height: 22rem;
+  border: 1px solid rgb(131 191 120 / 32%);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 4rem rgb(131 191 120 / 6%),
+    0 0 0 8rem rgb(131 191 120 / 4%);
+  content: '';
+}
+
+html[data-brand-theme='northstar'] .site-cta-block__copy,
+html[data-brand-theme='northstar'] .site-cta-block__actions {
+  position: relative;
+  z-index: 1;
+}
+
+html[data-brand-theme='northstar'] .site-cta-block__copy .payload-richtext {
+  color: inherit;
+}
+
+html[data-brand-theme='northstar'] .site-cta-block__copy h3 {
+  margin-block: 0 0.8rem;
+  font-family: 'Iowan Old Style', 'Baskerville', 'Times New Roman', serif;
+  font-size: clamp(2.7rem, 5vw, 4.8rem);
+  font-weight: 400;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+}
+
+html[data-brand-theme='northstar'] .site-cta-block__copy p {
+  margin: 0;
+  color: rgb(250 247 237 / 72%);
+}
+
+html[data-brand-theme='northstar'] .site-cta-block__actions a {
+  min-height: 3.3rem;
+  padding-inline: 1.6rem;
+  border-radius: 999px;
+}
+
+html[data-brand-theme='northstar'] .northstar-footer {
+  overflow: hidden;
+  border: 0;
+  background: #182a1c;
+  color: #faf7ed;
+}
+
+html[data-brand-theme='northstar'] .northstar-footer__inner {
+  padding-block: clamp(4rem, 8vw, 7rem) 2rem;
+}
+
+html[data-brand-theme='northstar'] .northstar-footer__cta-row {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-block-end: clamp(3rem, 6vw, 5rem);
+  border-bottom: 1px solid rgb(250 247 237 / 20%);
+}
+
+html[data-brand-theme='northstar'] .northstar-footer__cta-row h2 {
+  max-width: 12ch;
+  margin-block: 1.2rem 0;
+  font-family: 'Iowan Old Style', 'Baskerville', 'Times New Roman', serif;
+  font-size: clamp(3rem, 6vw, 6rem);
+  font-weight: 400;
+  letter-spacing: -0.055em;
+  line-height: 0.92;
+}
+
+html[data-brand-theme='northstar'] .northstar-footer__contact {
+  min-height: 3.4rem;
+  flex: 0 0 auto;
+  padding-inline: 1.5rem;
+  border-color: rgb(250 247 237 / 48%);
+  border-radius: 999px;
+  background: transparent;
+  color: #faf7ed;
+}
+
+html[data-brand-theme='northstar'] .northstar-footer__links-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) repeat(2, minmax(9rem, 0.5fr));
+  gap: 3rem;
+  padding-block: 3rem;
+}
+
+html[data-brand-theme='northstar'] .northstar-footer__intro p {
+  max-width: 25rem;
+  margin-block-start: 1.25rem;
+  color: rgb(250 247 237 / 58%);
+  line-height: 1.65;
+}
+
+html[data-brand-theme='northstar'] .northstar-footer__nav,
+html[data-brand-theme='northstar'] .northstar-footer__meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.7rem;
+}
+
+html[data-brand-theme='northstar'] .northstar-footer__nav > span,
+html[data-brand-theme='northstar'] .northstar-footer__meta > span {
+  margin-block-end: 0.5rem;
+  color: rgb(250 247 237 / 45%);
+  font-size: 0.68rem;
+  font-weight: 650;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+html[data-brand-theme='northstar'] .northstar-footer a {
+  color: inherit;
+}
+
+html[data-brand-theme='northstar'] .northstar-footer__word {
+  margin-inline: -0.045em;
+  color: #83bf78;
+  font-family: 'Iowan Old Style', 'Baskerville', 'Times New Roman', serif;
+  font-size: clamp(5rem, 15.5vw, 14rem);
+  font-weight: 400;
+  letter-spacing: -0.075em;
+  line-height: 0.72;
+  white-space: nowrap;
+}
+
+html[data-brand-theme='northstar'] .northstar-footer__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-block-start: 3rem;
+  padding-block-start: 1.5rem;
+  border-top: 1px solid rgb(250 247 237 / 20%);
+  color: rgb(250 247 237 / 58%);
+  font-size: 0.78rem;
+}
+
+@media (max-width: 767px) {
+  html[data-brand-theme='northstar'] .northstar-header__nav {
+    display: none;
+  }
+
+  html[data-brand-theme='northstar'] .northstar-header__menu-button {
+    display: grid;
+  }
+
+  html[data-brand-theme='northstar'] .northstar-hero__content {
+    padding-block-end: 3rem;
+  }
+
+  html[data-brand-theme='northstar'] .northstar-hero__content h1 {
+    font-size: clamp(3.4rem, 17vw, 5rem);
+  }
+
+  html[data-brand-theme='northstar'] .northstar-hero__index {
+    display: none;
+  }
+
+  html[data-brand-theme='northstar'] .site-archive-block__intro .payload-richtext {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  html[data-brand-theme='northstar'] .northstar-footer__cta-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  html[data-brand-theme='northstar'] .northstar-footer__links-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  html[data-brand-theme='northstar'] .northstar-footer__intro {
+    grid-column: 1 / -1;
+  }
+
+  html[data-brand-theme='northstar'] .northstar-footer__bottom {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }
 

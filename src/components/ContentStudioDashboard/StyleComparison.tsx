@@ -43,7 +43,7 @@ const examples: Record<
 }
 
 /* Split and disabled buttons need more rules. */`,
-    v4: `:root {
+    v4: `html[data-brand-theme='northstar'] {
   --color-bg-brand: #83bf78;
   --color-bg-brand-hover: #68a75f;
   --color-bg-brand-pressed: #4d8848;
@@ -51,8 +51,8 @@ const examples: Record<
   --button-radius: 0.625rem;
 }
 
-html[data-theme='dark'],
-[data-theme='dark'] {
+html[data-brand-theme='northstar'][data-theme='dark'],
+html[data-brand-theme='northstar'] [data-theme='dark'] {
   --color-text-brand: #add6a5;
 }
 
@@ -75,15 +75,15 @@ html[data-theme='light'] .pill--style-white {
   background: #f5f0e3;
   color: var(--theme-elevation-800);
 }`,
-    v4: `html[data-theme='light'] {
+    v4: `html[data-brand-theme='northstar'][data-theme='light'] {
   --color-bg-warning-tertiary: #fff4cc;
   --color-text-warning: #6f4b00;
   --color-bg-selected: #eef7ea;
   --color-text-brand: #376b35;
 }
 
-html[data-theme='dark'],
-[data-theme='dark'] {
+html[data-brand-theme='northstar'][data-theme='dark'],
+html[data-brand-theme='northstar'] [data-theme='dark'] {
   --color-bg-selected: #293d27;
   --color-text-brand: #add6a5;
 }

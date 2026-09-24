@@ -14,6 +14,15 @@ import { getClientSideURL } from '@/utilities/getURL'
 
 const baseClass = 'admin-bar'
 
+const adminBarLinkStyle: React.CSSProperties = {
+  color: 'inherit',
+  display: 'block',
+  overflow: 'hidden',
+  textDecoration: 'none',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+}
+
 const collectionLabels = {
   pages: {
     plural: 'Pages',
@@ -48,19 +57,32 @@ export const AdminBar: React.FC<{
 
   return (
     <div
-      className={cn(baseClass, 'py-2 bg-black text-white', {
+      className={cn(baseClass, {
         block: show,
         hidden: !show,
       })}
+      style={{
+        background: '#000',
+        boxSizing: 'border-box',
+        color: '#fff',
+        minHeight: '44px',
+        paddingBlock: '12px',
+        position: 'relative',
+        zIndex: 50,
+      }}
     >
       <div className="container">
         <PayloadAdminBar
           {...adminBarProps}
-          className="py-2 text-white"
+          className="admin-bar__inner"
           classNames={{
-            controls: 'font-medium text-white',
-            logo: 'text-white',
-            user: 'text-white',
+            controls: 'admin-bar__controls',
+            create: 'admin-bar__action',
+            edit: 'admin-bar__action',
+            logo: 'admin-bar__logo',
+            logout: 'admin-bar__logout',
+            preview: 'admin-bar__preview',
+            user: 'admin-bar__user',
           }}
           cmsURL={getClientSideURL()}
           collectionSlug={collection}
@@ -69,6 +91,13 @@ export const AdminBar: React.FC<{
             singular: collectionLabels[collection]?.singular || 'Page',
           }}
           logo={<Title />}
+          logoProps={{
+            style: {
+              ...adminBarLinkStyle,
+              flexShrink: 0,
+              marginRight: '12px',
+            },
+          }}
           onAuthChange={onAuthChange}
           onPreviewExit={() => {
             fetch('/next/exit-preview').then(() => {
@@ -76,11 +105,40 @@ export const AdminBar: React.FC<{
               router.refresh()
             })
           }}
+          createProps={{ style: adminBarLinkStyle }}
+          divProps={{
+            style: {
+              alignItems: 'center',
+              display: 'flex',
+              flex: '1 1 auto',
+              gap: '12px',
+              justifyContent: 'flex-end',
+              marginRight: '12px',
+              minWidth: 0,
+            },
+          }}
+          editProps={{ style: adminBarLinkStyle }}
+          logoutProps={{ style: adminBarLinkStyle }}
+          unstyled
           style={{
-            backgroundColor: 'transparent',
-            padding: 0,
+            alignItems: 'center',
+            color: '#fff',
+            display: 'flex',
+            fontFamily:
+              '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif',
+            fontSize: '13px',
+            lineHeight: '20px',
+            minHeight: '20px',
+            minWidth: 0,
             position: 'relative',
-            zIndex: 'unset',
+            width: '100%',
+          }}
+          userProps={{
+            style: {
+              ...adminBarLinkStyle,
+              marginRight: '12px',
+              minWidth: '48px',
+            },
           }}
         />
       </div>

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next/types'
 
 import { CollectionArchive } from '@/components/CollectionArchive'
+import { getFeaturedPost } from '@/collections/Posts/getFeaturedPost'
 import { PageRange } from '@/components/PageRange'
 import { Pagination } from '@/components/Pagination'
 import configPromise from '@payload-config'
@@ -20,6 +21,7 @@ type Args = {
 export default async function Page({ params: paramsPromise }: Args) {
   const { pageNumber } = await paramsPromise
   const payload = await getPayload({ config: configPromise })
+  const featuredPost = await getFeaturedPost(payload)
 
   const sanitizedPageNumber = Number(pageNumber)
 
@@ -31,6 +33,16 @@ export default async function Page({ params: paramsPromise }: Args) {
     limit: 12,
     page: sanitizedPageNumber,
     overrideAccess: false,
+    sort: '-publishedAt',
+    ...(featuredPost
+      ? {
+          where: {
+            id: {
+              not_equals: featuredPost.id,
+            },
+          },
+        }
+      : {}),
   })
 
   return (
@@ -71,12 +83,22 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
+  const featuredPost = await getFeaturedPost(payload)
   const { totalDocs } = await payload.count({
     collection: 'posts',
     overrideAccess: false,
+    ...(featuredPost
+      ? {
+          where: {
+            id: {
+              not_equals: featuredPost.id,
+            },
+          },
+        }
+      : {}),
   })
 
-  const totalPages = Math.ceil(totalDocs / 10)
+  const totalPages = Math.ceil(totalDocs / 12)
 
   const pages: { pageNumber: string }[] = []
 

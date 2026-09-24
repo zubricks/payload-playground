@@ -15,12 +15,21 @@ import { draftMode } from 'next/headers'
 
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
+import { getCachedGlobal } from '@/utilities/getGlobals'
+import { defaultBrandTheme, isBrandTheme } from '@/brandThemes'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
+  const brandTheme = await getCachedGlobal('brand-theme', 0)()
+  const preset = isBrandTheme(brandTheme?.preset) ? brandTheme.preset : defaultBrandTheme
 
   return (
-    <html className={cn(GeistSans.variable, GeistMono.variable)} lang="en" suppressHydrationWarning>
+    <html
+      className={cn(GeistSans.variable, GeistMono.variable)}
+      data-brand-theme={preset}
+      lang="en"
+      suppressHydrationWarning
+    >
       <head>
         <InitTheme />
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
@@ -34,9 +43,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             }}
           />
 
-          <Header />
+          <Header brandTheme={preset} />
           {children}
-          <Footer />
+          <Footer brandTheme={preset} />
         </Providers>
       </body>
     </html>

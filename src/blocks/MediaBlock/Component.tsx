@@ -35,7 +35,7 @@ export const MediaBlock: React.FC<Props> = (props) => {
   return (
     <div
       className={cn(
-        '',
+        'site-media-block',
         {
           container: enableGutter,
         },
@@ -44,7 +44,11 @@ export const MediaBlock: React.FC<Props> = (props) => {
     >
       {(media || staticImage) && (
         <Media
-          imgClassName={cn('border border-border rounded-[0.8rem]', imgClassName)}
+          imgClassName={cn(
+            'site-media-block__image border border-border rounded-[0.8rem]',
+            imgClassName,
+          )}
+          pictureClassName="site-media-block__picture"
           resource={media}
           src={staticImage}
         />

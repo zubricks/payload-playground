@@ -11,6 +11,7 @@ import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
+import { BrandTheme } from './BrandTheme/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
@@ -114,6 +115,7 @@ export default buildConfig({
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below.
       beforeLogin: ['@/components/BeforeLogin'],
+      providers: ['@/components/BrandThemeProvider#AdminBrandThemeProvider'],
       userMenuSettingsItems: [
         {
           group: 'Density',
@@ -186,7 +188,7 @@ export default buildConfig({
     Users,
   ],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer],
+  globals: [Header, Footer, BrandTheme],
   plugins,
   secret: process.env.PAYLOAD_SECRET,
   sharp,

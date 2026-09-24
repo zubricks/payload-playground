@@ -38,16 +38,18 @@ Payload documentation repository until the published guide is available to link 
 
 ## What the starter demonstrates
 
-| Area              | What to explore                                                        | Source                                                                             |
-| ----------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| Modular dashboard | Default layout, widget registration, width constraints                 | [`src/payload.config.ts`](src/payload.config.ts)                                   |
-| Dashboard widgets | Permission-aware server queries and reusable Payload components        | [`src/components/ContentStudioDashboard`](src/components/ContentStudioDashboard)   |
-| v3/v4 comparison  | Native tooltip, dialog, tabs, buttons, pills, and code comparison      | [`StyleComparison.tsx`](src/components/ContentStudioDashboard/StyleComparison.tsx) |
-| UI Lab            | Custom Admin view using fields, cards, drawers, banners, and buttons   | [`src/components/UILab`](src/components/UILab)                                     |
-| Custom text field | A large `TextInput` with validation state and a search preview         | [`src/components/HeadlineWorkbench`](src/components/HeadlineWorkbench)             |
-| Admin theme       | Brand, surface, typography, spacing, radius, and control tokens        | [`src/app/(payload)/custom.css`](<src/app/(payload)/custom.css>)                   |
-| v3 reference      | Dormant show-and-tell CSS illustrating the old selector-heavy approach | [`custom.v3-reference.css`](<src/app/(payload)/custom.v3-reference.css>)           |
-| Demo content      | Posts, pages, media, forms, submissions, and useful widget states      | [`src/endpoints/seed`](src/endpoints/seed)                                         |
+| Area               | What to explore                                                        | Source                                                                             |
+| ------------------ | ---------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| Modular dashboard  | Default layout, widget registration, width constraints                 | [`src/payload.config.ts`](src/payload.config.ts)                                   |
+| Dashboard widgets  | Permission-aware server queries and reusable Payload components        | [`src/components/ContentStudioDashboard`](src/components/ContentStudioDashboard)   |
+| v3/v4 comparison   | Native tooltip, dialog, tabs, buttons, pills, and code comparison      | [`StyleComparison.tsx`](src/components/ContentStudioDashboard/StyleComparison.tsx) |
+| UI Lab             | Custom Admin view using fields, cards, drawers, banners, and buttons   | [`src/components/UILab`](src/components/UILab)                                     |
+| Custom text field  | A large `TextInput` with validation state and a search preview         | [`src/components/HeadlineWorkbench`](src/components/HeadlineWorkbench)             |
+| Shared brand theme | Visual homepage presets controlling the website and Payload Admin      | [`src/BrandTheme`](src/BrandTheme)                                                 |
+| Theme hero imagery | Hand-picked, repository-owned homepage imagery per custom theme        | [`src/brandThemes.ts`](src/brandThemes.ts)                                         |
+| Theme tokens       | Brand, surface, typography, spacing, radius, and control tokens        | [`src/app/(payload)/custom.css`](<src/app/(payload)/custom.css>)                   |
+| v3 reference       | Dormant show-and-tell CSS illustrating the old selector-heavy approach | [`custom.v3-reference.css`](<src/app/(payload)/custom.v3-reference.css>)           |
+| Demo content       | Posts, pages, media, forms, submissions, and useful widget states      | [`src/endpoints/seed`](src/endpoints/seed)                                         |
 
 ## Quick start
 
@@ -104,12 +106,18 @@ dashboard-specific fixtures live in
 
 ## Suggested learning path
 
-1. Open the dashboard and resize or reorder its widgets.
-2. Open **Compare v3 → v4** in the welcome widget.
-3. Open **UI Lab** to see Payload components used in a fully custom view.
-4. Edit a Page or Post title to use the custom Headline Workbench field.
-5. Change the brand and surface values in `custom.css` and watch the Admin components update together.
-6. Read the widget registration and server/client composition examples in
+1. Open **Settings → Theme**, switch the project-wide preset, save it, and compare the Admin with the
+   website.
+2. Add a hand-picked hero asset for each custom preset in `public/theme-heroes`, then reference it
+   from `src/brandThemes.ts`.
+3. Use the account menu to change light/dark mode or density without changing the project brand.
+4. Resize or reorder the dashboard widgets and confirm the same components work in both presets.
+5. Open **Compare v3 → v4** in the welcome widget.
+6. Open **UI Lab** to see Payload components used in a fully custom view.
+7. Edit a Page or Post title to use the custom Headline Workbench field.
+8. Change the Northstar semantic values in the Admin and frontend stylesheets and watch their
+   respective components update together.
+9. Read the widget registration and server/client composition examples in
    [Admin patterns](docs/ADMIN-PATTERNS.md).
 
 ## Foundation versus demo material
@@ -121,6 +129,7 @@ The project intentionally separates reusable architecture from explanatory mater
 - Permission-aware Local API queries in dashboard widgets
 - Server components with small client-component islands
 - Semantic theme tokens and Payload spacing/type primitives
+- A server-rendered brand theme shared by the website and Admin UI
 - Widget registration and width constraints
 - Custom fields composed from `@payloadcms/ui`
 - The standard website features: drafts, live preview, SEO, search, forms, and redirects

@@ -21,7 +21,7 @@ const collections: CollectionSlug[] = [
   'search',
 ]
 
-const globals = ['header', 'footer'] as const satisfies GlobalSlug[]
+const navigationGlobals = ['header', 'footer'] as const satisfies GlobalSlug[]
 
 const categories = ['Technology', 'News', 'Finance', 'Design', 'Software', 'Engineering']
 
@@ -46,7 +46,7 @@ export const seed = async ({
 
   // clear the database
   await Promise.all(
-    globals.map((global) =>
+    navigationGlobals.map((global) =>
       payload.updateGlobal({
         slug: global,
         data: {
@@ -59,6 +59,17 @@ export const seed = async ({
       }),
     ),
   )
+
+  await payload.updateGlobal({
+    slug: 'brand-theme',
+    data: {
+      preset: 'northstar',
+    },
+    depth: 0,
+    context: {
+      disableRevalidate: true,
+    },
+  })
 
   await Promise.all(
     collections.map((collection) => payload.db.deleteMany({ collection, req, where: {} })),
@@ -106,6 +117,7 @@ export const seed = async ({
         name: 'Demo Author',
         email: 'demo-author@example.com',
         password: 'password',
+        role: 'content-editor',
       },
     }),
     payload.create({
@@ -229,14 +241,18 @@ export const seed = async ({
     }),
   ])
 
+  const demoPages = []
+
   for (const page of dashboardPages({ images: [image1Doc, image2Doc, image3Doc] })) {
-    await payload.create({
+    const demoPage = await payload.create({
       collection: 'pages',
       context: { disableRevalidate: true },
       data: page,
       depth: 0,
       draft: page._status === 'draft',
     })
+
+    demoPages.push(demoPage)
   }
 
   payload.logger.info(`— Seeding form submissions...`)
@@ -265,6 +281,21 @@ export const seed = async ({
       data: {
         navItems: [
           {
+            kind: 'dropdown',
+            dropdownLabel: 'Explore',
+            dropdownItems: demoPages.map((page) => ({
+              link: {
+                type: 'reference' as const,
+                label: page.title,
+                reference: {
+                  relationTo: 'pages' as const,
+                  value: page.id,
+                },
+              },
+            })),
+          },
+          {
+            kind: 'link',
             link: {
               type: 'custom',
               label: 'Posts',
@@ -272,6 +303,7 @@ export const seed = async ({
             },
           },
           {
+            kind: 'link',
             link: {
               type: 'reference',
               label: 'Contact',
@@ -312,6 +344,12 @@ export const seed = async ({
             },
           },
         ],
+      },
+    }),
+    payload.updateGlobal({
+      slug: 'brand-theme',
+      data: {
+        preset: 'northstar',
       },
     }),
   ])
