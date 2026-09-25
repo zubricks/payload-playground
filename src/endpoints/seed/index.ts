@@ -10,6 +10,7 @@ import { imageHero1 } from './image-hero-1'
 import { post1 } from './post-1'
 import { post2 } from './post-2'
 import { post3 } from './post-3'
+import { createPageTemplateSnapshot } from '@/plugins/pageTemplates'
 
 const collections: CollectionSlug[] = [
   'categories',
@@ -19,6 +20,7 @@ const collections: CollectionSlug[] = [
   'forms',
   'form-submissions',
   'search',
+  'page-templates',
 ]
 
 const navigationGlobals = ['header', 'footer'] as const satisfies GlobalSlug[]
@@ -36,6 +38,8 @@ export const seed = async ({
   payload: Payload
   req: PayloadRequest
 }): Promise<void> => {
+  const systemOperation = { overrideAccess: true as const, req }
+
   payload.logger.info('Seeding database...')
 
   // we need to clear the media directory before seeding
@@ -48,6 +52,7 @@ export const seed = async ({
   await Promise.all(
     navigationGlobals.map((global) =>
       payload.updateGlobal({
+        ...systemOperation,
         slug: global,
         data: {
           navItems: [],
@@ -61,6 +66,7 @@ export const seed = async ({
   )
 
   await payload.updateGlobal({
+    ...systemOperation,
     slug: 'brand-theme',
     data: {
       preset: 'northstar',
@@ -84,6 +90,7 @@ export const seed = async ({
   payload.logger.info(`— Seeding demo author and user...`)
 
   await payload.delete({
+    ...systemOperation,
     collection: 'users',
     depth: 0,
     where: {
@@ -112,6 +119,7 @@ export const seed = async ({
 
   const [demoAuthor, image1Doc, image2Doc, image3Doc, imageHomeDoc] = await Promise.all([
     payload.create({
+      ...systemOperation,
       collection: 'users',
       data: {
         name: 'Demo Author',
@@ -121,27 +129,32 @@ export const seed = async ({
       },
     }),
     payload.create({
+      ...systemOperation,
       collection: 'media',
       data: image1,
       file: image1Buffer,
     }),
     payload.create({
+      ...systemOperation,
       collection: 'media',
       data: image2,
       file: image2Buffer,
     }),
     payload.create({
+      ...systemOperation,
       collection: 'media',
       data: image2,
       file: image3Buffer,
     }),
     payload.create({
+      ...systemOperation,
       collection: 'media',
       data: imageHero1,
       file: hero1Buffer,
     }),
     categories.map((category) =>
       payload.create({
+        ...systemOperation,
         collection: 'categories',
         data: {
           title: category,
@@ -156,6 +169,7 @@ export const seed = async ({
   // Do not create posts with `Promise.all` because we want the posts to be created in order
   // This way we can sort them by `createdAt` or `publishedAt` and they will be in the expected order
   const post1Doc = await payload.create({
+    ...systemOperation,
     collection: 'posts',
     depth: 0,
     context: {
@@ -165,6 +179,7 @@ export const seed = async ({
   })
 
   const post2Doc = await payload.create({
+    ...systemOperation,
     collection: 'posts',
     depth: 0,
     context: {
@@ -174,6 +189,7 @@ export const seed = async ({
   })
 
   const post3Doc = await payload.create({
+    ...systemOperation,
     collection: 'posts',
     depth: 0,
     context: {
@@ -187,6 +203,7 @@ export const seed = async ({
     images: [image1Doc, image2Doc, image3Doc],
   })) {
     await payload.create({
+      ...systemOperation,
       collection: 'posts',
       context: { disableRevalidate: true },
       data: post,
@@ -197,6 +214,7 @@ export const seed = async ({
 
   // update each post with related posts
   await payload.update({
+    ...systemOperation,
     id: post1Doc.id,
     collection: 'posts',
     data: {
@@ -204,6 +222,7 @@ export const seed = async ({
     },
   })
   await payload.update({
+    ...systemOperation,
     id: post2Doc.id,
     collection: 'posts',
     data: {
@@ -211,6 +230,7 @@ export const seed = async ({
     },
   })
   await payload.update({
+    ...systemOperation,
     id: post3Doc.id,
     collection: 'posts',
     data: {
@@ -221,6 +241,7 @@ export const seed = async ({
   payload.logger.info(`— Seeding contact form...`)
 
   const contactForm = await payload.create({
+    ...systemOperation,
     collection: 'forms',
     depth: 0,
     data: contactFormData,
@@ -228,13 +249,15 @@ export const seed = async ({
 
   payload.logger.info(`— Seeding pages...`)
 
-  const [_, contactPage] = await Promise.all([
+  const [homePage, contactPage] = await Promise.all([
     payload.create({
+      ...systemOperation,
       collection: 'pages',
       depth: 0,
       data: home({ heroImage: imageHomeDoc, metaImage: image2Doc }),
     }),
     payload.create({
+      ...systemOperation,
       collection: 'pages',
       depth: 0,
       data: contactPageData({ contactForm: contactForm }),
@@ -245,6 +268,7 @@ export const seed = async ({
 
   for (const page of dashboardPages({ images: [image1Doc, image2Doc, image3Doc] })) {
     const demoPage = await payload.create({
+      ...systemOperation,
       collection: 'pages',
       context: { disableRevalidate: true },
       data: page,
@@ -255,10 +279,46 @@ export const seed = async ({
     demoPages.push(demoPage)
   }
 
+  const servicesPage = demoPages.find((page) => page.slug === 'services')
+
+  await Promise.all([
+    payload.create({
+      ...systemOperation,
+      collection: 'page-templates',
+      data: {
+        ...createPageTemplateSnapshot(homePage),
+        _status: 'published',
+        description:
+          'A complete campaign page with a hero, content sections, media, and calls to action.',
+        thumbnail: imageHomeDoc.id,
+        title: 'Campaign landing page',
+      } as never,
+      draft: false,
+    }),
+    ...(servicesPage
+      ? [
+          payload.create({
+            ...systemOperation,
+            collection: 'page-templates',
+            data: {
+              ...createPageTemplateSnapshot(servicesPage),
+              _status: 'published',
+              description:
+                'A focused content page for services, capabilities, or company information.',
+              thumbnail: image2Doc.id,
+              title: 'Standard content page',
+            } as never,
+            draft: false,
+          }),
+        ]
+      : []),
+  ])
+
   payload.logger.info(`— Seeding form submissions...`)
 
   for (const submission of dashboardFormSubmissions) {
     await payload.create({
+      ...systemOperation,
       collection: 'form-submissions',
       data: {
         createdAt: submission.createdAt,
@@ -277,6 +337,7 @@ export const seed = async ({
 
   await Promise.all([
     payload.updateGlobal({
+      ...systemOperation,
       slug: 'header',
       data: {
         navItems: [
@@ -317,6 +378,7 @@ export const seed = async ({
       },
     }),
     payload.updateGlobal({
+      ...systemOperation,
       slug: 'footer',
       data: {
         navItems: [
@@ -347,6 +409,7 @@ export const seed = async ({
       },
     }),
     payload.updateGlobal({
+      ...systemOperation,
       slug: 'brand-theme',
       data: {
         preset: 'northstar',

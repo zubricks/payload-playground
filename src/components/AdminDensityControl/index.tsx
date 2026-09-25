@@ -20,11 +20,10 @@ function useAdminDensity() {
   useEffect(() => {
     const syncDensity = () => {
       const savedDensity = window.localStorage.getItem(storageKey)
+      const nextDensity = isDensity(savedDensity) ? savedDensity : 'comfortable'
 
-      if (isDensity(savedDensity)) {
-        setDensity(savedDensity)
-        document.documentElement.dataset.density = savedDensity
-      }
+      setDensity(nextDensity)
+      document.documentElement.dataset.density = nextDensity
     }
 
     const syncStoredDensity = (event: StorageEvent) => {

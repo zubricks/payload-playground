@@ -12,6 +12,7 @@ import { beforeSyncWithSearch } from '@/search/beforeSync'
 
 import { Page, Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
+import { pageTemplatesPlugin } from './pageTemplates'
 
 const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
   return doc?.title ? `${doc.title} | Payload Website Template` : 'Payload Website Template'
@@ -24,6 +25,16 @@ const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
 }
 
 export const plugins: Plugin[] = [
+  pageTemplatesPlugin({
+    collection: 'pages',
+    structuralFields: [
+      'hero.type',
+      'layout',
+      'layout.content.columns',
+      'layout.content.columns.*.size',
+    ],
+    templateFields: ['hero', 'layout', 'meta'],
+  }),
   redirectsPlugin({
     collections: ['pages', 'posts'],
     overrides: {

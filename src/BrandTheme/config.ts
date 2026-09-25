@@ -6,7 +6,7 @@ import { revalidateBrandTheme } from './hooks/revalidateBrandTheme'
 
 export const BrandTheme: GlobalConfig = {
   slug: 'brand-theme',
-  label: 'Theme',
+  label: 'Website Theme',
   admin: {
     group: 'Settings',
   },
@@ -23,7 +23,7 @@ export const BrandTheme: GlobalConfig = {
           Field: '@/components/BrandThemeSelector',
         },
         description:
-          'Choose the project-wide brand theme. It is applied to both the website and the Payload Admin UI.',
+          'Choose the project-wide website theme. Admin UI appearance is a separate personal setting.',
       },
       defaultValue: defaultBrandTheme,
       options: [...brandThemeOptions],

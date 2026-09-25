@@ -56,7 +56,6 @@ export const BrandThemeSelector: RadioFieldClientComponent = ({
                 id={inputID}
                 name={path}
                 onChange={() => {
-                  document.documentElement.dataset.brandTheme = theme.value
                   setValue(theme.value)
                 }}
                 type="radio"

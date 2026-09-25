@@ -30,7 +30,7 @@ export const Users: CollectionConfig = {
         update: ({ req: { user } }) => isSiteAdmin(user),
       },
       admin: {
-        description: 'Site Admins can manage the shared brand theme and other project settings.',
+        description: 'Site Admins can manage the shared website theme and other project settings.',
         position: 'sidebar',
       },
       defaultValue: 'site-admin',

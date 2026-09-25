@@ -122,6 +122,7 @@ export interface Config {
     media: Media;
     categories: Category;
     users: User;
+    'page-templates': PageTemplate;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -140,6 +141,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    'page-templates': PageTemplatesSelect<false> | PageTemplatesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -229,6 +231,16 @@ export interface Folder {
  */
 export interface Page {
   id: string;
+  pageTemplate?: (string | null) | PageTemplate;
+  pageTemplateStructure?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   /**
    * Write a concise page title that is easy to scan and find.
    */
@@ -278,19 +290,51 @@ export interface Page {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Create and edit reusable page structures with the same fields used by Pages.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts".
+ * via the `definition` "page-templates".
  */
-export interface Post {
+export interface PageTemplate {
   id: string;
-  /**
-   * Write a clear headline that will work in navigation, search, and social.
-   */
   title: string;
-  heroImage?: (string | null) | Media;
-  content: LexicalRichText<LexicalNodes_658A03C4>;
-  relatedPosts?: (string | Post)[] | null;
-  categories?: (string | Category)[] | null;
+  /**
+   * Explain when an editor should choose this template.
+   */
+  description?: string | null;
+  thumbnail?: (string | null) | Media;
+  hero?: {
+    type?: ('none' | 'highImpact' | 'mediumImpact' | 'lowImpact') | null;
+    richText?: LexicalRichText<LexicalNodes_106E6C8F> | null;
+    links?:
+      | {
+          link?: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            reference?:
+              | ({
+                  relationTo: 'pages';
+                  value: string | Page;
+                } | null)
+              | ({
+                  relationTo: 'posts';
+                  value: string | Post;
+                } | null);
+            url?: string | null;
+            label?: string | null;
+            /**
+             * Choose how the link should be rendered.
+             */
+            appearance?: ('default' | 'outline') | null;
+          };
+          id?: string | null;
+        }[]
+      | null;
+    media?: (string | null) | Media;
+  };
+  layout?:
+    | (CallToActionBlock_20BE8F62 | ContentBlock_BC22FA80 | MediaBlock_D4C1213F | ArchiveBlock | FormBlock_A2E297A9)[]
+    | null;
   meta?: {
     title?: string | null;
     /**
@@ -299,19 +343,15 @@ export interface Post {
     image?: (string | null) | Media;
     description?: string | null;
   };
-  /**
-   * The newest published post with this enabled becomes the featured story on the posts page.
-   */
-  featured?: boolean | null;
-  publishedAt?: string | null;
-  authors?: (string | User)[] | null;
-  populatedAuthors?:
+  snapshot?:
     | {
-        id?: string | null;
-        name?: string | null;
-      }[]
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
     | null;
-  slug: string;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -397,6 +437,45 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts".
+ */
+export interface Post {
+  id: string;
+  /**
+   * Write a clear headline that will work in navigation, search, and social.
+   */
+  title: string;
+  heroImage?: (string | null) | Media;
+  content: LexicalRichText<LexicalNodes_658A03C4>;
+  relatedPosts?: (string | Post)[] | null;
+  categories?: (string | Category)[] | null;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+    description?: string | null;
+  };
+  /**
+   * The newest published post with this enabled becomes the featured story on the posts page.
+   */
+  featured?: boolean | null;
+  publishedAt?: string | null;
+  authors?: (string | User)[] | null;
+  populatedAuthors?:
+    | {
+        id?: string | null;
+        name?: string | null;
+      }[]
+    | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categories".
  */
 export interface Category {
@@ -423,7 +502,7 @@ export interface User {
   id: string;
   name?: string | null;
   /**
-   * Site Admins can manage the shared brand theme and other project settings.
+   * Site Admins can manage the shared website theme and other project settings.
    */
   role: 'site-admin' | 'content-editor';
   updatedAt: string;
@@ -447,14 +526,16 @@ export interface User {
   collection: 'users';
 }
 /**
+ * Multiple blocks resolve to the `CallToActionBlock` interface with different fields, so a content hash is appended to keep the generated types stable and unambiguous. Set a unique `interfaceName` on the block to choose the name yourself. See https://payloadcms.com/docs/typescript/generating-types#block-interface-name-collisions
+ *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CallToActionBlock".
+ * via the `definition` "CallToActionBlock_20BE8F62".
  */
-export interface CallToActionBlock {
+export interface CallToActionBlock_20BE8F62 {
   richText?: LexicalRichText<LexicalNodes_106E6C8F> | null;
   links?:
     | {
-        link: {
+        link?: {
           type?: ('reference' | 'custom') | null;
           newTab?: boolean | null;
           reference?:
@@ -467,7 +548,7 @@ export interface CallToActionBlock {
                 value: string | Post;
               } | null);
           url?: string | null;
-          label: string;
+          label?: string | null;
           /**
            * Choose how the link should be rendered.
            */
@@ -481,10 +562,12 @@ export interface CallToActionBlock {
   blockType: 'cta';
 }
 /**
+ * Multiple blocks resolve to the `ContentBlock` interface with different fields, so a content hash is appended to keep the generated types stable and unambiguous. Set a unique `interfaceName` on the block to choose the name yourself. See https://payloadcms.com/docs/typescript/generating-types#block-interface-name-collisions
+ *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ContentBlock".
+ * via the `definition` "ContentBlock_BC22FA80".
  */
-export interface ContentBlock {
+export interface ContentBlock_BC22FA80 {
   columns?:
     | {
         size?: ('oneThird' | 'half' | 'twoThirds' | 'full') | null;
@@ -503,7 +586,7 @@ export interface ContentBlock {
                 value: string | Post;
               } | null);
           url?: string | null;
-          label: string;
+          label?: string | null;
           /**
            * Choose how the link should be rendered.
            */
@@ -517,11 +600,13 @@ export interface ContentBlock {
   blockType: 'content';
 }
 /**
+ * Multiple blocks resolve to the `MediaBlock` interface with different fields, so a content hash is appended to keep the generated types stable and unambiguous. Set a unique `interfaceName` on the block to choose the name yourself. See https://payloadcms.com/docs/typescript/generating-types#block-interface-name-collisions
+ *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "MediaBlock".
+ * via the `definition` "MediaBlock_D4C1213F".
  */
-export interface MediaBlock {
-  media: string | Media;
+export interface MediaBlock_D4C1213F {
+  media?: (string | null) | Media;
   id?: string | null;
   blockName?: string | null;
   blockType: 'mediaBlock';
@@ -547,11 +632,13 @@ export interface ArchiveBlock {
   blockType: 'archive';
 }
 /**
+ * Multiple blocks resolve to the `FormBlock` interface with different fields, so a content hash is appended to keep the generated types stable and unambiguous. Set a unique `interfaceName` on the block to choose the name yourself. See https://payloadcms.com/docs/typescript/generating-types#block-interface-name-collisions
+ *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FormBlock".
+ * via the `definition` "FormBlock_A2E297A9".
  */
-export interface FormBlock {
-  form: string | Form;
+export interface FormBlock_A2E297A9 {
+  form?: (string | null) | Form;
   enableIntro?: boolean | null;
   introContent?: LexicalRichText<LexicalNodes_106E6C8F> | null;
   id?: string | null;
@@ -713,6 +800,98 @@ export interface Textarea {
   id?: string | null;
   blockName?: string | null;
   blockType: 'textarea';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CallToActionBlock".
+ */
+export interface CallToActionBlock {
+  richText?: LexicalRichText<LexicalNodes_106E6C8F> | null;
+  links?:
+    | {
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: string | Page;
+              } | null)
+            | ({
+                relationTo: 'posts';
+                value: string | Post;
+              } | null);
+          url?: string | null;
+          label: string;
+          /**
+           * Choose how the link should be rendered.
+           */
+          appearance?: ('default' | 'outline') | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'cta';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContentBlock".
+ */
+export interface ContentBlock {
+  columns?:
+    | {
+        size?: ('oneThird' | 'half' | 'twoThirds' | 'full') | null;
+        richText?: LexicalRichText<LexicalNodes_D0F9AE76> | null;
+        enableLink?: boolean | null;
+        link?: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: string | Page;
+              } | null)
+            | ({
+                relationTo: 'posts';
+                value: string | Post;
+              } | null);
+          url?: string | null;
+          label: string;
+          /**
+           * Choose how the link should be rendered.
+           */
+          appearance?: ('default' | 'outline') | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'content';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MediaBlock".
+ */
+export interface MediaBlock {
+  media: string | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'mediaBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FormBlock".
+ */
+export interface FormBlock {
+  form: string | Form;
+  enableIntro?: boolean | null;
+  introContent?: LexicalRichText<LexicalNodes_106E6C8F> | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'formBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -947,6 +1126,10 @@ export interface PayloadLockedDocument {
         value: string | User;
       } | null)
     | ({
+        relationTo: 'page-templates';
+        value: string | PageTemplate;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: string | Redirect;
       } | null)
@@ -1021,6 +1204,8 @@ export interface FoldersSelect<T extends boolean = true> {
  * via the `definition` "pages_select".
  */
 export interface PagesSelect<T extends boolean = true> {
+  pageTemplate?: T;
+  pageTemplateStructure?: T;
   title?: T;
   hero?:
     | T
@@ -1318,6 +1503,57 @@ export interface UsersSelect<T extends boolean = true> {
         createdAt?: T;
         expiresAt?: T;
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-templates_select".
+ */
+export interface PageTemplatesSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  thumbnail?: T;
+  hero?:
+    | T
+    | {
+        type?: T;
+        richText?: T;
+        links?:
+          | T
+          | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                    appearance?: T;
+                  };
+              id?: T;
+            };
+        media?: T;
+      };
+  layout?:
+    | T
+    | {
+        cta?: T | CallToActionBlockSelect<T>;
+        content?: T | ContentBlockSelect<T>;
+        mediaBlock?: T | MediaBlockSelect<T>;
+        archive?: T | ArchiveBlockSelect<T>;
+        formBlock?: T | FormBlockSelect<T>;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
+  snapshot?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1678,7 +1914,7 @@ export interface Footer {
 export interface BrandTheme {
   id: string;
   /**
-   * Choose the project-wide brand theme. It is applied to both the website and the Payload Admin UI.
+   * Choose the project-wide website theme. Admin UI appearance is a separate personal setting.
    */
   preset: 'payload' | 'northstar';
   updatedAt?: string | null;
@@ -1888,6 +2124,7 @@ export interface CollectionQueryWidget {
       | 'media'
       | 'categories'
       | 'users'
+      | 'page-templates'
       | 'redirects'
       | 'forms'
       | 'form-submissions'
@@ -1921,6 +2158,7 @@ export interface ActivityWidget {
           | 'media'
           | 'categories'
           | 'users'
+          | 'page-templates'
           | 'redirects'
           | 'forms'
           | 'form-submissions'
