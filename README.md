@@ -1,195 +1,129 @@
-# Payload v4 Admin Starter
+# Payload v4 Admin UI Starter
 
-An opinionated Payload starter for building polished, client-facing Admin experiences. It combines
-the official website template with a modular dashboard, custom views, reusable `@payloadcms/ui`
-components, semantic theming, realistic seed data, and practical Payload v3 → v4 migration examples.
+This project starts with Payload's website template, then replaces the generic dashboard experience
+with configurable widgets, custom views, project-owned Admin styling, and components from
+`@payloadcms/ui`. It is both a usable starter and a side-by-side demonstration of the Admin UI
+patterns that changed between v3 and v4.
 
 > [!IMPORTANT]
-> This project currently uses Payload `4.0.0-canary.34`. Canary releases are useful for exploring
-> v4, but pin and test the version carefully before using this starter in production.
+> This project currently uses Payload
+> [`4.0.0-beta.3`](https://github.com/payloadcms/payload/releases/tag/v4.0.0-beta.3). Pin the version
+> and test the full upgrade path before applying these patterns to a production project.
 
-## Who this is for
+Payload v3 could be customized extensively, but deep Admin styling often meant targeting internal
+class names and reproducing states component by component. That CSS was difficult to reason about,
+especially across light and dark modes, and could be fragile during upgrades.
 
-### Starting a new Payload project
+Payload v4 provides a better foundation:
 
-Use the included patterns to learn how to:
+- Semantic design roles can change a family of components from one shared value.
+- Components from `@payloadcms/ui` can be used in project-owned views and widgets.
+- Dashboard widgets can be registered, resized, reordered, added, and removed by users.
+- Custom experiences can retain Payload's interaction, validation, accessibility, and color-mode
+  behavior instead of rebuilding it.
 
-- Register modular dashboard widgets that users can add, remove, resize, and reorder.
-- Query Payload safely from server-rendered widgets.
-- Add client-side interaction only where it is needed.
-- Build custom views and fields with components from `@payloadcms/ui`.
-- Brand the Admin UI with semantic design tokens instead of internal selectors.
-- Seed realistic pages, posts, media, forms, and submissions.
+The result here is deliberately more than a reskin. It demonstrates how native Payload components
+and custom product UI can operate as one system.
 
-Start with [Admin patterns](docs/ADMIN-PATTERNS.md).
+## What is implemented
 
-### Upgrading from Payload v3
+### Configurable dashboard
 
-Use the project as a working migration reference for:
+The primary dashboard uses Payload's widget system rather than a single hard-coded custom view.
+Editors can personalize the layout while the project supplies a useful default arrangement.
 
-- Replacing elevation-based variables with semantic color roles.
-- Replacing implementation-specific CSS selectors with supported component props and shared tokens.
-- Moving custom inputs onto v4's shared form primitives.
-- Rebuilding a bespoke dashboard as configurable widgets.
-- Comparing representative v3 and v4 styling directly inside the Admin UI.
+The included widgets demonstrate:
 
-Start with the [official Payload 3.0 → 4.0 migration guide](docs/v4.mdx), copied verbatim from the
-Payload documentation repository until the published guide is available to link directly.
+- Permission-aware Local API queries
+- Server-rendered data with small client-component boundaries
+- Width-aware layouts for small, medium, and full-width placements
+- Native Payload buttons, pills, tabs, thumbnails, tooltips, and dialogs
+- Recent content, editorial priorities, SEO health, forms, quick access, and media states
 
-## What the starter demonstrates
+See [`src/components/ContentStudioDashboard`](src/components/ContentStudioDashboard) and the widget
+registration in [`src/payload.config.ts`](src/payload.config.ts).
 
-| Area               | What to explore                                                        | Source                                                                             |
-| ------------------ | ---------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| Modular dashboard  | Default layout, widget registration, width constraints                 | [`src/payload.config.ts`](src/payload.config.ts)                                   |
-| Dashboard widgets  | Permission-aware server queries and reusable Payload components        | [`src/components/ContentStudioDashboard`](src/components/ContentStudioDashboard)   |
-| v3/v4 comparison   | Native tooltip, dialog, tabs, buttons, pills, and code comparison      | [`StyleComparison.tsx`](src/components/ContentStudioDashboard/StyleComparison.tsx) |
-| UI Lab             | Custom Admin view using fields, cards, drawers, banners, and buttons   | [`src/components/UILab`](src/components/UILab)                                     |
-| Custom text field  | A large `TextInput` with validation state and a search preview         | [`src/components/HeadlineWorkbench`](src/components/HeadlineWorkbench)             |
-| Shared brand theme | Visual homepage presets controlling the website and Payload Admin      | [`src/BrandTheme`](src/BrandTheme)                                                 |
-| Theme hero imagery | Hand-picked, repository-owned homepage imagery per custom theme        | [`src/brandThemes.ts`](src/brandThemes.ts)                                         |
-| Theme tokens       | Brand, surface, typography, spacing, radius, and control tokens        | [`src/app/(payload)/custom.css`](<src/app/(payload)/custom.css>)                   |
-| v3 reference       | Dormant show-and-tell CSS illustrating the old selector-heavy approach | [`custom.v3-reference.css`](<src/app/(payload)/custom.v3-reference.css>)           |
-| Demo content       | Posts, pages, media, forms, submissions, and useful widget states      | [`src/endpoints/seed`](src/endpoints/seed)                                         |
+### Project-owned Admin styling
 
-## Quick start
+[`custom.css`](<src/app/(payload)/custom.css>) defines the Light Cream Admin treatment: larger type
+and controls, cream surfaces, green brand roles, shared radii, and explicit light and dark values.
+The file is divided by responsibility so it can be used as a starting point for another brand.
 
-### Requirements
+This is intentionally normal project CSS, not a runtime theme selector or an installable theme
+package. Every editor receives the same branded Admin treatment while Payload's light/dark color-mode
+preference remains available.
+
+### Custom views and fields
+
+[`UI Lab`](src/components/UILab) is a custom Admin route built from `@payloadcms/ui` components. It
+acts as a reference surface for fields, actions, validation, banners, drawers, and other primitives
+outside Payload's standard document views.
+
+[`HeadlineWorkbench`](src/components/HeadlineWorkbench) shows the same approach at field level: a
+native text input, Payload form state, validation feedback, and a project-specific preview composed
+into one editing experience.
+
+### Website foundation
+
+The public site retains the website template's pages, posts, drafts, live preview, layout blocks,
+forms, search, redirects, SEO, header, and footer. It also includes project-level website presets and
+repository-owned hero imagery. Website presentation remains separate from the Admin UI treatment.
+
+## Run the reference project
+
+Requirements:
 
 - Node.js `24.15.0` or newer
 - pnpm 9, 10, or 11
-- MongoDB available locally or through a hosted connection string
+- MongoDB locally or through a hosted connection string
 
-### Run locally
+```bash
+cp .env.example .env
+pnpm install
+pnpm dev
+```
 
-1. Copy the environment file:
+Set `DATABASE_URL` and `PAYLOAD_SECRET` in `.env`, then open
+[http://localhost:3000/admin](http://localhost:3000/admin) and create the first user.
 
-   ```bash
-   cp .env.example .env
-   ```
+To populate every dashboard state:
 
-2. Set at least `DATABASE_URL` and `PAYLOAD_SECRET` in `.env`.
-
-3. Install dependencies and start the development server:
-
-   ```bash
-   pnpm install
-   pnpm dev
-   ```
-
-4. Open [http://localhost:3000/admin](http://localhost:3000/admin) and create the first user.
-
-5. Seed the demo content if you are working with an empty or disposable database:
-
-   ```bash
-   pnpm seed
-   ```
-
-6. Return to the Admin dashboard to explore the populated widgets.
-
-## Seeding
-
-`pnpm seed` creates the content needed to demonstrate every dashboard state, including published and
-draft posts, pages with incomplete SEO, recent media, and form submissions.
+```bash
+pnpm seed
+```
 
 > [!CAUTION]
-> Seeding is destructive. It clears the template's content collections and globals before recreating
-> them. Never run it against a database containing content you need to keep.
+> The seed is destructive. It clears the template's content collections and globals before
+> recreating them. Never run it against a database containing content you need to keep.
 
-The seeded demonstration user is:
+The seed creates pages, published and draft posts, media, incomplete SEO states, forms, submissions,
+header navigation, and a demonstration author:
 
 - Email: `demo-author@example.com`
 - Password: `password`
 
-The seed implementation lives in [`src/endpoints/seed/index.ts`](src/endpoints/seed/index.ts), and the
-dashboard-specific fixtures live in
-[`src/endpoints/seed/dashboard-demo.ts`](src/endpoints/seed/dashboard-demo.ts).
+See [`src/endpoints/seed`](src/endpoints/seed) for the implementation.
 
-## Suggested learning path
+## Using this in an existing project
 
-1. Open **Settings → Theme**, switch the project-wide preset, save it, and compare the Admin with the
-   website.
-2. Add a hand-picked hero asset for each custom preset in `public/theme-heroes`, then reference it
-   from `src/brandThemes.ts`.
-3. Use the account menu to change light/dark mode or density without changing the project brand.
-4. Resize or reorder the dashboard widgets and confirm the same components work in both presets.
-5. Open **Compare v3 → v4** in the welcome widget.
-6. Open **UI Lab** to see Payload components used in a fully custom view.
-7. Edit a Page or Post title to use the custom Headline Workbench field.
-8. Change the Northstar semantic values in the Admin and frontend stylesheets and watch their
-   respective components update together.
-9. Read the widget registration and server/client composition examples in
-   [Admin patterns](docs/ADMIN-PATTERNS.md).
+Treat the repository as a set of patterns, not an all-or-nothing template.
 
-## Foundation versus demo material
+The most reusable pieces are:
 
-The project intentionally separates reusable architecture from explanatory material.
+- Semantic Admin variables from [`custom.css`](<src/app/(payload)/custom.css>)
+- Widget registration and width constraints from [`payload.config.ts`](src/payload.config.ts)
+- Server/client composition from
+  [`ContentStudioDashboard`](src/components/ContentStudioDashboard)
+- Native component composition from [`UI Lab`](src/components/UILab)
+- Custom field integration from [`HeadlineWorkbench`](src/components/HeadlineWorkbench)
 
-### Good foundations to keep
+Expect to replace widget queries, copy, permissions, collection slugs, brand values, and seed data
+with project-specific equivalents. Keep access checks close to every Local API query and verify each
+widget at every width you register.
 
-- Permission-aware Local API queries in dashboard widgets
-- Server components with small client-component islands
-- Semantic theme tokens and Payload spacing/type primitives
-- A server-rendered brand theme shared by the website and Admin UI
-- Widget registration and width constraints
-- Custom fields composed from `@payloadcms/ui`
-- The standard website features: drafts, live preview, SEO, search, forms, and redirects
+The following pieces exist primarily for evaluation and can be removed from a client delivery:
 
-### Customize for each project
-
-- Widget names, queries, and default layout
-- Brand colors, typography, radii, and density
-- Collections, access rules, and seeded content
-- Dashboard copy and quick actions
-- The UI Lab examples that are relevant to your team
-
-### Optional demo material to remove before delivery
-
-- `StyleComparison.tsx` and the **Compare v3 → v4** launcher
+- The **Compare v3 → v4** dashboard action and `StyleComparison.tsx`
 - `custom.v3-reference.css`
-- UI Lab, if the client does not need an internal component reference
-- Dashboard-specific seed fixtures
-- Demo credentials and instructional copy
-
-## Common scripts
-
-| Command                   | Purpose                                                      |
-| ------------------------- | ------------------------------------------------------------ |
-| `pnpm dev`                | Start Payload and Next.js in development mode                |
-| `pnpm seed`               | Destructively replace content with the complete demo dataset |
-| `pnpm build`              | Generate Payload artifacts and create a production build     |
-| `pnpm start`              | Run the production build                                     |
-| `pnpm lint`               | Run ESLint                                                   |
-| `pnpm test:int`           | Run integration tests                                        |
-| `pnpm test:e2e`           | Run Playwright tests                                         |
-| `pnpm generate:types`     | Regenerate Payload TypeScript types manually                 |
-| `pnpm generate:importmap` | Regenerate the Admin import map manually                     |
-
-Payload normally regenerates types and the import map during development and builds, so the manual
-commands are escape hatches rather than routine steps.
-
-## Website features retained from the official template
-
-This starter still includes the production-oriented website foundation:
-
-- Pages and posts with drafts, autosave, scheduled publishing, preview, and live preview
-- Layout-building blocks and Lexical rich text
-- Media, nested categories, forms, redirects, search, and SEO
-- Header and footer globals
-- Authenticated authoring and published-content access rules
-- Next.js frontend routes, on-demand revalidation, sitemap generation, and deployment support
-
-## Production checklist
-
-- Replace all demo credentials and secrets.
-- Choose and pin a Payload version appropriate for production.
-- Review every access rule and Local API call.
-- Remove migration/demo UI that clients should not see.
-- Replace the destructive demo seed workflow with project-specific fixtures or migrations.
-- Verify light and dark themes, keyboard navigation, and responsive widget widths.
-- Run `pnpm lint`, `pnpm test`, and `pnpm build` under the required Node.js version.
-
-## Further reading
-
-- [Admin patterns](docs/ADMIN-PATTERNS.md)
-- [Official Payload 3.0 → 4.0 migration guide](docs/v4.mdx)
-- [Payload documentation](https://payloadcms.com/docs)
+- UI Lab, unless the team wants to retain an internal component reference
+- Dashboard-specific seed fixtures and demo credentials

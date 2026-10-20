@@ -1,11 +1,11 @@
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
-import sharp from 'sharp'
+import { sharpTransformer } from '@payloadcms/transformer-sharp'
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
 
 import { Categories } from './collections/Categories'
-import { Media } from './collections/Media'
+import { Media, mediaSharpOptions } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
@@ -115,17 +115,6 @@ export default buildConfig({
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below.
       beforeLogin: ['@/components/BeforeLogin'],
-      providers: ['@/components/AdminThemeControl#AdminThemeProvider'],
-      userMenuSettingsItems: [
-        {
-          group: 'Admin theme',
-          items: ['@/components/AdminThemeControl#AdminThemeMenuSetting'],
-        },
-        {
-          group: 'Density',
-          items: ['@/components/AdminDensityControl#DensityMenuSetting'],
-        },
-      ],
       views: {
         uiLab: {
           Component: '@/components/UILab',
@@ -195,9 +184,11 @@ export default buildConfig({
   globals: [Header, Footer, BrandTheme],
   plugins,
   secret: process.env.PAYLOAD_SECRET,
-  sharp,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
+  },
+  upload: {
+    transformers: [sharpTransformer({ collections: { media: mediaSharpOptions } })],
   },
   jobs: {
     access: {

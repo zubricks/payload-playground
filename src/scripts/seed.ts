@@ -1,12 +1,12 @@
 import config from '@payload-config'
-import { createLocalReq, getPayload } from 'payload'
+import { createPayloadRequest, getPayload } from 'payload'
 
 import { seed } from '@/endpoints/seed'
 
 const payload = await getPayload({ config })
 
 try {
-  const req = await createLocalReq({}, payload)
+  const req = await createPayloadRequest({ payload })
 
   await seed({ payload, req })
 } finally {

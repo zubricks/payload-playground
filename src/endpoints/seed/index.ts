@@ -10,7 +10,6 @@ import { imageHero1 } from './image-hero-1'
 import { post1 } from './post-1'
 import { post2 } from './post-2'
 import { post3 } from './post-3'
-import { createPageTemplateSnapshot } from '@/plugins/pageTemplates'
 
 const collections: CollectionSlug[] = [
   'categories',
@@ -20,7 +19,6 @@ const collections: CollectionSlug[] = [
   'forms',
   'form-submissions',
   'search',
-  'page-templates',
 ]
 
 const navigationGlobals = ['header', 'footer'] as const satisfies GlobalSlug[]
@@ -249,7 +247,7 @@ export const seed = async ({
 
   payload.logger.info(`— Seeding pages...`)
 
-  const [homePage, contactPage] = await Promise.all([
+  const [, contactPage] = await Promise.all([
     payload.create({
       ...systemOperation,
       collection: 'pages',
@@ -278,41 +276,6 @@ export const seed = async ({
 
     demoPages.push(demoPage)
   }
-
-  const servicesPage = demoPages.find((page) => page.slug === 'services')
-
-  await Promise.all([
-    payload.create({
-      ...systemOperation,
-      collection: 'page-templates',
-      data: {
-        ...createPageTemplateSnapshot(homePage),
-        _status: 'published',
-        description:
-          'A complete campaign page with a hero, content sections, media, and calls to action.',
-        thumbnail: imageHomeDoc.id,
-        title: 'Campaign landing page',
-      } as never,
-      draft: false,
-    }),
-    ...(servicesPage
-      ? [
-          payload.create({
-            ...systemOperation,
-            collection: 'page-templates',
-            data: {
-              ...createPageTemplateSnapshot(servicesPage),
-              _status: 'published',
-              description:
-                'A focused content page for services, capabilities, or company information.',
-              thumbnail: image2Doc.id,
-              title: 'Standard content page',
-            } as never,
-            draft: false,
-          }),
-        ]
-      : []),
-  ])
 
   payload.logger.info(`— Seeding form submissions...`)
 

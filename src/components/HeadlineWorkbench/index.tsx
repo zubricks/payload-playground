@@ -1,7 +1,7 @@
 'use client'
 
 import { TextInput, useField } from '@payloadcms/ui'
-import type { TextFieldClientComponent, Validate } from 'payload'
+import type { TextFieldClientProps, Validate } from 'payload'
 import React, { type ChangeEvent } from 'react'
 
 import './index.css'
@@ -13,7 +13,7 @@ const getSlugPreview = (value: string) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '')
 
-export const HeadlineWorkbench: TextFieldClientComponent = ({
+export const HeadlineWorkbench: React.FC<TextFieldClientProps> = ({
   field,
   path,
   readOnly,

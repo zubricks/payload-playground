@@ -13,12 +13,14 @@
     height: 100%;
     overflow: hidden;
     padding: clamp(1.5rem, 3vw, 2.5rem);
-    border: var(--stroke-width-small) solid var(--color-border);
+    border: var(--stroke-width-small) solid var(--admin-welcome-border, var(--color-border));
     border-radius: 1.5rem;
-    background:
+    background: var(
+      --admin-welcome-background,
       radial-gradient(circle at 92% 0%, var(--ramp-blue-400), transparent 17rem),
-      linear-gradient(135deg, var(--ramp-blue-1000), var(--ramp-blue-800));
-    color: var(--ramp-white-1000);
+      linear-gradient(135deg, var(--ramp-blue-1000), var(--ramp-blue-800))
+    );
+    color: var(--admin-welcome-text, var(--ramp-white-1000));
   }
 
   .content-studio__hero::after {
@@ -27,7 +29,7 @@
     right: 7%;
     width: 12rem;
     height: 12rem;
-    border: 1px solid rgb(255 255 255 / 20%);
+    border: 1px solid var(--admin-welcome-decoration, rgb(255 255 255 / 20%));
     border-radius: var(--radius-full);
     content: '';
   }
@@ -41,7 +43,7 @@
   .content-studio__hero h1 {
     max-width: 17ch;
     margin: var(--spacer-2) 0;
-    color: var(--ramp-white-1000);
+    color: var(--admin-welcome-text, var(--ramp-white-1000));
     font-family: var(--text-heading-large-font-family);
     font-size: clamp(1.75rem, 3vw, 2.75rem);
     font-weight: var(--text-heading-large-font-weight);
@@ -50,7 +52,7 @@
   }
 
   .content-studio__hero p {
-    color: var(--ramp-white-600);
+    color: var(--admin-welcome-text-secondary, var(--ramp-white-600));
     font-size: var(--text-body-large-font-size);
     line-height: var(--text-body-large-line-height);
   }
@@ -64,9 +66,9 @@
   }
 
   .content-studio__hero .btn--style-secondary {
-    border-color: rgb(255 255 255 / 24%);
-    background: rgb(255 255 255 / 10%);
-    color: var(--ramp-white-1000);
+    border-color: var(--admin-welcome-action-border, rgb(255 255 255 / 24%));
+    background: var(--admin-welcome-action-background, rgb(255 255 255 / 10%));
+    color: var(--admin-welcome-action-text, var(--ramp-white-1000));
   }
 
   .style-comparison__content {
@@ -87,6 +89,62 @@
     margin-inline: calc(var(--spacer-1) * -1);
   }
 
+  .style-comparison__impact {
+    padding: var(--spacer-3);
+    border: var(--stroke-width-small) solid var(--color-border);
+    border-radius: var(--radius-large);
+    background: var(--color-bg-secondary);
+  }
+
+  .style-comparison__impact > header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--spacer-3);
+    margin-bottom: var(--spacer-3);
+  }
+
+  .style-comparison__impact > header h3 {
+    margin: var(--spacer-1) 0 0;
+    font-size: var(--text-heading-medium-font-size);
+    line-height: var(--text-heading-medium-line-height);
+  }
+
+  .style-comparison__impact > header > span {
+    color: var(--color-text-secondary);
+    font-size: var(--text-body-small-font-size);
+  }
+
+  .style-comparison__impact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 1fr 1fr;
+    gap: var(--spacer-2);
+  }
+
+  .style-comparison__impact-item {
+    display: flex;
+    min-width: 0;
+    min-height: 5.25rem;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--spacer-2);
+    padding: var(--spacer-2);
+    border: var(--stroke-width-small) dashed var(--color-border);
+    border-radius: var(--radius-medium);
+    background: var(--color-bg);
+  }
+
+  .style-comparison__impact-item > span {
+    color: var(--color-text-secondary);
+    font-size: var(--text-body-small-font-size);
+  }
+
+  .style-comparison__impact-item--field .field-type {
+    width: 100%;
+    margin: 0;
+  }
+
   .style-comparison__example {
     display: flex;
     flex-direction: column;
@@ -95,7 +153,7 @@
 
   .style-comparison__example-copy {
     display: grid;
-    grid-template-columns: minmax(10rem, 0.7fr) minmax(18rem, 1.3fr) auto;
+    grid-template-columns: minmax(10rem, 0.7fr) minmax(18rem, 1.3fr);
     align-items: center;
     gap: var(--spacer-4);
     padding: var(--spacer-3);
@@ -113,18 +171,6 @@
   .style-comparison__example-copy p {
     margin: 0;
     color: var(--color-text-secondary);
-  }
-
-  .style-comparison__preview {
-    display: flex;
-    min-width: 10rem;
-    min-height: 5rem;
-    align-items: center;
-    justify-content: center;
-    padding: var(--spacer-3);
-    border: var(--stroke-width-small) dashed var(--color-border);
-    border-radius: var(--radius-medium);
-    background: var(--color-bg);
   }
 
   .style-comparison__code-grid {
@@ -188,12 +234,22 @@
       grid-template-columns: 1fr;
     }
 
-    .style-comparison__preview {
-      justify-content: flex-start;
+    .style-comparison__impact-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .style-comparison__code-card pre {
       min-height: auto;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .style-comparison__impact > header {
+      flex-direction: column;
+    }
+
+    .style-comparison__impact-grid {
+      grid-template-columns: 1fr;
     }
   }
 
@@ -468,11 +524,11 @@
 
   .content-studio__focus-item:hover strong,
   .content-studio__inbox-item:hover strong {
-    color: var(--color-text-brand);
+    color: var(--admin-dashboard-link, var(--color-text-brand));
   }
 
   .content-studio__focus-number {
-    color: var(--color-text-brand);
+    color: var(--admin-dashboard-focus, var(--color-text-brand));
     font-size: var(--text-body-small-strong-font-size);
     font-weight: var(--text-body-small-strong-font-weight);
   }
@@ -520,8 +576,8 @@
     align-items: center;
     justify-content: center;
     border-radius: var(--radius-full);
-    background: var(--color-bg-brand-tertiary);
-    color: var(--color-text-brand);
+    background: var(--admin-dashboard-avatar-background, var(--color-bg-brand-tertiary));
+    color: var(--admin-dashboard-avatar-text, var(--color-text-brand));
     font-weight: var(--text-body-medium-strong-font-weight);
   }
 
@@ -561,7 +617,7 @@
     display: block;
     height: 100%;
     border-radius: inherit;
-    background: var(--color-bg-brand);
+    background: var(--admin-dashboard-progress, var(--color-bg-brand));
   }
 
   .content-studio__issues {
@@ -581,7 +637,7 @@
   }
 
   .content-studio__issues a:hover span {
-    color: var(--color-text-brand);
+    color: var(--admin-dashboard-link, var(--color-text-brand));
   }
 
   .content-studio__issues strong {
@@ -628,7 +684,7 @@
   }
 
   .content-studio__collections strong {
-    color: var(--color-text-brand);
+    color: var(--admin-dashboard-collection-count, var(--color-text-brand));
     font-size: var(--text-heading-medium-font-size);
   }
 

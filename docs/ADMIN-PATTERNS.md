@@ -106,26 +106,23 @@ import { Button, Pill, Thumbnail } from '@payloadcms/ui'
 This preserves native interaction, focus, disabled, loading, and theme behavior. Use custom markup for
 the product-specific layout around the primitive—not for rebuilding the primitive itself.
 
-## 5. Style with semantic roles
+## 5. Style the Admin with semantic roles
 
-The project-wide brand presets live in the Admin and frontend stylesheets. The Payload preset leaves
-the default tokens untouched, while Northstar Cream changes supported roles such as:
+The project-level `custom.css` changes Payload's supported semantic roles rather than targeting
+individual component classes. Light Cream starts with a comfortable type scale and control size,
+then changes shared color and shape roles:
 
 ```css
-html[data-brand-theme='northstar'] {
-  --color-bg-brand: #83bf78;
+html {
+  --ramp-blue-500: #83bf78;
+  --color-bg: #faf7ed;
   --color-text-onbrand: #fff;
   --button-radius: 0.625rem;
   --field-min-height-large: 2.75rem;
 }
 
-html[data-brand-theme='northstar'][data-theme='light'] {
-  --color-bg: #faf7ed;
-  --color-text-brand: #376b35;
-}
-
-html[data-brand-theme='northstar'][data-theme='dark'],
-html[data-brand-theme='northstar'] [data-theme='dark'] {
+html[data-theme='dark'],
+html [data-theme='dark'] {
   --color-bg: #171a16;
   --color-text-brand: #add6a5;
 }
@@ -142,21 +139,20 @@ Widget-specific CSS should continue using Payload's semantic tokens:
 }
 ```
 
-This lets custom surfaces respond to the same brand and color-mode changes as Payload components.
-Scope every preset override to its `data-brand-theme` value, then add light and dark
-selectors for roles whose contrast changes. Payload applies theme attributes to some portaled UI such
-as menus, so the dark selector must support nested theme scopes as well as the root.
+This lets custom surfaces respond to the same styling and color-mode changes as Payload components.
+Define project-wide defaults on `html`, then add light and dark selectors for roles whose contrast
+changes. Payload applies theme attributes to some portaled UI, so the color-mode selector supports
+nested scopes as well as the root.
 
-The preset is persisted in the `BrandTheme` Global and initialized in Admin by
-`AdminBrandThemeProvider`. Add another preset by introducing a registry value, a Global option, and
-matching token scopes; custom widgets should not need to change.
+This styling is intentionally project-owned. It demonstrates how to brand one Payload Admin in v4
+without introducing a runtime theme selector or additional theme packages.
 
 `BrandThemeSelector` replaces the small default radio group with selectable homepage cards. Each
 card contains a real homepage screenshot, a short description, and a native radio input wrapped by
 the full card label. This makes the entire thumbnail keyboard- and pointer-selectable while keeping
 the field connected to Payload's form state and validation.
 
-### Share a brand without conflating it with color mode
+### Keep website and Admin themes independent
 
 `BrandTheme` is a Payload Global because it is project configuration, not a personal browser
 preference. The frontend layout reads it on the server and renders `data-brand-theme`
@@ -172,10 +168,9 @@ Frontend components keep using semantic roles such as `bg-background`, `text-for
 `bg-primary`. The preset only remaps those roles. Light/dark mode remains a separate `data-theme`
 attribute, allowing either brand preset to support both modes.
 
-The Admin always resolves the same Global through the public Payload API. Only Site Admins can change
-the brand theme; content editors receive the branded experience without getting a separate visual
-override. Light/dark mode and density remain personal because they are accessibility and usability
-preferences rather than brand decisions.
+The website theme is project content and only Site Admins can change it. The standalone Admin
+styling is code-owned and applies consistently to every editor. Light/dark mode remains an
+independent accessibility preference without changing the website theme.
 
 ## 6. Respond to widget width
 

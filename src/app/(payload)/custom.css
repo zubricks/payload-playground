@@ -1,53 +1,32 @@
 /*
- * PAYLOAD ADMIN THEME AUTHORING GUIDE
- * -----------------------------------
- * Admin themes are selected with `data-admin-theme` on <html>. Color mode still uses Payload's
- * `data-theme='light' | 'dark'`, and density is controlled separately with `data-density`.
+ * PROJECT-SPECIFIC PAYLOAD ADMIN STYLING
+ * --------------------------------------
+ * Payload v4 components consume semantic variables, so this project can change the entire Admin
+ * UI without targeting each component's implementation classes.
  *
- * To create a new Admin theme:
- * 1. Add its name and value to `src/adminThemes.ts`.
- * 2. Copy every selector containing `data-admin-theme='light-cream'` below.
- * 3. Replace `light-cream` with the new theme value.
- * 4. Change the variables in sections 2–8: typography, shape, brand ramp, light surfaces,
- *    light foregrounds, dark surfaces, and dark foregrounds.
- * 5. Keep density values in section 1. Density intentionally applies to every Admin theme.
- *
- * Prefer Payload's public semantic variables (`--color-*`, `--text-*`, `--field-*`) over targeting
- * implementation class names. Components then inherit hover, pressed, selected, and dark states.
+ * This is a project-owned Admin treatment—not an installable theme or runtime theme selector.
  */
 
-/* ========================================================================== */
-/* 1. SHARED DENSITY — applies to Stock and every custom Admin theme           */
-/* ========================================================================== */
-
-/* Comfortable: larger type and controls for client-friendly Admin screens. */
-html:not([data-density]),
-html[data-density='comfortable'] {
-  /* Body typography */
+/* 1. Comfortable density */
+html {
   --text-body-small-font-size: 0.75rem;
   --text-body-small-line-height: 1rem;
   --text-body-small-strong-font-size: 0.75rem;
   --text-body-small-strong-line-height: 1rem;
-
   --text-body-medium-font-size: 0.875rem;
   --text-body-medium-line-height: 1.25rem;
   --text-body-medium-strong-font-size: 0.875rem;
   --text-body-medium-strong-line-height: 1.25rem;
-
   --text-body-large-font-size: 1rem;
   --text-body-large-line-height: 1.5rem;
   --text-body-large-strong-font-size: 1rem;
   --text-body-large-strong-line-height: 1.5rem;
-
-  /* Heading typography */
   --text-heading-small-font-size: 1rem;
   --text-heading-small-line-height: 1.5rem;
   --text-heading-medium-font-size: 1.125rem;
   --text-heading-medium-line-height: 1.625rem;
   --text-heading-large-font-size: 2rem;
   --text-heading-large-line-height: 2.5rem;
-
-  /* Interactive control sizing */
   --field-min-height-medium: 2.5rem;
   --field-min-height-large: 2.75rem;
   --field-padding-inline: 0.875rem;
@@ -55,61 +34,15 @@ html[data-density='comfortable'] {
   --control-height: 2.5rem;
 }
 
-/* Compact: close to Payload's stock information density. */
-html[data-density='compact'] {
-  /* Body typography */
-  --text-body-small-font-size: 0.5625rem;
-  --text-body-small-line-height: 0.875rem;
-  --text-body-small-strong-font-size: 0.5625rem;
-  --text-body-small-strong-line-height: 0.875rem;
-  --text-body-medium-font-size: 0.6875rem;
-  --text-body-medium-line-height: 1rem;
-  --text-body-medium-strong-font-size: 0.6875rem;
-  --text-body-medium-strong-line-height: 1rem;
-  --text-body-large-font-size: 0.8125rem;
-  --text-body-large-line-height: 1.375rem;
-  --text-body-large-strong-font-size: 0.8125rem;
-  --text-body-large-strong-line-height: 1.375rem;
-
-  /* Heading typography */
-  --text-heading-small-font-size: 0.8125rem;
-  --text-heading-small-line-height: 1.375rem;
-  --text-heading-medium-font-size: 0.9375rem;
-  --text-heading-medium-line-height: 1.5625rem;
-  --text-heading-large-font-size: 1.5rem;
-  --text-heading-large-line-height: 2rem;
-
-  /* Interactive control sizing */
-  --field-min-height-medium: 1.5rem;
-  --field-min-height-large: 2rem;
-  --field-padding-inline: 0.5rem;
-  --button-height: 1.5rem;
-  --control-height: 1.5rem;
-}
-
-/* ========================================================================== */
-/* LIGHT CREAM THEME                                                          */
-/* Copy sections 2–9 and change the selector to create another Admin theme.   */
-/* ========================================================================== */
-
-html[data-admin-theme='light-cream'] {
-  /* ------------------------------------------------------------------------ */
-  /* 2. TYPOGRAPHY — change the type stack for this theme                     */
-  /* ------------------------------------------------------------------------ */
+/* 2. Typography, shape, and brand palette */
+html {
   --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
-  /* ------------------------------------------------------------------------ */
-  /* 3. SHAPE — fields, buttons, popups, menus                                */
-  /* ------------------------------------------------------------------------ */
   --field-border-radius: 0.625rem;
   --button-radius: 0.625rem;
   --popup-radius: 0.875rem;
   --popup-item-radius: 0.5rem;
 
-  /* ------------------------------------------------------------------------ */
-  /* 4. BRAND PALETTE — replace this green ramp with the new brand color      */
-  /* ------------------------------------------------------------------------ */
-  /* `500` is the anchor. Lighter steps tint surfaces; darker steps keep text accessible. */
   --ramp-blue-200: #eef7ea;
   --ramp-blue-300: #d5eacf;
   --ramp-blue-400: #add6a5;
@@ -120,7 +53,7 @@ html[data-admin-theme='light-cream'] {
   --ramp-blue-900: #264c27;
   --ramp-blue-1000: #16311a;
 
-  /* Payload components that use the purple ramp should follow the same brand accent. */
+  /* Payload components that use the purple ramp follow this project's green accent. */
   --ramp-purple-100: #f6fbf3;
   --ramp-purple-200: var(--ramp-blue-200);
   --ramp-purple-300: var(--ramp-blue-300);
@@ -132,9 +65,7 @@ html[data-admin-theme='light-cream'] {
   --ramp-purple-900: var(--ramp-blue-900);
   --ramp-purple-1000: var(--ramp-blue-1000);
 
-  /* ------------------------------------------------------------------------ */
-  /* 5. LIGHT-MODE SURFACES — page, cards, hover, pressed, selected           */
-  /* ------------------------------------------------------------------------ */
+  /* 3. Light-mode surfaces */
   --color-bg: #faf7ed;
   --color-bg-elevated: #faf7ed;
   --color-bg-hover: #f3eedf;
@@ -152,10 +83,7 @@ html[data-admin-theme='light-cream'] {
   --color-bg-selected-pressed: var(--ramp-blue-400);
   --special-bg-transparent: rgb(250 247 237 / 75%);
 
-  /* ------------------------------------------------------------------------ */
-  /* 6. LIGHT-MODE FOREGROUNDS — text, icons, selected and on-brand contrast  */
-  /* ------------------------------------------------------------------------ */
-  /* Dark brand ink sits on cream surfaces. White ink sits on filled brand controls. */
+  /* 4. Light-mode foregrounds */
   --color-text-brand: var(--ramp-blue-800);
   --color-text-brand-secondary: var(--ramp-blue-800);
   --color-text-onbrand: var(--ramp-white-1000);
@@ -176,11 +104,9 @@ html[data-admin-theme='light-cream'] {
   --color-border-onbrand-strong: var(--ramp-white-1000);
 }
 
-/* -------------------------------------------------------------------------- */
-/* 7. DARK-MODE SURFACES — define these separately; do not derive from light  */
-/* -------------------------------------------------------------------------- */
-html[data-admin-theme='light-cream'][data-theme='dark'],
-html[data-admin-theme='light-cream'] [data-theme='dark'] {
+/* 5. Dark-mode surfaces and foregrounds */
+html[data-theme='dark'],
+html [data-theme='dark'] {
   --color-bg: #171a16;
   --color-bg-elevated: #1d211c;
   --color-bg-hover: #252b23;
@@ -198,9 +124,6 @@ html[data-admin-theme='light-cream'] [data-theme='dark'] {
   --color-bg-selected-pressed: #3c5b38;
   --special-bg-transparent: rgb(23 26 22 / 78%);
 
-  /* ------------------------------------------------------------------------ */
-  /* 8. DARK-MODE FOREGROUNDS — lighter brand ink for dark surfaces          */
-  /* ------------------------------------------------------------------------ */
   --color-text-brand: var(--ramp-blue-400);
   --color-text-brand-secondary: var(--ramp-blue-400);
   --color-text-onbrand: var(--ramp-white-1000);
@@ -223,34 +146,18 @@ html[data-admin-theme='light-cream'] [data-theme='dark'] {
   --color-border-onbrand-strong: var(--ramp-white-1000);
 }
 
-/* -------------------------------------------------------------------------- */
-/* 9. THEME + DENSITY INTERSECTION — shape adjustments only                   */
-/* -------------------------------------------------------------------------- */
-/* Compact changes size globally; this block only tightens Light Cream's rounded corners. */
-html[data-admin-theme='light-cream'][data-density='compact'] {
-  --field-border-radius: var(--radius-medium);
-  --button-radius: var(--radius-medium);
-  --popup-radius: var(--radius-large);
-  --popup-item-radius: var(--button-radius);
-}
-
-/* ========================================================================== */
-/* 10. OPTIONAL DECORATIVE TREATMENTS — not required for a functional theme   */
-/* ========================================================================== */
-
-/* Decorative page glow for Light Cream. Remove these selectors for a flat canvas. */
-html[data-admin-theme='light-cream'][data-theme='light'] body {
+/* 6. Optional decorative treatments */
+html[data-theme='light'] body {
   background:
     radial-gradient(circle at 78% 4%, rgb(131 191 120 / 12%), transparent 24rem), var(--color-bg);
 }
 
-html[data-admin-theme='light-cream'][data-theme='dark'] body {
+html[data-theme='dark'] body {
   background:
     radial-gradient(circle at 78% 4%, rgb(131 191 120 / 8%), transparent 24rem), var(--color-bg);
 }
 
-/* Shared selection treatment uses whichever semantic colors the active theme provides. */
-::selection {
+html ::selection {
   background: var(--color-bg-brand-tertiary);
   color: var(--color-text);
 }

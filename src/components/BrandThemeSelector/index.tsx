@@ -1,7 +1,7 @@
 'use client'
 
 import { FieldDescription, FieldError, FieldLabel, useField } from '@payloadcms/ui'
-import type { RadioFieldClientComponent, Validate } from 'payload'
+import type { RadioFieldClientProps, Validate } from 'payload'
 import React from 'react'
 
 import { brandThemes, type BrandTheme } from '@/brandThemes'
@@ -10,7 +10,7 @@ import './index.css'
 
 const baseClass = 'brand-theme-selector'
 
-export const BrandThemeSelector: RadioFieldClientComponent = ({
+export const BrandThemeSelector: React.FC<RadioFieldClientProps> = ({
   field,
   path,
   readOnly,

@@ -2,6 +2,7 @@
 
 import {
   Button,
+  CheckboxInput,
   DialogBody,
   DialogCancel,
   DialogFooter,
@@ -9,13 +10,14 @@ import {
   DialogModal,
   Pill,
   Tabs,
+  TextInput,
   useModal,
 } from '@payloadcms/ui'
 import React, { useState } from 'react'
 
 const modalSlug = 'dashboard-v3-v4-style-comparison'
 
-type Example = 'button' | 'pill'
+type Example = 'button' | 'controls'
 
 const examples: Record<
   Example,
@@ -43,7 +45,7 @@ const examples: Record<
 }
 
 /* Split and disabled buttons need more rules. */`,
-    v4: `html[data-admin-theme='light-cream'] {
+    v4: `html {
   --color-bg-brand: #83bf78;
   --color-bg-brand-hover: #68a75f;
   --color-bg-brand-pressed: #4d8848;
@@ -51,46 +53,44 @@ const examples: Record<
   --button-radius: 0.625rem;
 }
 
-html[data-admin-theme='light-cream'][data-theme='dark'],
-html[data-admin-theme='light-cream'] [data-theme='dark'] {
+html[data-theme='dark'],
+html [data-theme='dark'] {
   --color-text-brand: #add6a5;
 }
 
 <Button size="large">Create a post</Button>`,
   },
-  pill: {
+  controls: {
     description:
-      'Editorial Focus and Forms Inbox use the same Pill component with supported status variants rather than styling each widget badge independently.',
+      'Text and checkbox inputs inherit their size, shape, surface, border, focus, disabled, and error treatment from the same semantic system.',
     takeaway:
-      'The widget chooses the meaning—warning or success—while the theme owns the visual treatment and keeps it consistent everywhere.',
-    title: 'Status pill',
-    v3: `html[data-theme='light'] .pill {
-  border-radius: 999px;
-  font-size: 12px;
+      'Instead of repeating selectors for every field implementation and interaction state, define the shared control roles once and let Payload’s form primitives consume them.',
+    title: 'Form controls',
+    v3: `html[data-theme='light'] .field-type.text input,
+html[data-theme='light'] .field-type.email input,
+html[data-theme='light'] .field-type.number input,
+html[data-theme='light'] .field-type.textarea textarea,
+html[data-theme='light'] .react-select .rs__control {
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid #e6ddc9;
+  border-radius: 10px;
+  background: #faf7ed;
 }
 
-html[data-theme='light'] .pill--style-light,
-html[data-theme='light'] .pill--style-light-gray,
-html[data-theme='light'] .pill--style-white {
-  background: #f5f0e3;
-  color: var(--theme-elevation-800);
-}`,
-    v4: `html[data-admin-theme='light-cream'][data-theme='light'] {
-  --color-bg-warning-tertiary: #fff4cc;
-  --color-text-warning: #6f4b00;
-  --color-bg-selected: #eef7ea;
-  --color-text-brand: #376b35;
+/* Hover, focus, error and disabled repeat
+   the same implementation selectors. */`,
+    v4: `html {
+  --field-min-height-medium: 2.5rem;
+  --field-padding-inline: 0.875rem;
+  --field-border-radius: 0.625rem;
+  --color-bg: #faf7ed;
+  --color-border: #e6ddc9;
+  --color-border-brand: #83bf78;
 }
 
-html[data-admin-theme='light-cream'][data-theme='dark'],
-html[data-admin-theme='light-cream'] [data-theme='dark'] {
-  --color-bg-selected: #293d27;
-  --color-text-brand: #add6a5;
-}
-
-<Pill pillStyle="warning" rounded>
-  5 to review
-</Pill>`,
+<TextInput path="title" size="medium" />
+<CheckboxInput label="Featured" />`,
   },
 }
 
@@ -116,16 +116,61 @@ export function StyleComparison() {
         <DialogBody>
           <div className="style-comparison__content">
             <p className="style-comparison__intro">
-              The dashboard layout is custom. The components inside it use Payload’s supported UI
-              primitives and semantic design tokens.
+              The dashboard layout is custom, but its controls use Payload’s supported UI
+              primitives. Define the shared visual roles once and both Payload components and custom
+              views stay in sync.
             </p>
+
+            <section className="style-comparison__impact">
+              <header>
+                <div>
+                  <span className="content-studio__eyebrow">Theme impact</span>
+                  <h3>One token set, four native components</h3>
+                </div>
+                <span>All from @payloadcms/ui</span>
+              </header>
+
+              <div className="style-comparison__impact-grid">
+                <div className="style-comparison__impact-item">
+                  <span>Action</span>
+                  <Button margin={false}>Publish</Button>
+                </div>
+
+                <div className="style-comparison__impact-item style-comparison__impact-item--field">
+                  <span>Field</span>
+                  <TextInput
+                    htmlAttributes={{ readOnly: true }}
+                    path="style-comparison-title"
+                    size="medium"
+                    value="Autumn campaign"
+                  />
+                </div>
+
+                <div className="style-comparison__impact-item">
+                  <span>Selection</span>
+                  <CheckboxInput
+                    aria-label="Featured"
+                    checked
+                    label="Featured"
+                    onToggle={() => undefined}
+                  />
+                </div>
+
+                <div className="style-comparison__impact-item">
+                  <span>Status</span>
+                  <Pill pillStyle="success" rounded>
+                    Ready
+                  </Pill>
+                </div>
+              </div>
+            </section>
 
             <Tabs<Example>
               className="style-comparison__tabs"
               onChange={setActiveExample}
               tabs={[
-                { label: 'Primary button', value: 'button' },
-                { label: 'Status pill', value: 'pill' },
+                { label: 'Primary action', value: 'button' },
+                { label: 'Form controls', value: 'controls' },
               ]}
               value={activeExample}
             />
@@ -137,17 +182,6 @@ export function StyleComparison() {
                   <h3>{example.title}</h3>
                 </div>
                 <p>{example.description}</p>
-                <div className="style-comparison__preview">
-                  {activeExample === 'button' ? (
-                    <Button margin={false} size="large">
-                      Create a post
-                    </Button>
-                  ) : (
-                    <Pill pillStyle="warning" rounded>
-                      5 to review
-                    </Pill>
-                  )}
-                </div>
               </div>
 
               <div className="style-comparison__code-grid">
