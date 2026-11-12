@@ -1,5 +1,11 @@
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { sharpTransformer } from '@payloadcms/transformer-sharp'
+import { ayuTheme } from '@zubricks/payload-admin-theme-ayu'
+import { draculaTheme } from '@zubricks/payload-admin-theme-dracula'
+import { nightOwlTheme } from '@zubricks/payload-admin-theme-night-owl'
+import { payloadAdminUIThemes } from '@zubricks/payload-admin-ui-themes'
+import { lightCreamTheme } from '@zubricks/payload-admin-ui-themes/themes/light-cream'
+import { stockTheme } from '@zubricks/payload-admin-ui-themes/themes/stock'
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
@@ -182,7 +188,16 @@ export default buildConfig({
   ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, BrandTheme],
-  plugins,
+  plugins: [
+    ...plugins,
+    payloadAdminUIThemes({
+      defaultTheme: 'light-cream',
+      density: {
+        defaultDensity: 'comfortable',
+      },
+      themes: [stockTheme, lightCreamTheme, draculaTheme, ayuTheme, nightOwlTheme],
+    }),
+  ],
   secret: process.env.PAYLOAD_SECRET,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),

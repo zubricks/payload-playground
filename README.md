@@ -1,13 +1,13 @@
 # Payload v4 Admin UI Starter
 
 This project starts with Payload's website template, then replaces the generic dashboard experience
-with configurable widgets, custom views, project-owned Admin styling, and components from
+with configurable widgets, custom views, installable Admin themes, and components from
 `@payloadcms/ui`. It is both a usable starter and a side-by-side demonstration of the Admin UI
 patterns that changed between v3 and v4.
 
 > [!IMPORTANT]
 > This project currently uses Payload
-> [`4.0.0-beta.3`](https://github.com/payloadcms/payload/releases/tag/v4.0.0-beta.3). Pin the version
+> [`4.0.0-beta.8`](https://github.com/payloadcms/payload/releases/tag/v4.0.0-beta.8). Pin the version
 > and test the full upgrade path before applying these patterns to a production project.
 
 Payload v3 could be customized extensively, but deep Admin styling often meant targeting internal
@@ -43,15 +43,17 @@ The included widgets demonstrate:
 See [`src/components/ContentStudioDashboard`](src/components/ContentStudioDashboard) and the widget
 registration in [`src/payload.config.ts`](src/payload.config.ts).
 
-### Project-owned Admin styling
+### Installable Admin themes
 
-[`custom.css`](<src/app/(payload)/custom.css>) defines the Light Cream Admin treatment: larger type
-and controls, cream surfaces, green brand roles, shared radii, and explicit light and dark values.
-The file is divided by responsibility so it can be used as a starting point for another brand.
+The app uses `@zubricks/payload-admin-ui-themes` to add an Admin theme and density picker to each
+user's Settings menu. It includes Payload's Stock theme and Light Cream, plus the separately packaged
+Dracula, Ayu, and Night Owl themes. Light Cream remains the default.
 
-This is intentionally normal project CSS, not a runtime theme selector or an installable theme
-package. Every editor receives the same branded Admin treatment while Payload's light/dark color-mode
-preference remains available.
+Theme packages own color, typography, shape, and custom dashboard tokens. Density remains a separate
+preference, and Payload's light/dark color-mode preference continues to work within every theme.
+[`custom.css`](<src/app/(payload)/custom.css>) remains in the repository as the standalone v4 styling
+reference used by the migration comparison, but runtime theme CSS now comes from the installed
+packages.
 
 ### Custom views and fields
 
@@ -73,7 +75,7 @@ repository-owned hero imagery. Website presentation remains separate from the Ad
 
 Requirements:
 
-- Node.js `24.15.0` or newer
+- Node.js `24.22.1` or newer
 - pnpm 9, 10, or 11
 - MongoDB locally or through a hosted connection string
 
@@ -110,7 +112,8 @@ Treat the repository as a set of patterns, not an all-or-nothing template.
 
 The most reusable pieces are:
 
-- Semantic Admin variables from [`custom.css`](<src/app/(payload)/custom.css>)
+- Theme registration in [`payload.config.ts`](src/payload.config.ts)
+- Semantic Admin variables demonstrated in [`custom.css`](<src/app/(payload)/custom.css>)
 - Widget registration and width constraints from [`payload.config.ts`](src/payload.config.ts)
 - Server/client composition from
   [`ContentStudioDashboard`](src/components/ContentStudioDashboard)
