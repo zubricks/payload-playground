@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { createFolderField } from 'payload'
 
 import {
   BlocksFeature,
@@ -69,6 +70,7 @@ export const Posts: CollectionConfig = {
     useAsTitle: 'title',
   },
   fields: [
+    createFolderField({ relationTo: 'folders' }),
     {
       name: 'title',
       type: 'text',

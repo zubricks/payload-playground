@@ -311,6 +311,10 @@ export interface Folder {
   id: string;
   _h_folders?: (string | null) | Folder;
   name: string;
+  /**
+   * What belongs in this part of the hierarchy.
+   */
+  description?: string | null;
   createdBy?: {
     relationTo: 'users';
     value: string | User;
@@ -371,6 +375,7 @@ export interface User {
  */
 export interface Page {
   id: string;
+  _h_folders?: (string | null) | Folder;
   /**
    * Write a concise page title that is easy to scan and find.
    */
@@ -433,6 +438,7 @@ export interface Page {
  */
 export interface Post {
   id: string;
+  _h_folders?: (string | null) | Folder;
   /**
    * Write a clear headline that will work in navigation, search, and social.
    */
@@ -1234,6 +1240,7 @@ export interface PayloadLlmInstruction {
 export interface FoldersSelect<T extends boolean = true> {
   _h_folders?: T;
   name?: T;
+  description?: T;
   createdBy?: T;
   updatedBy?: T;
   updatedAt?: T;
@@ -1246,6 +1253,7 @@ export interface FoldersSelect<T extends boolean = true> {
  * via the `definition` "pages_select".
  */
 export interface PagesSelect<T extends boolean = true> {
+  _h_folders?: T;
   title?: T;
   hero?:
     | T
@@ -1382,6 +1390,7 @@ export interface FormBlockSelect<T extends boolean = true> {
  * via the `definition` "posts_select".
  */
 export interface PostsSelect<T extends boolean = true> {
+  _h_folders?: T;
   title?: T;
   heroImage?: T;
   content?: T;

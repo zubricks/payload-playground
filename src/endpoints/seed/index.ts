@@ -4,6 +4,7 @@ import { contactForm as contactFormData } from './contact-form'
 import { contact as contactPageData } from './contact-page'
 import { dashboardFormSubmissions, dashboardPages, dashboardPosts } from './dashboard-demo'
 import { home } from './home'
+import { seedHierarchyDemo } from './hierarchy-demo'
 import { image1 } from './image-1'
 import { image2 } from './image-2'
 import { imageHero1 } from './image-hero-1'
@@ -19,6 +20,7 @@ const collections: CollectionSlug[] = [
   'forms',
   'form-submissions',
   'search',
+  'folders',
 ]
 
 const navigationGlobals = ['header', 'footer'] as const satisfies GlobalSlug[]
@@ -150,15 +152,17 @@ export const seed = async ({
       data: imageHero1,
       file: hero1Buffer,
     }),
-    categories.map((category) =>
-      payload.create({
-        ...systemOperation,
-        collection: 'categories',
-        data: {
-          title: category,
-          slug: category,
-        },
-      }),
+    Promise.all(
+      categories.map((category) =>
+        payload.create({
+          ...systemOperation,
+          collection: 'categories',
+          data: {
+            title: category,
+            slug: category,
+          },
+        }),
+      ),
     ),
   ])
 
@@ -379,6 +383,8 @@ export const seed = async ({
       },
     }),
   ])
+
+  await seedHierarchyDemo({ payload, req, author: demoAuthor })
 
   payload.logger.info('Seeded database successfully!')
 }

@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { createFolderField } from 'payload'
 
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
@@ -57,6 +58,7 @@ export const Pages: CollectionConfig = {
     useAsTitle: 'title',
   },
   fields: [
+    createFolderField({ relationTo: 'folders' }),
     {
       name: 'title',
       type: 'text',

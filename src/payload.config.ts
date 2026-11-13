@@ -1,16 +1,13 @@
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { sharpTransformer } from '@payloadcms/transformer-sharp'
-import { ayuTheme } from '@zubricks/payload-admin-theme-ayu'
-import { draculaTheme } from '@zubricks/payload-admin-theme-dracula'
-import { nightOwlTheme } from '@zubricks/payload-admin-theme-night-owl'
-import { payloadAdminUIThemes } from '@zubricks/payload-admin-ui-themes'
-import { lightCreamTheme } from '@zubricks/payload-admin-ui-themes/themes/light-cream'
-import { stockTheme } from '@zubricks/payload-admin-ui-themes/themes/stock'
+import { payloadAdminUIThemes } from 'payload-admin-ui-themes'
+import { lightCreamTheme } from 'payload-admin-ui-themes/themes/light-cream'
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
 
 import { Categories } from './collections/Categories'
+import { authenticated } from './access/authenticated'
 import { Media, mediaSharpOptions } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
@@ -168,6 +165,12 @@ export default buildConfig({
     {
       slug: 'folders',
       folders: true,
+      access: {
+        create: authenticated,
+        read: authenticated,
+        update: authenticated,
+        delete: authenticated,
+      },
       admin: {
         useAsTitle: 'name',
       },
@@ -177,6 +180,11 @@ export default buildConfig({
           type: 'text',
           required: true,
           label: 'Folder Name',
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+          admin: { description: 'What belongs in this part of the hierarchy.' },
         },
       ],
     },
@@ -195,7 +203,7 @@ export default buildConfig({
       density: {
         defaultDensity: 'comfortable',
       },
-      themes: [stockTheme, lightCreamTheme, draculaTheme, ayuTheme, nightOwlTheme],
+      themes: [lightCreamTheme],
     }),
   ],
   secret: process.env.PAYLOAD_SECRET,

@@ -56,18 +56,6 @@ importers:
       '@radix-ui/react-slot':
         specifier: ^1.0.2
         version: 1.3.3(@types/react@19.2.14)(react@19.3.1)
-      '@zubricks/payload-admin-theme-ayu':
-        specifier: file:../payload-admin-theme-ayu
-        version: file:../payload-admin-theme-ayu(@zubricks/payload-admin-ui-themes@file:../payload-admin-ui-themes(@payloadcms/ui@4.0.0-beta.8(@types/react@19.2.14)(monaco-editor@0.56.0)(payload@4.0.0-beta.8(graphql@16.14.2)(typescript@6.0.3))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@6.0.3))(payload@4.0.0-beta.8(graphql@16.14.2)(typescript@6.0.3))(react@19.3.1))(react@19.3.1)
-      '@zubricks/payload-admin-theme-dracula':
-        specifier: file:../payload-admin-theme-dracula
-        version: file:../payload-admin-theme-dracula(@zubricks/payload-admin-ui-themes@file:../payload-admin-ui-themes(@payloadcms/ui@4.0.0-beta.8(@types/react@19.2.14)(monaco-editor@0.56.0)(payload@4.0.0-beta.8(graphql@16.14.2)(typescript@6.0.3))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@6.0.3))(payload@4.0.0-beta.8(graphql@16.14.2)(typescript@6.0.3))(react@19.3.1))(react@19.3.1)
-      '@zubricks/payload-admin-theme-night-owl':
-        specifier: file:../payload-admin-theme-night-owl
-        version: file:../payload-admin-theme-night-owl(@zubricks/payload-admin-ui-themes@file:../payload-admin-ui-themes(@payloadcms/ui@4.0.0-beta.8(@types/react@19.2.14)(monaco-editor@0.56.0)(payload@4.0.0-beta.8(graphql@16.14.2)(typescript@6.0.3))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@6.0.3))(payload@4.0.0-beta.8(graphql@16.14.2)(typescript@6.0.3))(react@19.3.1))(react@19.3.1)
-      '@zubricks/payload-admin-ui-themes':
-        specifier: file:../payload-admin-ui-themes
-        version: file:../payload-admin-ui-themes(@payloadcms/ui@4.0.0-beta.8(@types/react@19.2.14)(monaco-editor@0.56.0)(payload@4.0.0-beta.8(graphql@16.14.2)(typescript@6.0.3))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@6.0.3))(payload@4.0.0-beta.8(graphql@16.14.2)(typescript@6.0.3))(react@19.3.1)
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.1
@@ -98,6 +86,9 @@ importers:
       payload:
         specifier: 4.0.0-beta.8
         version: 4.0.0-beta.8(graphql@16.14.2)(typescript@6.0.3)
+      payload-admin-ui-themes:
+        specifier: npm:@zubricks/payload-admin-ui-themes@0.1.0
+        version: '@zubricks/payload-admin-ui-themes@0.1.0(@payloadcms/ui@4.0.0-beta.8(@types/react@19.2.14)(monaco-editor@0.56.0)(payload@4.0.0-beta.8(graphql@16.14.2)(typescript@6.0.3))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@6.0.3))(payload@4.0.0-beta.8(graphql@16.14.2)(typescript@6.0.3))(react@19.3.1)'
       prism-react-renderer:
         specifier: ^2.3.1
         version: 2.4.1(react@19.3.1)
@@ -2085,29 +2076,8 @@ packages:
   '@vitest/spy@5.0.0':
     resolution: {integrity: sha512-uy+luWBAPw9XfthoHi5AkfHUnuPYEESjl0p/r+meoBnU8bxg5GDQ3Ey8MjcJ6sqahkL4PFyrvfMJJBw7LbU06g==}
 
-  '@zubricks/payload-admin-theme-ayu@file:../payload-admin-theme-ayu':
-    resolution: {directory: ../payload-admin-theme-ayu, type: directory}
-    engines: {node: '>=24.15.0', pnpm: ^9 || ^10 || ^11}
-    peerDependencies:
-      '@zubricks/payload-admin-ui-themes': ^0.1.0
-      react: ^19.0.0
-
-  '@zubricks/payload-admin-theme-dracula@file:../payload-admin-theme-dracula':
-    resolution: {directory: ../payload-admin-theme-dracula, type: directory}
-    engines: {node: '>=24.15.0', pnpm: ^9 || ^10 || ^11}
-    peerDependencies:
-      '@zubricks/payload-admin-ui-themes': ^0.1.0
-      react: ^19.0.0
-
-  '@zubricks/payload-admin-theme-night-owl@file:../payload-admin-theme-night-owl':
-    resolution: {directory: ../payload-admin-theme-night-owl, type: directory}
-    engines: {node: '>=24.15.0', pnpm: ^9 || ^10 || ^11}
-    peerDependencies:
-      '@zubricks/payload-admin-ui-themes': ^0.1.0
-      react: ^19.0.0
-
-  '@zubricks/payload-admin-ui-themes@file:../payload-admin-ui-themes':
-    resolution: {directory: ../payload-admin-ui-themes, type: directory}
+  '@zubricks/payload-admin-ui-themes@0.1.0':
+    resolution: {integrity: sha512-dQVWWAR6JLSGY1KOEWQOqkVVjYl/H/b6ceI+n75wl7k7ZQDTE8wGqqYWn11JdyZk7GqoNDSWWSg6R7wknhG7rQ==}
     engines: {node: '>=24.15.0', pnpm: ^9 || ^10 || ^11}
     peerDependencies:
       '@payloadcms/ui': ^4.0.0
@@ -6484,22 +6454,7 @@ snapshots:
 
   '@vitest/spy@5.0.0': {}
 
-  '@zubricks/payload-admin-theme-ayu@file:../payload-admin-theme-ayu(@zubricks/payload-admin-ui-themes@file:../payload-admin-ui-themes(@payloadcms/ui@4.0.0-beta.8(@types/react@19.2.14)(monaco-editor@0.56.0)(payload@4.0.0-beta.8(graphql@16.14.2)(typescript@6.0.3))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@6.0.3))(payload@4.0.0-beta.8(graphql@16.14.2)(typescript@6.0.3))(react@19.3.1))(react@19.3.1)':
-    dependencies:
-      '@zubricks/payload-admin-ui-themes': file:../payload-admin-ui-themes(@payloadcms/ui@4.0.0-beta.8(@types/react@19.2.14)(monaco-editor@0.56.0)(payload@4.0.0-beta.8(graphql@16.14.2)(typescript@6.0.3))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@6.0.3))(payload@4.0.0-beta.8(graphql@16.14.2)(typescript@6.0.3))(react@19.3.1)
-      react: 19.3.1
-
-  '@zubricks/payload-admin-theme-dracula@file:../payload-admin-theme-dracula(@zubricks/payload-admin-ui-themes@file:../payload-admin-ui-themes(@payloadcms/ui@4.0.0-beta.8(@types/react@19.2.14)(monaco-editor@0.56.0)(payload@4.0.0-beta.8(graphql@16.14.2)(typescript@6.0.3))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@6.0.3))(payload@4.0.0-beta.8(graphql@16.14.2)(typescript@6.0.3))(react@19.3.1))(react@19.3.1)':
-    dependencies:
-      '@zubricks/payload-admin-ui-themes': file:../payload-admin-ui-themes(@payloadcms/ui@4.0.0-beta.8(@types/react@19.2.14)(monaco-editor@0.56.0)(payload@4.0.0-beta.8(graphql@16.14.2)(typescript@6.0.3))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@6.0.3))(payload@4.0.0-beta.8(graphql@16.14.2)(typescript@6.0.3))(react@19.3.1)
-      react: 19.3.1
-
-  '@zubricks/payload-admin-theme-night-owl@file:../payload-admin-theme-night-owl(@zubricks/payload-admin-ui-themes@file:../payload-admin-ui-themes(@payloadcms/ui@4.0.0-beta.8(@types/react@19.2.14)(monaco-editor@0.56.0)(payload@4.0.0-beta.8(graphql@16.14.2)(typescript@6.0.3))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@6.0.3))(payload@4.0.0-beta.8(graphql@16.14.2)(typescript@6.0.3))(react@19.3.1))(react@19.3.1)':
-    dependencies:
-      '@zubricks/payload-admin-ui-themes': file:../payload-admin-ui-themes(@payloadcms/ui@4.0.0-beta.8(@types/react@19.2.14)(monaco-editor@0.56.0)(payload@4.0.0-beta.8(graphql@16.14.2)(typescript@6.0.3))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@6.0.3))(payload@4.0.0-beta.8(graphql@16.14.2)(typescript@6.0.3))(react@19.3.1)
-      react: 19.3.1
-
-  '@zubricks/payload-admin-ui-themes@file:../payload-admin-ui-themes(@payloadcms/ui@4.0.0-beta.8(@types/react@19.2.14)(monaco-editor@0.56.0)(payload@4.0.0-beta.8(graphql@16.14.2)(typescript@6.0.3))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@6.0.3))(payload@4.0.0-beta.8(graphql@16.14.2)(typescript@6.0.3))(react@19.3.1)':
+  '@zubricks/payload-admin-ui-themes@0.1.0(@payloadcms/ui@4.0.0-beta.8(@types/react@19.2.14)(monaco-editor@0.56.0)(payload@4.0.0-beta.8(graphql@16.14.2)(typescript@6.0.3))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@6.0.3))(payload@4.0.0-beta.8(graphql@16.14.2)(typescript@6.0.3))(react@19.3.1)':
     dependencies:
       '@payloadcms/ui': 4.0.0-beta.8(@types/react@19.2.14)(monaco-editor@0.56.0)(payload@4.0.0-beta.8(graphql@16.14.2)(typescript@6.0.3))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@6.0.3)
       payload: 4.0.0-beta.8(graphql@16.14.2)(typescript@6.0.3)

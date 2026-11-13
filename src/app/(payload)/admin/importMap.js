@@ -30,14 +30,11 @@ import { LLMInstructionsCell as LLMInstructionsCell_ab83ff7e88da8d3530831f296ec4
 import { RowLabel as RowLabel_ec255a65fa6fa8d1faeb09cf35284224 } from '@/Header/RowLabel'
 import { RowLabel as RowLabel_1f6ff6ff633e3695d348f4f3c58f1466 } from '@/Footer/RowLabel'
 import { default as default_ca534626416bc2ebd4013e87286d6e31 } from '@/components/BrandThemeSelector'
-import { AdminThemeMenuSetting as AdminThemeMenuSetting_a48476f92fa9acddbfa10526e53c4862 } from '@zubricks/payload-admin-ui-themes/client'
-import { AdminDensityMenuSetting as AdminDensityMenuSetting_a48476f92fa9acddbfa10526e53c4862 } from '@zubricks/payload-admin-ui-themes/client'
+import { AdminThemeMenuSetting as AdminThemeMenuSetting_3d46b45d5e57b786067916bc3fb093f8 } from 'payload-admin-ui-themes/client'
+import { AdminDensityMenuSetting as AdminDensityMenuSetting_3d46b45d5e57b786067916bc3fb093f8 } from 'payload-admin-ui-themes/client'
 import { default as default_8a7ab0eb7ab5c511aba12e68480bfe5e } from '@/components/BeforeLogin'
-import { LightCreamThemeProvider as LightCreamThemeProvider_913a56e832a54abbad4f4e21d7936b46 } from '@zubricks/payload-admin-ui-themes/themes/light-cream/client'
-import { DraculaThemeProvider as DraculaThemeProvider_cbc40aa7b3819fc79ba75908275679e6 } from '@zubricks/payload-admin-theme-dracula/client'
-import { AyuThemeProvider as AyuThemeProvider_4b0312364ae1e013741ebdf5ac21085f } from '@zubricks/payload-admin-theme-ayu/client'
-import { NightOwlThemeProvider as NightOwlThemeProvider_0cb2e4789266fdeb52664a1636872eca } from '@zubricks/payload-admin-theme-night-owl/client'
-import { AdminUIThemesProvider as AdminUIThemesProvider_a48476f92fa9acddbfa10526e53c4862 } from '@zubricks/payload-admin-ui-themes/client'
+import { LightCreamThemeProvider as LightCreamThemeProvider_6e20869cec2990fb4c2357d42a4cecec } from 'payload-admin-ui-themes/themes/light-cream/client'
+import { AdminUIThemesProvider as AdminUIThemesProvider_3d46b45d5e57b786067916bc3fb093f8 } from 'payload-admin-ui-themes/client'
 import { FolderIcon as FolderIcon_3817bf644402e67bfe6577f60ef982de } from '@payloadcms/ui'
 import { HierarchySidebarTabServer as HierarchySidebarTabServer_ab83ff7e88da8d3530831f296ec4756a } from '@payloadcms/ui/rsc'
 import { default as default_7465a78e4f04b3ea09da03f06a806b98 } from '@/components/UILab'
@@ -93,14 +90,11 @@ export const importMap = {
   "@/Header/RowLabel#RowLabel": RowLabel_ec255a65fa6fa8d1faeb09cf35284224,
   "@/Footer/RowLabel#RowLabel": RowLabel_1f6ff6ff633e3695d348f4f3c58f1466,
   "@/components/BrandThemeSelector#default": default_ca534626416bc2ebd4013e87286d6e31,
-  "@zubricks/payload-admin-ui-themes/client#AdminThemeMenuSetting": AdminThemeMenuSetting_a48476f92fa9acddbfa10526e53c4862,
-  "@zubricks/payload-admin-ui-themes/client#AdminDensityMenuSetting": AdminDensityMenuSetting_a48476f92fa9acddbfa10526e53c4862,
+  "payload-admin-ui-themes/client#AdminThemeMenuSetting": AdminThemeMenuSetting_3d46b45d5e57b786067916bc3fb093f8,
+  "payload-admin-ui-themes/client#AdminDensityMenuSetting": AdminDensityMenuSetting_3d46b45d5e57b786067916bc3fb093f8,
   "@/components/BeforeLogin#default": default_8a7ab0eb7ab5c511aba12e68480bfe5e,
-  "@zubricks/payload-admin-ui-themes/themes/light-cream/client#LightCreamThemeProvider": LightCreamThemeProvider_913a56e832a54abbad4f4e21d7936b46,
-  "@zubricks/payload-admin-theme-dracula/client#DraculaThemeProvider": DraculaThemeProvider_cbc40aa7b3819fc79ba75908275679e6,
-  "@zubricks/payload-admin-theme-ayu/client#AyuThemeProvider": AyuThemeProvider_4b0312364ae1e013741ebdf5ac21085f,
-  "@zubricks/payload-admin-theme-night-owl/client#NightOwlThemeProvider": NightOwlThemeProvider_0cb2e4789266fdeb52664a1636872eca,
-  "@zubricks/payload-admin-ui-themes/client#AdminUIThemesProvider": AdminUIThemesProvider_a48476f92fa9acddbfa10526e53c4862,
+  "payload-admin-ui-themes/themes/light-cream/client#LightCreamThemeProvider": LightCreamThemeProvider_6e20869cec2990fb4c2357d42a4cecec,
+  "payload-admin-ui-themes/client#AdminUIThemesProvider": AdminUIThemesProvider_3d46b45d5e57b786067916bc3fb093f8,
   "@payloadcms/ui#FolderIcon": FolderIcon_3817bf644402e67bfe6577f60ef982de,
   "@payloadcms/ui/rsc#HierarchySidebarTabServer": HierarchySidebarTabServer_ab83ff7e88da8d3530831f296ec4756a,
   "@/components/UILab#default": default_7465a78e4f04b3ea09da03f06a806b98,

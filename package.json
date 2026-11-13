@@ -20,7 +20,8 @@
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "test": "pnpm run test:int && pnpm run test:e2e",
     "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" playwright test --config=playwright.config.ts",
-    "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts"
+    "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts",
+    "seed:hierarchy": "cross-env NODE_OPTIONS=--no-deprecation payload run src/scripts/seed-hierarchy.ts"
   },
   "dependencies": {
     "@payloadcms/admin-bar": "4.0.0-beta.8",
@@ -39,10 +40,6 @@
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",
-    "@zubricks/payload-admin-theme-ayu": "file:../payload-admin-theme-ayu",
-    "@zubricks/payload-admin-theme-dracula": "file:../payload-admin-theme-dracula",
-    "@zubricks/payload-admin-theme-night-owl": "file:../payload-admin-theme-night-owl",
-    "@zubricks/payload-admin-ui-themes": "file:../payload-admin-ui-themes",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cross-env": "10.1.0",
@@ -57,7 +54,8 @@
     "react": "19.3.1",
     "react-dom": "19.3.1",
     "react-hook-form": "7.71.1",
-    "tailwind-merge": "^3.4.0"
+    "tailwind-merge": "^3.4.0",
+    "payload-admin-ui-themes": "npm:@zubricks/payload-admin-ui-themes@0.1.0"
   },
   "devDependencies": {
     "@playwright/test": "1.63.0",
